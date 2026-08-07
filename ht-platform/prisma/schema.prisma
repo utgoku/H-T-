@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  GUEST
+  CUSTOMER
+  SPECIALIST
+  CONTENT_MGR
+  SUPER_ADMIN
+}
+
+enum TargetGoal {
+  FAT_LOSS
+  MUSCLE_GAIN
+  SLEEP_RECOVERY
+  GENERAL_WELLNESS
+  WEIGHT_MAINTAIN
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+enum PackageType {
+  STARTER
+  TRANSFORMATION_30
+  ELITE_90
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum OutboxEventStatus {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+enum PaymentGateway {
+  STRIPE
+  VNPAY
+  VIETQR
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      UserRole @default(CUSTOMER)
+  createdAt DateTime @default(now())
+
+  profile             UserProfile?
+  quizResults         QuizResult[]
+  mealPlans           MealPlan[]
+  sleepLogs           SleepLog[]
+  orders              Order[]
+  
+  // Relations for specialists
+  specialistProfiles  UserProfile[]       @relation("SpecialistClients")
+  specialistBookings  SpecialistBooking[] @relation("Specialist")
+  customerBookings    SpecialistBooking[] @relation("Customer")
+}
+
+model UserProfile {
+  id           String     @id @default(uuid())
+  userId       String     @unique
+  fullName     String
+  age          Int
+  gender       String
+  weightKg     Decimal
+  heightCm     Decimal
+  targetGoal   TargetGoal
+  specialistId String?
+
+  user       User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialist User? @relation("SpecialistClients", fields: [specialistId], references: [id])
+}
+
+model QuizResult {
+  id         String   @id @default(uuid())
+  userId     String?
+  sleepScore Int
+  tdeeScore  Int
+  bmiScore   Decimal
+  rawAnswers Json
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model MealPlan {
+  id            String   @id @default(uuid())
+  userId        String
+  title         String
+  dayDate       DateTime @db.Date
+  totalCalories Int
+  createdAt     DateTime @default(now())
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items MealItem[]
+
+  @@unique([userId, dayDate])
+}
+
+model MealItem {
+  id           String   @id @default(uuid())
+  mealPlanId   String
+  mealType     MealType
+  name         String
+  calories     Int
+  affiliateUrl String?
+  isCompleted  Boolean  @default(false)
+
+  mealPlan MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+}
+
+model SleepLog {
+  id            String   @id @default(uuid())
+  userId        String
+  logDate       DateTime @db.Date
+  bedTime       DateTime
+  wakeTime      DateTime
+  qualityRating Int
+  notes         String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, logDate])
+}
+
+model Order {
+  id             String          @id @default(uuid())
+  userId         String
+  packageType    PackageType
+  amount         Int
+  status         OrderStatus     @default(PENDING)
+  paymentGateway PaymentGateway?
+  transactionId  String?         @unique
+  createdAt      DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OutboxEvent {
+  id        String            @id @default(uuid())
+  eventType String
+  payload   Json
+  status    OutboxEventStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+}
+
+model SpecialistBooking {
+  id           String   @id @default(uuid())
+  specialistId String
+  customerId   String
+  startTime    DateTime
+  endTime      DateTime
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  specialist User @relation("Specialist", fields: [specialistId], references: [id], onDelete: Cascade)
+  customer   User @relation("Customer", fields: [customerId], references: [id], onDelete: Cascade)
+}

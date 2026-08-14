@@ -1,49 +1,68 @@
 'use client';
 
-import React from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function CTASection() {
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-br from-[#0D9488] to-[#2563EB]">
-      {/* Decorative floating elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-24 h-24 rounded-full bg-white/10 animate-float" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute bottom-10 right-20 w-32 h-32 rounded-full bg-white/10 animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 rounded-full bg-white/10 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-white/5 animate-float" style={{ animationDelay: '1.5s' }}></div>
-      </div>
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#0D9488] to-[#2563EB] py-20 md:py-28">
+      {/* Floating Circles */}
+      <motion.div
+        className="absolute top-10 left-[10%] w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"
+        animate={{ y: [0, -30, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute bottom-10 right-[15%] w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"
+        animate={{ y: [0, 40, 0], scale: [1, 1.2, 1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-[80%] w-20 h-20 bg-white/10 rounded-full blur-lg pointer-events-none"
+        animate={{ y: [0, -20, 0], x: [0, -20, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+      />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-        <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-          Sẵn Sàng Thay Đổi Cuộc Sống?
-        </h2>
-        <p className="text-xl md:text-2xl text-teal-50 mb-10 max-w-2xl mx-auto font-inter">
-          Bắt đầu hành trình sức khỏe của bạn ngay hôm nay với bài đánh giá miễn phí.
-        </p>
-        
-        <Link 
-          href="/quiz" 
-          className="inline-block px-10 py-5 bg-white text-[#0D9488] text-lg font-bold rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl"
+      <div className="max-w-4xl mx-auto text-center relative z-10 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
         >
-          Làm Bài Đánh Giá Ngay
-        </Link>
-        
-        <div className="mt-8 text-teal-100 text-sm font-medium tracking-wide">
-          Miễn phí • Chỉ mất 1 phút • Kết quả ngay lập tức
-        </div>
-      </div>
+          <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+            Sẵn Sàng Thay Đổi Cuộc Sống?
+          </h2>
+          <p className="text-lg md:text-xl text-white/80 mt-4 max-w-2xl mx-auto">
+            Bắt đầu hành trình khám phá và phát triển bản thân ngay hôm nay để trở thành phiên bản tốt nhất của chính mình.
+          </p>
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes float {
-          0% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(10deg); }
-          100% { transform: translateY(0px) rotate(0deg); }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}} />
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Link
+              href="/quiz"
+              className="inline-block bg-white text-[#0D9488] font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all text-lg"
+            >
+              Làm Bài Đánh Giá Ngay
+            </Link>
+          </motion.div>
+
+          <motion.p
+            className="mt-5 text-white/60 text-sm"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            Miễn phí &bull; Chỉ mất 1 phút &bull; Kết quả ngay lập tức
+          </motion.p>
+        </motion.div>
+      </div>
     </section>
   );
 }

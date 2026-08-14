@@ -4,13 +4,21 @@ import { Footer } from '@/components/ui/Footer';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { getTeamMembers } from '@/lib/db';
 
 export const metadata = {
   title: 'Về Chúng Tôi | H&T Platform',
   description: 'Khám phá câu chuyện và sứ mệnh của H&T Platform trong việc nâng cao sức khỏe người Việt qua dinh dưỡng và giấc ngủ.',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const dbTeam = await getTeamMembers();
+  
+  const team = dbTeam.map((t: any) => ({
+    ...t,
+    color: t.avatar_color
+  }));
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navigation />
@@ -87,13 +95,8 @@ export default function AboutPage() {
         <section className="py-20 px-4 max-w-6xl mx-auto">
           <h2 className="text-3xl font-playfair font-bold text-center text-gray-900 mb-12">Đội Ngũ Chuyên Gia</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { name: 'BS. Nguyễn Minh', role: 'Giám đốc Y khoa', color: 'bg-teal-500' },
-              { name: 'ThS. Trần Hương', role: 'Chuyên gia Dinh dưỡng', color: 'bg-blue-500' },
-              { name: 'BS. Lê Nam', role: 'Chuyên gia Giấc ngủ', color: 'bg-indigo-500' },
-              { name: 'HLV. Phạm Thanh', role: 'Huấn luyện viên Thể lực', color: 'bg-cyan-500' }
-            ].map((member, i) => (
-              <div key={i} className="text-center group">
+            {team.map((member: any, i: number) => (
+              <div key={member.id || i} className="text-center group">
                 <div className={`w-32 h-32 mx-auto rounded-full ${member.color} shadow-lg mb-4 transform group-hover:-translate-y-2 transition-transform`}></div>
                 <h3 className="text-lg font-bold text-gray-900">{member.name}</h3>
                 <p className="text-teal-600 text-sm">{member.role}</p>

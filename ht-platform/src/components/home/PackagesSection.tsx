@@ -2,144 +2,146 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
-const packages = [
+const defaultPackages = [
   {
     id: 'starter',
-    name: 'H&T Starter',
-    desc: 'Trải nghiệm nền tảng, thiết lập thói quen.',
+    name: 'Starter',
     price: '99,000 VNĐ',
-    period: '/tháng',
+    period: '/ tháng',
     features: [
-      { text: 'Tính toán TDEE cơ bản', included: true },
-      { text: 'Gợi ý thực đơn mẫu', included: true },
-      { text: 'Nhật ký giấc ngủ (7 ngày)', included: true },
-      { text: 'Chuyên gia tư vấn 1-1', included: false },
+      { name: 'Kế hoạch tập luyện cơ bản', included: true },
+      { name: 'Thực đơn mẫu', included: true },
+      { name: 'Truy cập thư viện bài tập', included: true },
+      { name: 'Theo dõi tiến độ cơ bản', included: true },
+      { name: 'Hỗ trợ từ PT (1 lần/tuần)', included: false },
+      { name: 'Điều chỉnh thực đơn 1-1', included: false },
+      { name: 'Phân tích chỉ số InBody', included: false },
     ],
-    cta: 'Bắt đầu ngay',
-    href: '/register',
-    theme: 'teal'
   },
   {
     id: 'transformation',
-    name: 'H&T Transformation',
-    desc: 'Thay đổi toàn diện vóc dáng và sinh học trong 30 ngày.',
+    name: 'Transformation',
     price: '1,490,000 VNĐ',
-    period: '/30 ngày',
-    subprice: 'Chỉ ~49,000 VNĐ/ngày',
-    badge: 'Được lựa chọn nhiều nhất',
+    period: '/ 30 ngày',
+    badge: 'Được chọn nhiều nhất',
     features: [
-      { text: 'Thực đơn cá nhân hóa mỗi ngày', included: true },
-      { text: 'Phác đồ giấc ngủ chuyên sâu', included: true },
-      { text: 'Theo dõi và tinh chỉnh hàng tuần', included: true },
-      { text: '2 buổi tư vấn 1-1 với chuyên gia', included: true },
-      { text: 'Hỗ trợ qua chat 24/7', included: true },
+      { name: 'Kế hoạch tập luyện cá nhân hóa', included: true },
+      { name: 'Thực đơn dinh dưỡng 1-1', included: true },
+      { name: 'Truy cập thư viện bài tập', included: true },
+      { name: 'Theo dõi tiến độ chi tiết', included: true },
+      { name: 'Hỗ trợ từ PT (24/7)', included: true },
+      { name: 'Điều chỉnh thực đơn linh hoạt', included: true },
+      { name: 'Phân tích chỉ số InBody hàng tháng', included: false },
     ],
-    cta: 'Đăng ký ngay',
-    href: '/register?plan=transformation',
-    theme: 'teal'
   },
   {
     id: 'elite',
-    name: 'H&T Elite Care',
-    desc: 'Chăm sóc cao cấp 90 ngày. Đồng hành trọn vẹn.',
+    name: 'Elite Care',
     price: '3,990,000 VNĐ',
-    period: '/90 ngày',
+    period: '/ 90 ngày',
     features: [
-      { text: 'Mọi quyền lợi của gói Transformation', included: true },
-      { text: 'Phân tích xét nghiệm máu định kỳ', included: true },
-      { text: '6 buổi tư vấn chuyên gia cao cấp', included: true },
-      { text: 'Ưu tiên hỗ trợ kỹ thuật và y tế', included: true },
+      { name: 'Kế hoạch tập luyện cao cấp', included: true },
+      { name: 'Thực đơn dinh dưỡng linh hoạt', included: true },
+      { name: 'Truy cập thư viện bài tập', included: true },
+      { name: 'Theo dõi tiến độ chi tiết', included: true },
+      { name: 'Hỗ trợ từ PT chuyên sâu (24/7)', included: true },
+      { name: 'Huấn luyện tư duy & thói quen', included: true },
+      { name: 'Phân tích chỉ số InBody hàng tuần', included: true },
     ],
-    cta: 'Liên hệ tư vấn',
-    href: '/contact',
-    theme: 'blue'
   }
 ];
 
 export default function PackagesSection({ packages: dbPackages }: { packages?: any[] }) {
-  const [selectedIndex, setSelectedIndex] = useState<number>(1);
-  const displayPackages = dbPackages && dbPackages.length > 0 ? dbPackages : packages;
+  const [selectedIndex, setSelectedIndex] = useState(1);
+  const displayPackages = dbPackages && dbPackages.length > 0 ? dbPackages : defaultPackages;
 
   return (
-    <section className="py-24 bg-white relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Chọn Gói Phù Hợp Với Bạn
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Đầu tư cho sức khỏe là khoản đầu tư sinh lời nhất. Chọn gói dịch vụ tốt nhất cho mục tiêu của bạn.
-          </p>
+    <section className="bg-white py-20 md:py-28 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl font-bold text-[#1A1A2E] mb-4">
+              Chọn Gói Phù Hợp Với Bạn
+            </h2>
+            <p className="text-lg text-[#64748B]">
+              Các gói tập được thiết kế linh hoạt, phù hợp với mọi mục tiêu và ngân sách của bạn.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mt-12 max-w-6xl mx-auto">
           {displayPackages.map((pkg, idx) => {
-            const isSelected = selectedIndex === idx;
-            
+            const isFeatured = idx === selectedIndex;
+
             return (
-              <div 
-                key={pkg.id}
+              <motion.div
+                key={pkg.id || idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 onClick={() => setSelectedIndex(idx)}
                 className={`
-                  cursor-pointer transition-all duration-300 relative rounded-3xl p-8 bg-white
-                  ${isSelected ? 'border-2 border-teal-500 shadow-xl lg:scale-105 z-10' : 'border border-gray-200 shadow-sm hover:shadow-md lg:scale-100 z-0'}
-                  ${pkg.theme === 'blue' && !isSelected ? 'bg-gradient-to-b from-white to-blue-50/30' : ''}
+                  cursor-pointer bg-white rounded-2xl p-7 border transition-all duration-300 flex flex-col
+                  ${isFeatured 
+                    ? 'border-[#0D9488] border-2 shadow-lg lg:scale-[1.03] relative z-10' 
+                    : 'border-[#E2E8F0] shadow-sm hover:shadow-lg'
+                  }
                 `}
               >
-                {pkg.badge && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full text-center">
-                    <span className="inline-block bg-gradient-to-r from-teal-500 to-blue-500 text-white text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider animate-pulse shadow-md whitespace-nowrap">
-                      {pkg.badge}
-                    </span>
+                {isFeatured && pkg.badge && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#0D9488] to-[#2563EB] text-white text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap">
+                    {pkg.badge}
                   </div>
                 )}
-                
-                <h3 className={`text-2xl font-bold text-gray-900 mb-2 ${pkg.badge ? 'mt-4' : ''}`}>{pkg.name}</h3>
-                <p className="text-gray-500 mb-6 text-sm h-10">{pkg.desc}</p>
-                <div className="mb-2">
-                  <span className="text-4xl font-bold text-gray-900">{pkg.price}</span>
-                  <span className="text-gray-500">{pkg.period}</span>
+
+                <div className="mb-6 mt-2">
+                  <h3 className="text-xl font-bold text-[#1A1A2E] mb-3">{pkg.name}</h3>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-3xl font-bold text-[#1A1A2E]">{pkg.price}</span>
+                    <span className="text-[#64748B] text-sm font-medium">{pkg.period}</span>
+                  </div>
                 </div>
-                
-                {pkg.subprice ? (
-                  <div className="text-sm text-teal-600 font-medium mb-6 h-5">{pkg.subprice}</div>
-                ) : (
-                  <div className="mb-6 h-5"></div>
-                )}
-                
-                <ul className="space-y-4 mb-8">
-                  {pkg.features.map((feature, fIdx) => (
-                    <li key={fIdx} className={`flex items-start ${!feature.included ? 'opacity-50' : ''}`}>
+
+                <div className="flex-grow space-y-3 mb-8">
+                  {pkg.features.map((feature: any, fIdx: number) => (
+                    <div key={fIdx} className="flex items-start gap-3">
                       {feature.included ? (
-                        <svg className={`w-5 h-5 mr-3 shrink-0 ${pkg.theme === 'blue' ? 'text-blue-500' : 'text-teal-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
                       ) : (
-                        <svg className="w-5 h-5 text-gray-300 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-gray-300 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       )}
-                      <span className={`text-sm ${feature.included ? 'text-gray-700 font-medium' : 'text-gray-500 line-through'}`}>
-                        {feature.text}
+                      <span className="text-sm text-[#374151]">
+                        {feature.name}
                       </span>
-                    </li>
+                    </div>
                   ))}
-                </ul>
-                
+                </div>
+
                 <Link 
                   href={pkg.id === 'elite' ? '/contact' : `/register?plan=${pkg.id}`}
                   className={`
-                    block w-full py-3.5 px-4 text-center rounded-xl font-bold text-lg transition-all
-                    ${isSelected 
-                      ? (pkg.theme === 'blue' ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg' : 'bg-teal-600 text-white hover:bg-teal-700 shadow-md hover:shadow-lg') 
-                      : (pkg.theme === 'blue' ? 'border border-blue-600 text-blue-600 hover:bg-blue-50' : 'border border-teal-600 text-teal-600 hover:bg-teal-50')
+                    w-full block text-center transition-colors
+                    ${isFeatured 
+                      ? 'bg-[#0D9488] text-white font-semibold rounded-xl py-3 hover:bg-[#0F766E]' 
+                      : 'border border-[#0D9488] text-[#0D9488] hover:bg-[#F0FDF9] font-semibold rounded-xl py-3'
                     }
                   `}
                 >
-                  {pkg.id === 'elite' ? 'Liên hệ tư vấn' : 'Đăng ký ngay'}
+                  {pkg.id === 'elite' ? 'Liên hệ tư vấn' : 'Bắt đầu ngay'}
                 </Link>
-              </div>
+              </motion.div>
             );
           })}
         </div>

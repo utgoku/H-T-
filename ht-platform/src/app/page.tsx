@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import HeroSection from '@/components/home/HeroSection';
+import StatementSection from '@/components/home/StatementSection';
 import FeaturesSection from '@/components/home/FeaturesSection';
 import PackagesSection from '@/components/home/PackagesSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
@@ -13,23 +14,25 @@ export const metadata: Metadata = {
 
 import { Navigation } from '@/components/ui/Navigation';
 import { Footer } from '@/components/ui/Footer';
+import { getDb, getTestimonials } from '@/lib/db';
 
-import { getDb } from '@/lib/db';
+import { FloatingLeaves } from '@/components/ui/FloatingLeaves';
 
 export default async function HomePage() {
   const db = await getDb();
+  const testimonials = await getTestimonials();
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white relative">
+      <FloatingLeaves />
       <Navigation />
       
-      <div className="pt-16">
-        <HeroSection settings={db.settings} />
-        <FeaturesSection />
-        <PackagesSection packages={db.packages} />
-        <TestimonialsSection />
-        <CTASection />
-      </div>
+      <HeroSection settings={db.settings} />
+      <StatementSection />
+      <FeaturesSection />
+      <PackagesSection packages={db.packages} />
+      <TestimonialsSection testimonials={testimonials} />
+      <CTASection />
       
       <Footer settings={db.settings} />
     </main>

@@ -1,117 +1,197 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 
-// Simple animated counter component
-const AnimatedCounter = ({ target, label, suffix = '' }: { target: number, label: string, suffix?: string }) => {
+interface HeroSectionProps {
+  settings?: any;
+}
+
+// Simple AnimatedCounter component
+const AnimatedCounter = ({ end, duration = 2000, suffix = '' }: { end: number; duration?: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    let start = 0;
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    
-    return () => clearInterval(timer);
-  }, [target]);
+    let startTime: number | null = null;
+    let animationFrame: number;
 
-  return (
-    <div className="flex flex-col items-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 shadow-sm">
-      <div className="text-3xl font-bold text-teal-600 mb-1">
-        {count}{suffix}
-      </div>
-      <div className="text-sm font-medium text-gray-600">{label}</div>
-    </div>
-  );
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      
+      // Easing out quart
+      const easeOut = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(easeOut * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration]);
+
+  return <span>{count}{suffix}</span>;
 };
 
-export default function HeroSection({ settings }: { settings?: any }) {
+export default function HeroSection({ settings }: HeroSectionProps) {
+  // Motion variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-teal-50 to-blue-50 pt-20">
-      {/* Animated Background Mesh */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-1/3 w-96 h-96 bg-teal-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
+    <section className="relative min-h-screen pt-28 pb-16 overflow-hidden bg-gradient-to-br from-[#F0FDF9] via-white to-[#EFF6FF]">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <motion.div 
+          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-teal-200/30 blur-3xl mix-blend-multiply"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-200/20 blur-3xl mix-blend-multiply"
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-[-20%] left-[20%] w-[400px] h-[400px] rounded-full bg-teal-100/40 blur-3xl mix-blend-multiply"
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -40, 0],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.h1 
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8"
+        >
+          {/* LEFT Column */}
+          <div className="w-full lg:w-[55%] flex flex-col justify-center">
+            <motion.div variants={itemVariants}>
+              <h1 className="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold text-[#1A1A2E] tracking-tight leading-tight">
+                Sức Khỏe Toàn Diện <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0D9488] to-[#2563EB]">
+                  Dinh Dưỡng & Giấc Ngủ
+                </span>
+              </h1>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <p className="text-lg md:text-xl text-[#64748B] max-w-xl mt-6 leading-relaxed">
+                Khám phá giải pháp chăm sóc sức khỏe cá nhân hóa, kết hợp khoa học dinh dưỡng và các phương pháp cải thiện giấc ngủ tự nhiên giúp bạn tái tạo năng lượng mỗi ngày.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Link 
+                href="/quiz"
+                className="group flex items-center gap-2 bg-[#0D9488] hover:bg-[#0F766E] text-white font-semibold rounded-full px-7 py-3.5 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+              >
+                Làm bài đánh giá miễn phí
+                <svg 
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </Link>
+              <Link 
+                href="/services"
+                className="bg-white text-[#0D9488] border border-[#0D9488]/20 hover:border-[#0D9488] font-semibold rounded-full px-7 py-3.5 transition-all"
+              >
+                Khám phá dịch vụ
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* RIGHT Column */}
+          <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
+            <motion.div variants={itemVariants}>
+              <div className="relative rotate-2 hover:rotate-0 transition-transform duration-500">
+                <Image 
+                  src="/images/hero_wellness.jpg"
+                  alt="Sức khỏe toàn diện"
+                  width={600}
+                  height={400}
+                  className="rounded-3xl shadow-2xl object-cover"
+                  priority
+                />
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Stats Row */}
+        <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 tracking-tight mb-4"
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
-          Sức Khỏe Toàn Diện
-          <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-blue-600 pb-2">
-            Dinh Dưỡng & Giấc Ngủ
-          </span>
-        </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed"
-        >
-          Nền tảng chăm sóc sức khỏe cá nhân hóa kết hợp khoa học dinh dưỡng và giấc ngủ, đồng hành cùng chuyên gia hàng đầu.
-        </motion.p>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
-        >
-          <Link href="/quiz" className="w-full sm:w-auto px-8 py-4 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-full transition-all transform hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2">
-            Làm bài đánh giá miễn phí
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </Link>
-          <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white text-teal-900 border border-teal-200 hover:border-teal-600 hover:text-teal-700 font-bold rounded-full transition-all flex items-center justify-center shadow-sm">
-            Khám phá dịch vụ
-          </Link>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-        >
-          <AnimatedCounter target={Number(settings?.heroCustomers) || 1000} suffix="+" label="Khách hàng" />
-          <AnimatedCounter target={Number(settings?.heroSatisfaction) || 95} suffix="%" label="Tỷ lệ hài lòng" />
-          <AnimatedCounter target={Number(settings?.heroExperts) || 30} suffix="+" label="Chuyên gia" />
+          <div className="bg-white/60 backdrop-blur-sm border border-[#E2E8F0] rounded-2xl p-5 text-center shadow-sm">
+            <div className="text-2xl md:text-3xl font-bold text-[#0D9488]">
+              <AnimatedCounter end={1000} suffix="+" />
+            </div>
+            <div className="text-sm text-[#64748B] mt-1">Khách hàng hài lòng</div>
+          </div>
+          <div className="bg-white/60 backdrop-blur-sm border border-[#E2E8F0] rounded-2xl p-5 text-center shadow-sm">
+            <div className="text-2xl md:text-3xl font-bold text-[#0D9488]">
+              <AnimatedCounter end={50} suffix="+" />
+            </div>
+            <div className="text-sm text-[#64748B] mt-1">Chuyên gia sức khỏe</div>
+          </div>
+          <div className="bg-white/60 backdrop-blur-sm border border-[#E2E8F0] rounded-2xl p-5 text-center shadow-sm">
+            <div className="text-2xl md:text-3xl font-bold text-[#0D9488]">
+              <AnimatedCounter end={98} suffix="%" />
+            </div>
+            <div className="text-sm text-[#64748B] mt-1">Tỷ lệ cải thiện</div>
+          </div>
         </motion.div>
       </div>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}} />
     </section>
   );
 }

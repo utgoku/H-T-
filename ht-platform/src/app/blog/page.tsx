@@ -4,22 +4,22 @@ import { Footer } from '@/components/ui/Footer';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
+import { getBlogPosts } from '@/lib/db';
 
 export const metadata = {
   title: 'Blog Sức Khỏe | H&T Platform',
   description: 'Kiến thức khoa học về dinh dưỡng, giấc ngủ và lối sống lành mạnh từ các chuyên gia H&T.',
 };
 
-const blogs = [
-  { id: 1, category: 'Giấc ngủ', title: '10 Thực Phẩm Giúp Bạn Ngủ Ngon Hơn', excerpt: 'Khám phá những loại thực phẩm tự nhiên chứa melatonin và magie giúp bạn dễ dàng chìm vào giấc ngủ.', author: 'BS. Lê Nam', date: '20 Oct, 2023', readTime: '5 phút', gradient: 'from-blue-400 to-indigo-500' },
-  { id: 2, category: 'Dinh dưỡng', title: 'Hướng Dẫn Tính TDEE Chính Xác', excerpt: 'Làm thế nào để tính tổng năng lượng tiêu hao hàng ngày (TDEE) để thiết lập mục tiêu giảm cân hoặc tăng cơ an toàn.', author: 'ThS. Trần Hương', date: '18 Oct, 2023', readTime: '8 phút', gradient: 'from-teal-400 to-emerald-500' },
-  { id: 3, category: 'Thực đơn', title: 'Thực Đơn Giảm Cân 7 Ngày Cho Người Bận Rộn', excerpt: 'Gợi ý chuẩn bị bữa ăn nhanh gọn, đủ chất, giúp tối ưu thời gian mà vẫn duy trì vóc dáng.', author: 'ThS. Trần Hương', date: '15 Oct, 2023', readTime: '10 phút', gradient: 'from-orange-400 to-rose-400' },
-  { id: 4, category: 'Lối sống', title: '5 Thói Quen Buổi Tối Cải Thiện Giấc Ngủ', excerpt: 'Thay đổi nhỏ trong thói quen sinh hoạt buổi tối mang lại hiệu quả lớn cho chất lượng giấc ngủ của bạn.', author: 'BS. Lê Nam', date: '12 Oct, 2023', readTime: '6 phút', gradient: 'from-purple-400 to-fuchsia-500' },
-  { id: 5, category: 'Dinh dưỡng', title: 'Protein: Bao Nhiêu Là Đủ?', excerpt: 'Tìm hiểu nhu cầu protein thực sự của cơ thể dựa trên mức độ vận động và độ tuổi.', author: 'BS. Nguyễn Minh', date: '10 Oct, 2023', readTime: '7 phút', gradient: 'from-teal-500 to-blue-500' },
-  { id: 6, category: 'Lối sống', title: 'Yoga Trước Khi Ngủ: 5 Bài Tập Đơn Giản', excerpt: 'Thư giãn cơ bắp và tâm trí với các động tác yoga nhẹ nhàng ngay trên giường trước giờ đi ngủ.', author: 'HLV. Phạm Thanh', date: '05 Oct, 2023', readTime: '4 phút', gradient: 'from-pink-400 to-rose-500' },
-];
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
+  
+  const blogs = blogPosts.map(b => ({
+    ...b,
+    date: b.published_date,
+    readTime: b.read_time
+  }));
 
-export default function BlogPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navigation />
@@ -44,7 +44,7 @@ export default function BlogPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map(blog => (
-              <Link href={`/blog/${blog.id}`} key={blog.id} className="group flex flex-col h-full">
+              <Link href={`/blog/${blog.slug || blog.id}`} key={blog.id} className="group flex flex-col h-full">
                 <Card className="flex flex-col h-full overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1">
                   <div className={`h-48 w-full bg-gradient-to-br ${blog.gradient} flex items-center justify-center p-6 relative`}>
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>

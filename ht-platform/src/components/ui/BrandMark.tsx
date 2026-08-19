@@ -22,7 +22,7 @@ export function BrandMark({ inverse = false, compact = false, className = '' }: 
           <span className={`whitespace-nowrap text-[1.02rem] font-extrabold leading-none tracking-[0.19em] ${inverse ? 'text-white' : 'text-[#153339]'}`}>
             PRYMA<span className={inverse ? 'text-[#d9f46f]' : 'text-[#0b8a78]'}>LAB</span>
           </span>
-          <span className={`brand-tagline mt-1.5 whitespace-nowrap text-[0.47rem] font-bold uppercase tracking-[0.22em] ${inverse ? 'text-white/50' : 'text-[#718589]'}`}>
+          <span className={`brand-tagline mt-1.5 whitespace-nowrap text-[0.5rem] font-bold uppercase tracking-[0.2em] ${inverse ? 'text-white/55' : 'text-[#647b7f]'}`}>
             Nutrition · Sleep · Rhythm
           </span>
         </span>

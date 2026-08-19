@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function proxy(request: NextRequest) {
-  const response = NextResponse.next();
+  const customerPortalIsPrivate = request.nextUrl.pathname === '/login'
+    || request.nextUrl.pathname === '/register'
+    || request.nextUrl.pathname.startsWith('/dashboard');
+  const response = customerPortalIsPrivate
+    ? NextResponse.redirect(new URL('/contact?source=member-space', request.url), 307)
+    : NextResponse.next();
   const developmentScriptPolicy = process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '';
 
   response.headers.set('X-DNS-Prefetch-Control', 'on');
@@ -29,7 +34,7 @@ export function proxy(request: NextRequest) {
 
   response.headers.set('Content-Security-Policy', csp);
 
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+  if (customerPortalIsPrivate) {
     response.headers.set('Cache-Control', 'no-store, max-age=0');
   }
 

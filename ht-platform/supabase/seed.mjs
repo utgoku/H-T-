@@ -84,7 +84,7 @@ async function seedData() {
       period: '/30 ngày',
       duration_days: 30,
       subprice: 'Chỉ ~49,000 VNĐ/ngày',
-      badge: 'Được lựa chọn nhiều nhất',
+      badge: 'Lộ trình trọng tâm',
       theme: 'teal',
       is_popular: true,
       sort_order: 2,
@@ -118,12 +118,8 @@ async function seedData() {
   ]);
 
   // 3. Testimonials
-  await insertData('testimonials', [
-    { name: 'Minh Anh', role: 'Nhân viên văn phòng', quote: 'Chỉ sau 30 ngày tham gia Pryma Reset 30, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', avatar_color: 'bg-teal-100 text-teal-700', sort_order: 1 },
-    { name: 'Hoàng Nam', role: 'Kỹ sư phần mềm', quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của PrymaLab thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', avatar_color: 'bg-blue-100 text-blue-700', sort_order: 2 },
-    { name: 'Thu Hà', role: 'Giáo viên', quote: 'Tôi rất thích cách các chuyên gia PrymaLab cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', avatar_color: 'bg-purple-100 text-purple-700', sort_order: 3 },
-    { name: 'Đức Trí', role: 'Doanh nhân', quote: 'Pryma Signature 90 mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', avatar_color: 'bg-orange-100 text-orange-700', sort_order: 4 },
-  ]);
+  // Testimonials are intentionally not seeded. Publish only feedback collected
+  // from real clients with explicit permission.
 
   // 4. Blog Posts
   await insertData('blog_posts', [
@@ -141,7 +137,7 @@ async function seedData() {
     { question: 'Làm sao để liên hệ chuyên gia?', answer: 'Sau khi đăng ký, bạn sẽ được kết nối với chuyên gia qua nền tảng nhắn tin tích hợp của chúng tôi. Với gói Premium, bạn có thể gọi video trực tiếp hàng tuần.', sort_order: 2 },
     { question: 'Tôi có thể hủy gói không?', answer: 'Có, bạn có thể hủy gia hạn bất kỳ lúc nào qua bảng điều khiển cá nhân. Chúng tôi cũng có chính sách hoàn tiền trong 7 ngày đầu nếu bạn không hài lòng.', sort_order: 3 },
     { question: 'Thực đơn có phù hợp với người ăn chay?', answer: 'Hoàn toàn phù hợp. Trước khi lên thực đơn, chúng tôi sẽ khảo sát chi tiết về sở thích, dị ứng và chế độ ăn đặc biệt của bạn (ăn chay, keto, không gluten, v.v.).', sort_order: 4 },
-    { question: 'Thanh toán bằng cách nào?', answer: 'Chúng tôi chấp nhận thẻ tín dụng, chuyển khoản ngân hàng, và các ví điện tử phổ biến như MoMo, VNPay.', sort_order: 5 },
+    { question: 'Thanh toán bằng cách nào?', answer: 'Sau khi chọn lộ trình, bạn có thể chuyển khoản Vietcombank theo thông tin và mã VietQR hiển thị ở bước thanh toán.', sort_order: 5 },
   ]);
 
   // 6. Team Members

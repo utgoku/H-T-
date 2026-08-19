@@ -101,7 +101,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
               Dinh dưỡng × Giấc ngủ × Nhịp sống
             </div>
 
-            <h1 className="hero-heading mt-7 font-[family-name:var(--font-display)] text-[clamp(3.15rem,6.65vw,6.55rem)] font-semibold leading-[1.005] tracking-[-0.042em] text-[#123238]">
+            <h1 className="hero-heading mt-7 font-[family-name:var(--font-display)] text-[clamp(3.15rem,6.45vw,6.35rem)] font-semibold leading-[1.09] tracking-[-0.038em] text-[#123238]">
               Ăn đúng nhịp.
               <span className="mt-1 block text-[#0b8a78]">Ngủ sâu hơn.</span>
               <span className="mt-1 block">Sống sáng hơn.</span>
@@ -127,7 +127,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
             </div>
 
             <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-xs font-semibold text-[#60767a]">
-              <span className="flex items-center gap-2"><Clock3 className="h-4 w-4 text-[#0b8a78]" aria-hidden="true" /> Đánh giá khoảng 1 phút</span>
+              <span className="flex items-center gap-2"><Clock3 className="h-4 w-4 text-[#0b8a78]" aria-hidden="true" /> Đánh giá khoảng 2 phút</span>
               <span className="flex items-center gap-2"><LockKeyhole className="h-4 w-4 text-[#315fca]" aria-hidden="true" /> Tôn trọng dữ liệu cá nhân</span>
               <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#c18428]" aria-hidden="true" /> Định hướng an toàn, rõ ràng</span>
             </div>
@@ -219,7 +219,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div className="lg:sticky lg:top-32 lg:self-start">
               <p className="section-kicker section-kicker-dark">Phương pháp Pryma</p>
-              <h2 className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl lg:text-6xl">Một thay đổi tốt phải sống được trong lịch thật.</h2>
+              <h2 className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl lg:text-6xl">Một thay đổi tốt phải sống được trong lịch thật.</h2>
               <p className="mt-6 max-w-lg text-base leading-7 text-white/62">Vì thế PrymaLab bắt đầu từ dữ liệu vừa đủ, tạo hành động nhỏ, rồi liên tục tinh chỉnh theo phản hồi của chính bạn.</p>
               <Link href="/services" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#d9f46f] transition hover:gap-3">Khám phá chương trình <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
             </div>
@@ -247,7 +247,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
           <div className="grid items-end gap-6 lg:grid-cols-[1fr_0.7fr]">
             <div>
               <p className="section-kicker">Hai hệ thống, một mục tiêu</p>
-              <h2 className="mt-4 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.04] tracking-[-0.04em] sm:text-5xl lg:text-6xl">Dinh dưỡng tạo năng lượng ban ngày. Giấc ngủ hoàn tất quá trình phục hồi.</h2>
+              <h2 className="mt-4 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl lg:text-6xl">Dinh dưỡng tạo năng lượng ban ngày. Giấc ngủ hoàn tất quá trình phục hồi.</h2>
             </div>
             <p className="max-w-xl text-base leading-7 text-[#657a7e] lg:justify-self-end">PrymaLab kết nối hai mảnh ghép trên cùng một dòng thời gian để bạn không phải tự ghép hàng chục lời khuyên trái chiều.</p>
           </div>
@@ -286,18 +286,44 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
         </div>
       </section>
 
+      <section className="bg-[#112f35] px-5 py-24 text-white sm:px-8 lg:py-28">
+        <div className="mx-auto max-w-[88rem]">
+          <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <div>
+              <p className="section-kicker section-kicker-dark">Niềm tin có thể kiểm chứng</p>
+              <h2 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl">Uy tín không cần lời khen dựng sẵn.</h2>
+              <p className="mt-5 max-w-xl text-sm leading-7 text-white/55">PrymaLab chỉ công bố phản hồi khách hàng khi có trải nghiệm thật và sự đồng ý phù hợp. Trong lúc chưa có dữ liệu xác minh, quy trình minh bạch là bằng chứng tốt hơn.</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ['Đơn có mã riêng', 'QR gắn đúng số tiền và nội dung để đối soát.', ShieldCheck],
+                ['Phạm vi rõ ràng', 'Định hướng lối sống, không đóng vai chẩn đoán y khoa.', Target],
+                ['Dữ liệu tối thiểu', 'Chỉ thu thập thông tin cần cho đánh giá và hỗ trợ.', LockKeyhole],
+                ['Phản hồi có xác minh', 'Không tự viết review hoặc dùng danh tính khách hàng khi chưa được phép.', MessageCircle],
+              ].map(([title, copy, Icon]) => (
+                <article key={String(title)} className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-6">
+                  <Icon className="h-5 w-5 text-[#d9f46f]" aria-hidden="true" />
+                  <h3 className="mt-5 text-base font-bold">{String(title)}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/50">{String(copy)}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-5 py-24 sm:px-8 lg:py-32">
         <div className="mx-auto max-w-[88rem]">
           <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
             <div>
-              <p className="section-kicker">Portal cá nhân</p>
-              <h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl">Mỗi ngày mở lên là biết việc quan trọng tiếp theo.</h2>
-              <p className="mt-6 max-w-xl text-base leading-7 text-[#657a7e]">Một màn hình gọn cho kế hoạch bữa ăn, nhịp ngủ, tiến độ tuần và ghi chú tinh chỉnh — đủ sâu để hữu ích, đủ nhẹ để dùng mỗi ngày.</p>
+              <p className="section-kicker">Sau khi chọn chương trình</p>
+              <h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl">Từ mã QR đến buổi bắt đầu, mọi bước đều rõ ràng.</h2>
+              <p className="mt-6 max-w-xl text-base leading-7 text-[#657a7e]">Bạn nhận đúng mã đơn, đúng nội dung chuyển khoản và biết đơn đang ở bước nào trước khi PrymaLab bắt đầu đồng hành.</p>
               <div className="mt-8 space-y-4">
                 {[
-                  ['Kế hoạch theo ngày', 'Mục tiêu được chia thành hành động nhỏ và rõ ràng.'],
-                  ['Xu hướng thay vì áp lực', 'Biểu đồ giúp nhìn toàn cảnh, không phán xét một ngày chưa tốt.'],
-                  ['Một nơi để được giải đáp', 'Ghi lại câu hỏi và trao đổi trong cùng bối cảnh lộ trình.'],
+                  ['Mã đơn riêng', 'Mỗi đơn có mã đối soát và nội dung chuyển khoản riêng.'],
+                  ['Xác nhận minh bạch', 'Bạn chủ động báo đã chuyển; PrymaLab kiểm tra trước khi kích hoạt.'],
+                  ['Onboarding có người thật', 'Sau đối soát, PrymaLab liên hệ để xác nhận mục tiêu và lịch bắt đầu.'],
                 ].map(([title, description]) => (
                   <div key={title} className="flex gap-3">
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#dff3ed] text-[#0b7f72]"><Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" /></span>
@@ -305,20 +331,20 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
                   </div>
                 ))}
               </div>
-              <Link href="/dashboard" className="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full border border-[#b8d3cc] px-6 text-sm font-bold text-[#0b7f72] transition hover:bg-[#eef8f4]">Xem không gian cá nhân <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+              <Link href="/services" className="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full border border-[#b8d3cc] px-6 text-sm font-bold text-[#0b7f72] transition hover:bg-[#eef8f4]">Xem chương trình phù hợp <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
             </div>
 
             <div className="relative rounded-[2.25rem] bg-[#102f35] p-3 shadow-[0_35px_90px_-45px_rgba(17,47,53,0.7)] sm:p-5">
               <div className="rounded-[1.6rem] bg-[#f5f7f3] p-4 sm:p-6">
                 <div className="flex items-center justify-between border-b border-[#dfe6e2] pb-4">
-                  <div><p className="text-xs font-bold uppercase tracking-[0.15em] text-[#0b7f72]">Hôm nay · Ngày 08</p><p className="mt-1 text-xl font-semibold text-[#153339]">Chào buổi sáng, Lan</p></div>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d9f46f] text-sm font-bold text-[#153339]">74</span>
+                  <div><p className="text-xs font-bold uppercase tracking-[0.15em] text-[#0b7f72]">Quy trình bắt đầu</p><p className="mt-1 text-xl font-semibold text-[#153339]">Đơn PrymaLab của bạn</p></div>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d9f46f] text-sm font-bold text-[#153339]">2/4</span>
                 </div>
                 <div className="mt-5 grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
                   <div className="rounded-2xl bg-white p-5 shadow-sm">
-                    <div className="flex items-center justify-between"><p className="text-sm font-bold text-[#27474c]">Tiến độ hôm nay</p><TrendingUp className="h-4 w-4 text-[#0b8a78]" aria-hidden="true" /></div>
+                    <div className="flex items-center justify-between"><p className="text-sm font-bold text-[#27474c]">Tiến độ khởi động</p><TrendingUp className="h-4 w-4 text-[#0b8a78]" aria-hidden="true" /></div>
                     <div className="mt-5 space-y-4">
-                      {[['Bữa ăn', '3 / 4', '75%'], ['Nước', '6 / 8', '75%'], ['Hạ nhịp tối', '0 / 1', '12%']].map(([label, value, width]) => (
+                      {[['Tạo đơn', 'Hoàn tất', '100%'], ['Đối soát', 'Đang chờ', '58%'], ['Onboarding', 'Tiếp theo', '12%']].map(([label, value, width]) => (
                         <div key={label}>
                           <div className="flex justify-between text-xs"><span className="font-semibold text-[#5e7478]">{label}</span><span className="text-[#8a999c]">{value}</span></div>
                           <div className="mt-2 h-1.5 rounded-full bg-[#e7ece8]"><div className="h-full rounded-full bg-[#0b8a78]" style={{ width }} /></div>
@@ -328,14 +354,14 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
                   </div>
                   <div className="rounded-2xl bg-[#173b42] p-5 text-white">
                     <Moon className="h-5 w-5 text-[#9cb7ff]" aria-hidden="true" />
-                    <p className="mt-5 text-xs text-white/55">Giấc ngủ đêm qua</p><p className="mt-1 text-3xl font-semibold">7h 12m</p>
+                    <p className="mt-5 text-xs text-white/55">Thanh toán</p><p className="mt-1 text-2xl font-semibold">QR theo đơn</p>
                     <div className="mt-5 flex h-14 items-end gap-1.5">
                       {[38, 56, 44, 72, 64, 82, 74].map((height, index) => <span key={index} className="flex-1 rounded-t bg-[#799bf3]" style={{ height: `${height}%`, opacity: 0.45 + index * 0.07 }} />)}
                     </div>
                   </div>
                 </div>
                 <div className="mt-4 rounded-2xl border border-[#dfe6e2] bg-white p-4">
-                  <div className="flex items-center gap-4"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fff4d9] text-[#a56e1d]"><Headphones className="h-5 w-5" aria-hidden="true" /></span><div className="flex-1"><p className="text-sm font-bold text-[#27474c]">Routine hạ nhịp 8 phút</p><p className="mt-1 text-xs text-[#7b8d90]">Bài thở 4–7–8 · sẵn sàng lúc 22:15</p></div><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#153339] text-white"><ChevronRight className="h-4 w-4" aria-hidden="true" /></span></div>
+                  <div className="flex items-center gap-4"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fff4d9] text-[#a56e1d]"><Headphones className="h-5 w-5" aria-hidden="true" /></span><div className="flex-1"><p className="text-sm font-bold text-[#27474c]">Bước tiếp theo</p><p className="mt-1 text-xs text-[#7b8d90]">PrymaLab đối soát và liên hệ xác nhận lịch bắt đầu.</p></div><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#153339] text-white"><ChevronRight className="h-4 w-4" aria-hidden="true" /></span></div>
                 </div>
               </div>
             </div>
@@ -356,7 +382,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
               const isFeatured = Boolean(servicePackage.badge) || index === 1;
               return (
                 <article key={servicePackage.id} className={`relative flex flex-col rounded-[2rem] border p-6 sm:p-8 ${isFeatured ? 'border-[#0b7f72] bg-[#12383e] text-white shadow-[0_30px_70px_-40px_rgba(18,56,62,0.8)]' : 'border-[#d9e2dd] bg-white text-[#153339]'}`}>
-                  {isFeatured && <span className="absolute right-6 top-6 rounded-full bg-[#d9f46f] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#153339]">{servicePackage.badge || 'Phổ biến nhất'}</span>}
+                  {isFeatured && <span className="absolute right-6 top-6 max-w-[9.5rem] rounded-full bg-[#d9f46f] px-3 py-1 text-center text-[10px] font-extrabold uppercase leading-4 tracking-[0.1em] text-[#153339]">{servicePackage.badge || 'Lộ trình trọng tâm'}</span>}
                   <p className={`text-xs font-bold uppercase tracking-[0.16em] ${isFeatured ? 'text-[#8ed7cb]' : 'text-[#0b7f72]'}`}>Lộ trình {index === 0 ? 'khởi động' : index === 1 ? 'chuyển đổi' : 'toàn diện'}</p>
                   <h3 className="mt-5 max-w-[75%] text-2xl font-semibold">{brandCopy(servicePackage.name)}</h3>
                   <p className={`mt-3 min-h-12 text-sm leading-6 ${isFeatured ? 'text-white/60' : 'text-[#6a7e82]'}`}>{brandCopy(servicePackage.desc)}</p>
@@ -380,7 +406,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
         </div>
       </section>
 
-      <section className="bg-white px-5 py-24 sm:px-8 lg:py-32">
+      <section id="faq" className="scroll-mt-24 bg-white px-5 py-24 sm:px-8 lg:py-32">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
           <div>
             <p className="section-kicker">Câu hỏi thường gặp</p>
@@ -408,7 +434,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
           <div className="relative grid items-end gap-9 lg:grid-cols-[1fr_auto]">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#466038]">Bắt đầu bằng sự thấu hiểu</p>
-              <h2 className="mt-4 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-[#153339] sm:text-5xl lg:text-6xl">Một phút hôm nay có thể mở ra một nhịp sống tốt hơn.</h2>
+              <h2 className="mt-4 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] text-[#153339] sm:text-5xl lg:text-6xl">Hai phút hôm nay có thể mở ra một nhịp sống tốt hơn.</h2>
               <p className="mt-5 max-w-2xl text-sm leading-6 text-[#45604e]">Hoàn thành bài đánh giá để nhận điểm khởi đầu và gợi ý ưu tiên phù hợp với bạn.</p>
             </div>
             <Link href="/quiz" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#153339] px-7 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0b7f72]">Làm bài đánh giá miễn phí <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>

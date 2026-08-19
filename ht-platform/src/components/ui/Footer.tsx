@@ -18,8 +18,8 @@ const footerGroups = [
     links: [
       { label: 'Câu chuyện thương hiệu', href: '/about' },
       { label: 'Liên hệ', href: '/contact' },
-      { label: 'Đăng nhập', href: '/login' },
-      { label: 'Không gian cá nhân', href: '/dashboard' },
+      { label: 'Câu hỏi thường gặp', href: '/#faq' },
+      { label: 'Bắt đầu đánh giá', href: '/quiz' },
     ],
   },
   {
@@ -34,7 +34,7 @@ const footerGroups = [
 
 export function Footer({ settings }: { settings?: SiteSettings }) {
   const phone = settings?.phone || '0948 348 444';
-  const email = settings?.email || 'hello@prymalab.com';
+  const email = settings?.email || 'Ahunglua7@gmail.com';
   const address = settings?.address || 'Đà Nẵng, Việt Nam';
 
   return (

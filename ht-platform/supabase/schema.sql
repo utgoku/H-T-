@@ -176,15 +176,11 @@ INSERT INTO site_settings (key, value) VALUES
 -- Packages
 INSERT INTO packages (id, name, description, price, price_numeric, currency, period, duration_days, subprice, badge, theme, is_popular, sort_order, features) VALUES
   ('starter', 'Pryma Start', 'Hiểu nhịp hiện tại và thiết lập nền tảng đầu tiên.', '99,000 VNĐ', 99000, 'VND', '/tháng', 7, NULL, NULL, 'teal', false, 1, '[{"text":"Tính toán TDEE cơ bản","included":true},{"text":"Gợi ý thực đơn mẫu","included":true},{"text":"Nhật ký giấc ngủ (7 ngày)","included":true},{"text":"Chuyên gia tư vấn 1-1","included":false}]'),
-  ('transformation', 'Pryma Reset 30', 'Tái thiết nhịp ăn, ngủ và năng lượng trong 30 ngày.', '1,490,000 VNĐ', 1490000, 'VND', '/30 ngày', 30, 'Chỉ ~49,000 VNĐ/ngày', 'Được lựa chọn nhiều nhất', 'teal', true, 2, '[{"text":"Thực đơn cá nhân hóa mỗi ngày","included":true},{"text":"Phác đồ giấc ngủ chuyên sâu","included":true},{"text":"Theo dõi và tinh chỉnh hàng tuần","included":true},{"text":"2 buổi tư vấn 1-1 với chuyên gia","included":true},{"text":"Hỗ trợ qua chat 24/7","included":true}]'),
+  ('transformation', 'Pryma Reset 30', 'Tái thiết nhịp ăn, ngủ và năng lượng trong 30 ngày.', '1,490,000 VNĐ', 1490000, 'VND', '/30 ngày', 30, 'Chỉ ~49,000 VNĐ/ngày', 'Lộ trình trọng tâm', 'teal', false, 2, '[{"text":"Thực đơn cá nhân hóa mỗi ngày","included":true},{"text":"Phác đồ giấc ngủ chuyên sâu","included":true},{"text":"Theo dõi và tinh chỉnh hàng tuần","included":true},{"text":"2 buổi tư vấn 1-1 với chuyên gia","included":true},{"text":"Hỗ trợ qua chat 24/7","included":true}]'),
   ('elite', 'Pryma Signature 90', 'Đồng hành chuyên sâu 90 ngày với lộ trình được tinh chỉnh liên tục.', '3,990,000 VNĐ', 3990000, 'VND', '/90 ngày', 90, NULL, NULL, 'blue', false, 3, '[{"text":"Mọi quyền lợi của Pryma Reset 30","included":true},{"text":"Phân tích xét nghiệm máu định kỳ","included":true},{"text":"6 buổi tư vấn chuyên gia cao cấp","included":true},{"text":"Ưu tiên hỗ trợ kỹ thuật và y tế","included":true}]');
 
 -- Testimonials
-INSERT INTO testimonials (name, role, quote, avatar_color, sort_order) VALUES
-  ('Minh Anh', 'Nhân viên văn phòng', 'Chỉ sau 30 ngày tham gia Pryma Reset 30, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', 'bg-teal-100 text-teal-700', 1),
-  ('Hoàng Nam', 'Kỹ sư phần mềm', 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của PrymaLab thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', 'bg-blue-100 text-blue-700', 2),
-  ('Thu Hà', 'Giáo viên', 'Tôi rất thích cách các chuyên gia PrymaLab cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', 'bg-purple-100 text-purple-700', 3),
-  ('Đức Trí', 'Doanh nhân', 'Pryma Signature 90 mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', 'bg-orange-100 text-orange-700', 4);
+-- Testimonials are intentionally empty. Add only verified client feedback with consent.
 
 -- Blog Posts
 INSERT INTO blog_posts (title, excerpt, category, author, published_date, read_time, gradient, slug) VALUES
@@ -201,7 +197,7 @@ INSERT INTO faqs (question, answer, sort_order) VALUES
   ('Làm sao để liên hệ chuyên gia?', 'Sau khi đăng ký, bạn sẽ được kết nối với chuyên gia qua nền tảng nhắn tin tích hợp của chúng tôi. Với gói Premium, bạn có thể gọi video trực tiếp hàng tuần.', 2),
   ('Tôi có thể hủy gói không?', 'Có, bạn có thể hủy gia hạn bất kỳ lúc nào qua bảng điều khiển cá nhân. Chúng tôi cũng có chính sách hoàn tiền trong 7 ngày đầu nếu bạn không hài lòng.', 3),
   ('Thực đơn có phù hợp với người ăn chay?', 'Hoàn toàn phù hợp. Trước khi lên thực đơn, chúng tôi sẽ khảo sát chi tiết về sở thích, dị ứng và chế độ ăn đặc biệt của bạn (ăn chay, keto, không gluten, v.v.).', 4),
-  ('Thanh toán bằng cách nào?', 'Chúng tôi chấp nhận thẻ tín dụng, chuyển khoản ngân hàng, và các ví điện tử phổ biến như MoMo, VNPay.', 5);
+  ('Thanh toán bằng cách nào?', 'Sau khi chọn lộ trình, bạn có thể chuyển khoản Vietcombank theo thông tin và mã VietQR hiển thị ở bước thanh toán.', 5);
 
 -- Team Members
 INSERT INTO team_members (name, role, avatar_color, sort_order) VALUES

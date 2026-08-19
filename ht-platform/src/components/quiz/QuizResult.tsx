@@ -1,122 +1,73 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
-import { ProgressBar } from '@/components/ui/ProgressBar';
+import Link from 'next/link';
+import { ArrowRight, Calculator, CheckCircle2, Info, Moon, RefreshCcw, ShieldCheck } from 'lucide-react';
 
-interface QuizResultProps {
-  scores: {
-    bmi: number;
-    bmiCategory: string;
-    bmr: number;
-    tdee: number;
-    sleepScore: number;
-    sleepCategory: string;
-    dailyCalories: number;
-    recommendations: string[];
-  };
+export interface QuizResults {
+  bmi: number;
+  bmiCategory: string;
+  bmr: number;
+  tdee: number;
+  energyRange: { low: number; high: number };
+  sleepScore: number;
+  sleepCategory: string;
+  recommendations: string[];
+  targetGoal: string;
 }
 
-export default function QuizResult({ scores }: QuizResultProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const overallScore = Math.round((scores.sleepScore + (scores.bmi >= 18.5 && scores.bmi <= 24.9 ? 100 : 70)) / 2);
-  const strokeDashoffset = 283 - (283 * overallScore) / 100;
+export default function QuizResult({ scores, onRestart }: { scores: QuizResults; onRestart: () => void }) {
+  const circumference = 289;
+  const dashOffset = circumference - (circumference * scores.sleepScore) / 100;
 
   return (
-    <div className={`w-full max-w-4xl mx-auto p-6 transition-all duration-700 transform ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-playfair font-bold text-gray-900 mb-2">Kết Quả Đánh Giá Sức Khỏe</h2>
-        <p className="text-gray-600">Dựa trên thông tin bạn cung cấp, dưới đây là phân tích chi tiết.</p>
-      </div>
-
-      <div className="flex justify-center mb-12">
-        <div className="relative w-40 h-40">
-          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" strokeWidth="8" />
-            <circle 
-              cx="50" cy="50" r="45" fill="none" stroke="#0D9488" strokeWidth="8"
-              strokeDasharray="283"
-              strokeDashoffset={mounted ? strokeDashoffset : 283}
-              className="transition-all duration-1500 ease-out"
-              strokeLinecap="round"
-            />
-          </svg>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-            <span className="text-3xl font-bold text-teal-700">{overallScore}</span>
-            <span className="block text-xs text-gray-500 uppercase tracking-wider mt-1">Điểm tổng</span>
+    <div className="w-full overflow-hidden rounded-[2rem] border border-[#dbe4df] bg-white shadow-[0_35px_90px_-55px_rgba(17,47,53,0.55)]">
+      <header className="relative overflow-hidden bg-[#112f35] px-6 py-10 text-white sm:px-10 lg:px-14 lg:py-14">
+        <div className="absolute -right-28 -top-28 h-80 w-80 rounded-full bg-[#0b8a78]/30 blur-3xl" aria-hidden="true" />
+        <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_auto]">
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#8ed7cb]">Bản đọc Pryma Baseline</p>
+            <h1 className="mt-4 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl">Điểm xuất phát đã rõ. Bây giờ chỉ cần chọn đúng ưu tiên.</h1>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/55">Mục tiêu bạn chọn: <strong className="text-white/85">{scores.targetGoal}</strong>. Các con số bên dưới là ước tính định hướng cho người trưởng thành, không phải kết luận y khoa.</p>
+          </div>
+          <div className="relative mx-auto h-40 w-40 shrink-0">
+            <svg className="h-full w-full -rotate-90" viewBox="0 0 104 104" aria-hidden="true">
+              <circle cx="52" cy="52" r="46" fill="none" stroke="rgba(255,255,255,.1)" strokeWidth="7" />
+              <circle cx="52" cy="52" r="46" fill="none" stroke="#d9f46f" strokeWidth="7" strokeDasharray={circumference} strokeDashoffset={dashOffset} strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center"><strong className="text-4xl">{scores.sleepScore}</strong><span className="mt-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white/45">Tín hiệu ngủ</span></div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <Card className="p-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <h3 className="font-semibold text-gray-700">Chỉ số BMI</h3>
-              <p className="text-3xl font-bold text-teal-600 mt-1">{scores.bmi.toFixed(1)}</p>
-            </div>
-            <Badge variant="primary" className="bg-teal-50 text-teal-700 border-teal-200">{scores.bmiCategory}</Badge>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-2 mt-6 relative">
-            <div className="bg-teal-500 h-2.5 rounded-full" style={{ width: `${Math.min((scores.bmi / 40) * 100, 100)}%` }}></div>
-          </div>
-          <div className="flex justify-between text-xs text-gray-500">
-            <span>Thiếu cân</span>
-            <span>Bình thường</span>
-            <span>Thừa cân</span>
-          </div>
-        </Card>
+      <div className="p-6 sm:p-10 lg:p-14">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <article className="rounded-[1.5rem] border border-[#dbe4df] bg-[#f8faf7] p-6">
+            <div className="flex items-center justify-between"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f7f2] text-[#0b7f72]"><Calculator className="h-5 w-5" /></span><span className="rounded-full bg-white px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#718589]">Tham chiếu</span></div>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#718589]">BMI người trưởng thành</p><p className="mt-2 text-4xl font-bold tracking-[-0.04em] text-[#153339]">{scores.bmi.toFixed(1)}</p><p className="mt-2 text-sm font-semibold text-[#0b7f72]">{scores.bmiCategory}</p>
+          </article>
+          <article className="rounded-[1.5rem] border border-[#dbe4df] bg-[#f8faf7] p-6">
+            <div className="flex items-center justify-between"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#edf2ff] text-[#315fca]"><Moon className="h-5 w-5" /></span><span className="rounded-full bg-white px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#718589]">Nội bộ</span></div>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#718589]">Tín hiệu giấc ngủ</p><p className="mt-2 text-4xl font-bold tracking-[-0.04em] text-[#153339]">{scores.sleepScore}<span className="text-lg text-[#9aabaa]">/100</span></p><p className="mt-2 text-sm font-semibold text-[#315fca]">{scores.sleepCategory}</p>
+          </article>
+          <article className="rounded-[1.5rem] border border-[#dbe4df] bg-[#f8faf7] p-6">
+            <div className="flex items-center justify-between"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#fff4d9] text-[#a56e1d]"><ShieldCheck className="h-5 w-5" /></span><span className="rounded-full bg-white px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#718589]">Ước tính</span></div>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#718589]">Khoảng năng lượng duy trì</p><p className="mt-2 text-2xl font-bold tracking-[-0.03em] text-[#153339]">{scores.energyRange.low.toLocaleString('vi-VN')}–{scores.energyRange.high.toLocaleString('vi-VN')}</p><p className="mt-2 text-sm font-semibold text-[#a56e1d]">kcal/ngày · không phải đơn ăn</p>
+          </article>
+        </div>
 
-        <Card className="p-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <h3 className="font-semibold text-gray-700">Điểm Giấc Ngủ</h3>
-              <p className="text-3xl font-bold text-blue-600 mt-1">{scores.sleepScore}<span className="text-lg text-gray-400">/100</span></p>
-            </div>
-            <Badge variant="primary" className="bg-blue-50 text-blue-700 border-blue-200">{scores.sleepCategory}</Badge>
-          </div>
-          <ProgressBar value={scores.sleepScore} variant="secondary" className="mt-6" />
-        </Card>
+        <section className="mt-8 grid gap-6 rounded-[1.75rem] bg-[#eaf5f0] p-6 sm:p-8 lg:grid-cols-[0.55fr_1fr]">
+          <div><p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">Ưu tiên 7 ngày</p><h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.12] tracking-[-0.03em] text-[#153339]">Ít việc hơn, nhưng đúng việc hơn.</h2></div>
+          <ul className="space-y-3">{scores.recommendations.map((recommendation) => <li key={recommendation} className="flex gap-3 rounded-xl bg-white/70 p-4 text-sm leading-6 text-[#456066]"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0b8a78]" />{recommendation}</li>)}</ul>
+        </section>
 
-        <Card className="p-6">
-          <h3 className="font-semibold text-gray-700 mb-2">TDEE (Năng lượng tiêu hao)</h3>
-          <p className="text-2xl font-bold text-gray-900">{Math.round(scores.tdee)} <span className="text-sm font-normal text-gray-500">kcal / ngày</span></p>
-          <p className="text-sm text-gray-600 mt-2">Dựa trên BMR và mức độ vận động của bạn.</p>
-        </Card>
+        <aside className="mt-8 rounded-[1.5rem] border border-[#dbe4df] p-5 sm:p-6">
+          <div className="flex gap-3"><Info className="mt-0.5 h-5 w-5 shrink-0 text-[#315fca]" /><div><h3 className="text-sm font-bold text-[#153339]">Cách đọc kết quả</h3><p className="mt-2 text-sm leading-6 text-[#657a7e]">BMI theo ngưỡng tham chiếu WHO; năng lượng dùng phương trình Mifflin–St Jeor và hệ số vận động; tín hiệu giấc ngủ là thang nội bộ PrymaLab, không phải bảng hỏi lâm sàng đã thẩm định.</p><div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold text-[#0b7f72]"><a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight" target="_blank" rel="noreferrer">WHO · BMI</a><a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noreferrer">Mifflin–St Jeor</a><a href="https://aasm.org/resources/pdf/pressroom/adult-sleep-duration-consensus.pdf" target="_blank" rel="noreferrer">AASM/SRS · giấc ngủ</a></div></div></div>
+        </aside>
 
-        <Card className="p-6">
-          <h3 className="font-semibold text-gray-700 mb-2">Mục tiêu Calories khuyến nghị</h3>
-          <p className="text-2xl font-bold text-teal-600">{Math.round(scores.dailyCalories)} <span className="text-sm font-normal text-gray-500">kcal / ngày</span></p>
-          <p className="text-sm text-gray-600 mt-2">Đã điều chỉnh theo mục tiêu sức khỏe của bạn.</p>
-        </Card>
-      </div>
-
-      <div className="bg-teal-50 rounded-2xl p-8 mb-10">
-        <h3 className="text-xl font-playfair font-bold text-teal-900 mb-6">Khuyến Nghị Cá Nhân Hóa</h3>
-        <ul className="space-y-4">
-          {scores.recommendations.map((rec, idx) => (
-            <li key={idx} className="flex items-start">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-200 text-teal-700 flex items-center justify-center text-sm font-bold mt-0.5 mr-3">✓</span>
-              <span className="text-teal-900">{rec}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="text-center bg-gradient-to-r from-teal-600 to-blue-600 p-8 rounded-2xl text-white shadow-lg">
-        <h3 className="text-2xl font-playfair font-bold mb-4">Bắt Đầu Hành Trình Của Bạn</h3>
-        <p className="mb-6 opacity-90 max-w-2xl mx-auto">Đăng ký chương trình để biến kết quả này thành khung bữa ăn, routine giấc ngủ và các buổi tinh chỉnh 1:1 theo quyền lợi đã công bố.</p>
-        <Button size="lg" className="bg-white text-teal-700 hover:bg-gray-100 px-8 py-6 text-lg rounded-full font-semibold shadow-xl transition-transform hover:scale-105">
-          Khám phá gói dịch vụ
-        </Button>
-        <p className="mt-4 text-sm opacity-75">Bạn có thể lưu lại kết quả này hoặc dùng làm điểm khởi đầu khi trao đổi với PrymaLab.</p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <button type="button" onClick={onRestart} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#bdd2cc] px-6 text-sm font-bold text-[#0b7f72] transition hover:bg-[#eef8f4]"><RefreshCcw className="h-4 w-4" /> Làm lại đánh giá</button>
+          <div className="flex flex-col gap-3 sm:flex-row"><Link href="/contact" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#bdd2cc] px-6 text-sm font-bold text-[#0b7f72]">Trao đổi trước</Link><Link href="/services" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#153339] px-6 text-sm font-bold text-white transition hover:bg-[#0b7f72]">Xem lộ trình phù hợp <ArrowRight className="h-4 w-4" /></Link></div>
+        </div>
       </div>
     </div>
   );

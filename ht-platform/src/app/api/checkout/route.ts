@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { SERVICE_PACKAGES } from '@/lib/constants';
-import { addOrder, getPublicHomeData, markOrderPaymentSubmitted } from '@/lib/db';
+import { addOrder, getPaymentSettings, markOrderPaymentSubmitted, type SiteSettings } from '@/lib/db';
 import { allowRequest, requestIp } from '@/lib/rate-limit';
 
 const PACKAGE_ALIASES: Record<string, string> = {
@@ -22,7 +22,7 @@ function cleanText(value: unknown, maxLength: number) {
   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ').slice(0, maxLength) : '';
 }
 
-function publicPayment(settings: Awaited<ReturnType<typeof getPublicHomeData>>['settings'], amount: number, transferContent: string) {
+function publicPayment(settings: SiteSettings, amount: number, transferContent: string) {
   const accountNumber = settings.bankAccountNumber.replace(/\s/g, '');
   const accountName = settings.bankAccountName.trim();
   const bankBin = settings.bankBin.trim() || '970436';
@@ -71,6 +71,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Vui lòng nhập email hợp lệ và xác nhận chính sách dữ liệu.' }, { status: 400 });
     }
 
+    const settings = await getPaymentSettings();
+    if (!settings.bankAccountNumber.trim() || !settings.bankAccountName.trim()) {
+      return NextResponse.json({ error: 'Thanh toán chuyển khoản đang được cấu hình. Vui lòng liên hệ PrymaLab.' }, { status: 503 });
+    }
+
     const order = await addOrder({
       packageId: PACKAGE_DB_IDS[selectedPackage.slug],
       packageName: selectedPackage.name,
@@ -80,8 +85,6 @@ export async function POST(request: Request) {
       customerNote,
       amount: selectedPackage.price,
     });
-    const { settings } = await getPublicHomeData();
-
     return NextResponse.json({
       success: true,
       order: {

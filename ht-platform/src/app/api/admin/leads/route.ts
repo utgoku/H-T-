@@ -9,21 +9,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Vui lòng thử lại sau ít phút.' }, { status: 429 });
     }
     const data = await request.json();
-    
-    // Basic validation
-    if (!data.name || !data.emailOrPhone) {
-      return NextResponse.json({ error: 'Missing required fields (name, emailOrPhone)' }, { status: 400 });
+
+    const name = typeof data.name === 'string' ? data.name.trim().replace(/\s+/g, ' ').slice(0, 100) : '';
+    const emailOrPhone = typeof data.emailOrPhone === 'string' ? data.emailOrPhone.trim().slice(0, 160) : '';
+    const phoneDigits = emailOrPhone.replace(/\D/g, '');
+    const validContact = /^\S+@\S+\.\S+$/.test(emailOrPhone) || (phoneDigits.length >= 9 && phoneDigits.length <= 12);
+    if (name.length < 2 || !validContact || data.consent !== true) {
+      return NextResponse.json({ error: 'Thông tin liên hệ hoặc xác nhận dữ liệu chưa hợp lệ.' }, { status: 400 });
+    }
+
+    const bmi = Number(data.bmi);
+    const tdee = Number(data.tdee);
+    const sleepScore = Number(data.sleepScore);
+    if (bmi < 10 || bmi > 80 || tdee < 500 || tdee > 8000 || sleepScore < 0 || sleepScore > 100) {
+      return NextResponse.json({ error: 'Kết quả đánh giá nằm ngoài phạm vi hỗ trợ.' }, { status: 400 });
     }
 
     const lead = await addLead({
-      name: data.name,
-      emailOrPhone: data.emailOrPhone,
-      bmi: data.bmi,
-      bmiCategory: data.bmiCategory,
-      tdee: data.tdee,
-      sleepScore: data.sleepScore,
-      sleepCategory: data.sleepCategory,
-      goals: data.goals
+      name,
+      emailOrPhone,
+      bmi,
+      bmiCategory: typeof data.bmiCategory === 'string' ? data.bmiCategory.slice(0, 80) : '',
+      tdee,
+      sleepScore,
+      sleepCategory: typeof data.sleepCategory === 'string' ? data.sleepCategory.slice(0, 100) : '',
+      goals: typeof data.goals === 'string' ? data.goals.slice(0, 120) : '',
     });
 
     return NextResponse.json({ success: true, lead }, { status: 201 });

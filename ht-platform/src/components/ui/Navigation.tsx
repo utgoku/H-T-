@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from './BrandMark';
-import { UserMenu } from './UserMenu';
 
 const navLinks = [
   { name: 'Trang chủ', href: '/' },
@@ -26,10 +25,6 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
@@ -60,9 +55,11 @@ export function Navigation() {
             })}
           </div>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <UserMenu />
-            <Link href="/quiz" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#153339] px-5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0b7f72]">
+          <div className="hidden shrink-0 items-center gap-3 lg:flex">
+            <Link href="/contact" className="inline-flex min-h-11 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#0b8a78] px-5 text-xs font-bold text-[#0b7f72] transition hover:bg-white/70">
+              Trao đổi trước
+            </Link>
+            <Link href="/quiz" className="inline-flex min-h-11 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#153339] px-5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0b7f72]">
               Đánh giá miễn phí
             </Link>
           </div>
@@ -110,10 +107,9 @@ export function Navigation() {
             <Link href="/quiz" className="flex min-h-13 items-center justify-center rounded-full bg-[#153339] px-6 text-sm font-bold text-white" onClick={() => setIsMobileMenuOpen(false)}>
               Khám phá nhịp sống của bạn
             </Link>
-            <div className="flex items-center justify-between rounded-2xl border border-[#dbe4df] bg-white p-4">
-              <span className="text-xs font-semibold text-[#697e82]">Tài khoản PrymaLab</span>
-              <UserMenu />
-            </div>
+            <Link href="/contact" className="flex min-h-12 items-center justify-center rounded-full border border-[#b8d3cc] bg-white px-6 text-sm font-bold text-[#0b7f72]" onClick={() => setIsMobileMenuOpen(false)}>
+              Trao đổi với PrymaLab
+            </Link>
           </div>
         </aside>
       </div>

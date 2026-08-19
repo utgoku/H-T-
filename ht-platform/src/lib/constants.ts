@@ -36,7 +36,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     price: 1490000,
     currency: 'VND',
     durationDays: 30,
-    badge: 'Được lựa chọn nhiều nhất',
+    badge: 'Lộ trình trọng tâm',
     isPopular: true,
     features: [
       'Đánh giá đầu vào có cấu trúc',

@@ -139,7 +139,7 @@ export const DEFAULT_SITE_PACKAGES: SitePackage[] = [
     price: '1,490,000 VNĐ',
     period: '/30 ngày',
     subprice: 'Chỉ ~49,000 VNĐ/ngày',
-    badge: 'Được lựa chọn nhiều nhất',
+    badge: 'Lộ trình trọng tâm',
     theme: 'teal',
     features: [
       { text: 'Đánh giá đầu vào có cấu trúc', included: true },
@@ -232,6 +232,21 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+export async function getPaymentSettings(): Promise<SiteSettings> {
+  const adminSupabase = getAdminSupabase();
+  const { data, error } = await adminSupabase
+    .from('site_settings')
+    .select('key, value')
+    .in('key', ['bankName', 'bankBin', 'bankAccountNumber', 'bankAccountName', 'bankBranch']);
+  if (error) throw error;
+
+  const settings = { ...DEFAULT_SITE_SETTINGS };
+  data?.forEach((row) => {
+    if (typeof row.key === 'string' && typeof row.value === 'string') settings[row.key] = row.value;
+  });
+  return settings;
 }
 
 export async function getDb(): Promise<DatabaseSchema> {

@@ -60,8 +60,8 @@ export default function RhythmCheck() {
             <Sparkles className="h-5 w-5" aria-hidden="true" />
           </span>
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0b7f72]">Kiểm tra nhanh</p>
-            <h3 className="text-lg font-semibold text-[#153339]">Nhịp sống hôm nay của bạn</h3>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0b7f72]">Mô phỏng tương tác</p>
+            <h3 className="text-lg font-semibold text-[#153339]">Ba tín hiệu để chọn câu hỏi tiếp theo</h3>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export default function RhythmCheck() {
         <div className="absolute -bottom-24 -left-16 h-60 w-60 rounded-full bg-[#315fca]/20 blur-3xl" aria-hidden="true" />
 
         <div className="relative">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#8ed7cb]">Chỉ số nhịp sống tham khảo</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#8ed7cb]">Điểm gợi ý Pryma</p>
           <div className="mt-6 flex items-end gap-3">
             <output className="font-[family-name:var(--font-display)] text-7xl font-semibold leading-none tracking-tight" aria-live="polite">
               {score}
@@ -156,9 +156,9 @@ export default function RhythmCheck() {
             href="/quiz"
             className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#d9f46f] px-6 text-sm font-bold text-[#153339] transition hover:bg-[#e5fa8d] focus-visible:outline-[#d9f46f] sm:w-auto"
           >
-            Nhận đánh giá đầy đủ <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            Làm Pryma Baseline <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
-          <p className="mt-3 text-xs leading-5 text-white/45">Kết quả này chỉ mang tính định hướng lối sống, không thay thế tư vấn y khoa.</p>
+          <p className="mt-3 max-w-md text-xs leading-5 text-white/45">Thang gợi ý nội bộ: thời lượng ngủ 45%, nhịp ăn 30%, năng lượng sáng 25%. Đây không phải thang đo lâm sàng hay chẩn đoán y khoa.</p>
         </div>
       </div>
     </div>

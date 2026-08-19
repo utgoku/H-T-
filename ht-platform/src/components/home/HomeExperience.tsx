@@ -101,10 +101,10 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
               Dinh dưỡng × Giấc ngủ × Nhịp sống
             </div>
 
-            <h1 className="hero-heading mt-7 font-[family-name:var(--font-display)] text-[clamp(3.15rem,6.45vw,6.35rem)] font-semibold leading-[1.09] tracking-[-0.038em] text-[#123238]">
+            <h1 className="hero-heading mt-7 font-[family-name:var(--font-display)] text-[clamp(3.15rem,6.45vw,6.35rem)] font-medium tracking-[-0.028em] text-[#16383d]">
               Ăn đúng nhịp.
-              <span className="mt-1 block text-[#0b8a78]">Ngủ sâu hơn.</span>
-              <span className="mt-1 block">Sống sáng hơn.</span>
+              <span className="mt-2 block text-[#0b8a78]">Ngủ sâu hơn.</span>
+              <span className="mt-2 block">Sống sáng hơn.</span>
             </h1>
 
             <p className="mt-8 max-w-2xl text-base leading-7 text-[#587075] sm:text-lg sm:leading-8">

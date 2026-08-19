@@ -220,8 +220,13 @@
 
   h1[class*="font-[family-name:var(--font-display)]"],
   h2[class*="font-[family-name:var(--font-display)]"] {
-    line-height: 1.1 !important;
+    line-height: 1.14 !important;
     text-wrap: balance;
+  }
+
+  .hero-heading {
+    line-height: 1.18 !important;
+    text-wrap: initial;
   }
 
   .brand-symbol {

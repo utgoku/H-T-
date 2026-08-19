@@ -55,7 +55,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     currency: 'VND',
     durationDays: 90,
     features: [
-      'Tất cả quyền lợi của gói Transformation',
+      'Tất cả quyền lợi của Pryma Reset 30',
       'Thực đơn cá nhân hóa 90 ngày',
       'Lộ trình thay đổi vóc dáng & sinh học toàn diện',
       'Tư vấn trực tiếp 1-1 với chuyên gia (6 buổi)',

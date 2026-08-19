@@ -6,15 +6,12 @@
  * using the postgrest rpc endpoint or direct SQL execution.
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const SUPABASE_URL = 'https://enhsbltjpyfvcajbdfsi.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuaHNibHRqcHlmdmNhamJkZnNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNTcxMzIsImV4cCI6MjEwMTkzMzEzMn0.kAvfs4FTn2WfMyMW5dCMWpjRMxoMXyLhSROU-yKF7QE';
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error('Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY before seeding.');
+}
 
 // We'll use the Supabase REST API to insert data directly
 // For table creation, we need the SQL Editor or service_role key
@@ -112,7 +109,7 @@ async function seedData() {
       is_popular: false,
       sort_order: 3,
       features: [
-        { text: 'Mọi quyền lợi của gói Transformation', included: true },
+        { text: 'Mọi quyền lợi của Pryma Reset 30', included: true },
         { text: 'Phân tích xét nghiệm máu định kỳ', included: true },
         { text: '6 buổi tư vấn chuyên gia cao cấp', included: true },
         { text: 'Ưu tiên hỗ trợ kỹ thuật và y tế', included: true },
@@ -122,10 +119,10 @@ async function seedData() {
 
   // 3. Testimonials
   await insertData('testimonials', [
-    { name: 'Minh Anh', role: 'Nhân viên văn phòng', quote: 'Chỉ sau 30 ngày tham gia gói Transformation, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', avatar_color: 'bg-teal-100 text-teal-700', sort_order: 1 },
+    { name: 'Minh Anh', role: 'Nhân viên văn phòng', quote: 'Chỉ sau 30 ngày tham gia Pryma Reset 30, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', avatar_color: 'bg-teal-100 text-teal-700', sort_order: 1 },
     { name: 'Hoàng Nam', role: 'Kỹ sư phần mềm', quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của PrymaLab thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', avatar_color: 'bg-blue-100 text-blue-700', sort_order: 2 },
     { name: 'Thu Hà', role: 'Giáo viên', quote: 'Tôi rất thích cách các chuyên gia PrymaLab cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', avatar_color: 'bg-purple-100 text-purple-700', sort_order: 3 },
-    { name: 'Đức Trí', role: 'Doanh nhân', quote: 'Gói Elite Care mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', avatar_color: 'bg-orange-100 text-orange-700', sort_order: 4 },
+    { name: 'Đức Trí', role: 'Doanh nhân', quote: 'Pryma Signature 90 mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', avatar_color: 'bg-orange-100 text-orange-700', sort_order: 4 },
   ]);
 
   // 4. Blog Posts

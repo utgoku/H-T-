@@ -8,7 +8,7 @@ const defaultTestimonials = [
     id: 1,
     name: 'Minh Anh',
     role: 'Nhân viên văn phòng',
-    quote: 'Chỉ sau 30 ngày tham gia gói Transformation, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.',
+    quote: 'Chỉ sau 30 ngày tham gia Pryma Reset 30, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.',
     color: 'bg-teal-100 text-teal-700'
   },
   {
@@ -29,7 +29,7 @@ const defaultTestimonials = [
     id: 4,
     name: 'Đức Trí',
     role: 'Doanh nhân',
-    quote: 'Gói Elite Care mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.',
+    quote: 'Pryma Signature 90 mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.',
     color: 'bg-orange-100 text-orange-700'
   }
 ];

@@ -181,10 +181,10 @@ INSERT INTO packages (id, name, description, price, price_numeric, currency, per
 
 -- Testimonials
 INSERT INTO testimonials (name, role, quote, avatar_color, sort_order) VALUES
-  ('Minh Anh', 'Nhân viên văn phòng', 'Chỉ sau 30 ngày tham gia gói Transformation, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', 'bg-teal-100 text-teal-700', 1),
+  ('Minh Anh', 'Nhân viên văn phòng', 'Chỉ sau 30 ngày tham gia Pryma Reset 30, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', 'bg-teal-100 text-teal-700', 1),
   ('Hoàng Nam', 'Kỹ sư phần mềm', 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của PrymaLab thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', 'bg-blue-100 text-blue-700', 2),
   ('Thu Hà', 'Giáo viên', 'Tôi rất thích cách các chuyên gia PrymaLab cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', 'bg-purple-100 text-purple-700', 3),
-  ('Đức Trí', 'Doanh nhân', 'Gói Elite Care mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', 'bg-orange-100 text-orange-700', 4);
+  ('Đức Trí', 'Doanh nhân', 'Pryma Signature 90 mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', 'bg-orange-100 text-orange-700', 4);
 
 -- Blog Posts
 INSERT INTO blog_posts (title, excerpt, category, author, published_date, read_time, gradient, slug) VALUES

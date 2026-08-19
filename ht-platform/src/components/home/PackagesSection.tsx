@@ -7,48 +7,44 @@ import { motion } from 'framer-motion';
 const defaultPackages = [
   {
     id: 'starter',
-    name: 'Starter',
+    name: 'Pryma Start',
     price: '99,000 VNĐ',
     period: '/ tháng',
     features: [
-      { name: 'Kế hoạch tập luyện cơ bản', included: true },
-      { name: 'Thực đơn mẫu', included: true },
-      { name: 'Truy cập thư viện bài tập', included: true },
-      { name: 'Theo dõi tiến độ cơ bản', included: true },
-      { name: 'Hỗ trợ từ PT (1 lần/tuần)', included: false },
-      { name: 'Điều chỉnh thực đơn 1-1', included: false },
-      { name: 'Phân tích chỉ số InBody', included: false },
+      { name: 'Đánh giá nhịp ăn và giấc ngủ', included: true },
+      { name: 'Gợi ý thực đơn mẫu 7 ngày', included: true },
+      { name: 'Nhật ký giấc ngủ cơ bản', included: true },
+      { name: 'Theo dõi năng lượng mỗi ngày', included: true },
+      { name: 'Tinh chỉnh cùng chuyên gia', included: false },
     ],
   },
   {
     id: 'transformation',
-    name: 'Transformation',
+    name: 'Pryma Reset 30',
     price: '1,490,000 VNĐ',
     period: '/ 30 ngày',
     badge: 'Được chọn nhiều nhất',
     features: [
-      { name: 'Kế hoạch tập luyện cá nhân hóa', included: true },
-      { name: 'Thực đơn dinh dưỡng 1-1', included: true },
-      { name: 'Truy cập thư viện bài tập', included: true },
-      { name: 'Theo dõi tiến độ chi tiết', included: true },
-      { name: 'Hỗ trợ từ PT (24/7)', included: true },
-      { name: 'Điều chỉnh thực đơn linh hoạt', included: true },
-      { name: 'Phân tích chỉ số InBody hàng tháng', included: false },
+      { name: 'Đánh giá toàn diện chuyên sâu', included: true },
+      { name: 'Thực đơn cá nhân hóa 30 ngày', included: true },
+      { name: 'Lộ trình cải thiện giấc ngủ', included: true },
+      { name: 'Theo dõi tiến độ hàng tuần', included: true },
+      { name: '2 buổi tư vấn chuyên gia 1-1', included: true },
+      { name: 'Hỗ trợ qua Zalo/Chat', included: true },
     ],
   },
   {
     id: 'elite',
-    name: 'Elite Care',
+    name: 'Pryma Signature 90',
     price: '3,990,000 VNĐ',
     period: '/ 90 ngày',
     features: [
-      { name: 'Kế hoạch tập luyện cao cấp', included: true },
-      { name: 'Thực đơn dinh dưỡng linh hoạt', included: true },
-      { name: 'Truy cập thư viện bài tập', included: true },
-      { name: 'Theo dõi tiến độ chi tiết', included: true },
-      { name: 'Hỗ trợ từ PT chuyên sâu (24/7)', included: true },
-      { name: 'Huấn luyện tư duy & thói quen', included: true },
-      { name: 'Phân tích chỉ số InBody hàng tuần', included: true },
+      { name: 'Toàn bộ quyền lợi Pryma Reset 30', included: true },
+      { name: 'Thực đơn cá nhân hóa 90 ngày', included: true },
+      { name: 'Phân tích nhịp ngủ chuyên sâu', included: true },
+      { name: '6 buổi tư vấn chuyên gia 1-1', included: true },
+      { name: 'Theo dõi và tinh chỉnh liên tục', included: true },
+      { name: 'Ưu tiên hỗ trợ xuyên suốt', included: true },
     ],
   }
 ];
@@ -71,7 +67,7 @@ export default function PackagesSection({ packages: dbPackages }: { packages?: a
               Chọn Gói Phù Hợp Với Bạn
             </h2>
             <p className="text-lg text-[#64748B]">
-              Các gói tập được thiết kế linh hoạt, phù hợp với mọi mục tiêu và ngân sách của bạn.
+              Ba mức đồng hành rõ ràng, kết nối dinh dưỡng, giấc ngủ và nhịp sống thực tế của bạn.
             </p>
           </motion.div>
         </div>
@@ -130,7 +126,7 @@ export default function PackagesSection({ packages: dbPackages }: { packages?: a
                 </div>
 
                 <Link 
-                  href={pkg.id === 'elite' ? '/contact' : `/register?plan=${pkg.id}`}
+                  href={`/checkout?package=${pkg.id}`}
                   className={`
                     w-full block text-center transition-colors
                     ${isFeatured 
@@ -139,7 +135,7 @@ export default function PackagesSection({ packages: dbPackages }: { packages?: a
                     }
                   `}
                 >
-                  {pkg.id === 'elite' ? 'Liên hệ tư vấn' : 'Bắt đầu ngay'}
+                  Chọn lộ trình
                 </Link>
               </motion.div>
             );

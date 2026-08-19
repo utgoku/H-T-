@@ -1,13 +1,13 @@
-# H&T Platform - Health & Sleep Wellness 🌿💤
+# PrymaLab - Health & Sleep Wellness 🌿💤
 
-![H&T Platform Banner](https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2000&auto=format&fit=crop)
+![PrymaLab Banner](https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2000&auto=format&fit=crop)
 
 <div align="center">
 
 **Nền tảng Chăm sóc Sức khỏe và Giấc ngủ Toàn diện**  
 *A Comprehensive Health & Sleep Wellness Platform*
 
-[![Next.js](https://img.shields.io/badge/Next.js_14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
@@ -18,22 +18,22 @@
 
 ## 🌟 Giới thiệu (About)
 
-H&T Platform là nền tảng chuyên biệt cung cấp các giải pháp cải thiện chất lượng giấc ngủ và chăm sóc sức khỏe dinh dưỡng. Với thiết kế hiện đại, giao diện thân thiện và các tính năng được cá nhân hóa, H&T mang đến trải nghiệm tốt nhất cho người dùng trên hành trình tìm lại sự cân bằng.
+PrymaLab là nền tảng chuyên biệt cung cấp các giải pháp cải thiện chất lượng giấc ngủ và chăm sóc sức khỏe dinh dưỡng. Với thiết kế hiện đại, giao diện thân thiện và các tính năng được cá nhân hóa, PrymaLab mang đến trải nghiệm tốt nhất cho người dùng trên hành trình tìm lại sự cân bằng.
 
-H&T Platform is a specialized platform offering solutions to improve sleep quality and nutritional health. With a modern design, user-friendly interface, and personalized features, H&T provides the best experience for users on their journey to restore balance.
+PrymaLab is a specialized platform offering solutions to improve sleep quality and nutritional health. With a modern design, user-friendly interface, and personalized features, PrymaLab provides the best experience for users on their journey to restore balance.
 
 ## ✨ Tính năng chính (Key Features)
 
 - 🔍 **Đánh giá Sức khỏe (Health Quiz):** Bài kiểm tra đánh giá chi tiết tình trạng giấc ngủ và thói quen sinh hoạt.
 - 🛍️ **Dịch vụ Đa dạng (Services):** Cung cấp các gói tư vấn, liệu trình cải thiện giấc ngủ và dinh dưỡng.
 - 📊 **Dashboard Cá nhân (User Dashboard):** Theo dõi chỉ số sức khỏe, lịch hẹn và tiến độ cá nhân.
-- 💳 **Thanh toán An toàn (Secure Checkout):** Tích hợp quy trình thanh toán mượt mà.
+- 💳 **Đăng ký lộ trình (Conversion Checkout):** Ghi nhận nhu cầu vào CRM; cổng thanh toán chỉ được kích hoạt khi có cấu hình merchant thật.
 - 📱 **Responsive Design:** Trải nghiệm tối ưu trên mọi thiết bị (Mobile, Tablet, Desktop).
 - 🎨 **Modern UI/UX:** Giao diện glassmorphism, hiệu ứng chuyển động mượt mà, màu sắc nhẹ nhàng (Teal/Blue).
 
 ## 🚀 Công nghệ sử dụng (Tech Stack)
 
-- **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
 - **Ngôn ngữ:** [TypeScript](https://www.typescriptlang.org/) (Strict Mode)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **Icons:** [Lucide React](https://lucide.dev/)
@@ -110,22 +110,22 @@ Dự án được tối ưu hóa để triển khai trên [Vercel](https://verce
 
 1. Đẩy code lên GitHub/GitLab/Bitbucket.
 2. Đăng nhập vào Vercel, chọn **Add New Project**.
-3. Chọn repository chứa dự án H&T Platform.
+3. Chọn repository chứa dự án PrymaLab.
 4. Cấu hình biến môi trường (Environment Variables) trong mục Settings.
 5. Click **Deploy**. Dự án sẽ tự động build và triển khai!
-
-## 🔐 Demo Accounts
-
-*(Cập nhật thông tin tài khoản demo tại đây nếu có)*
-- **User:** user@htplatform.com / password123
-- **Admin:** admin@htplatform.com / admin123
 
 ## ⚙️ Biến môi trường (Environment Variables)
 
 | Variable | Description | Default / Example |
 |----------|-------------|-------------------|
-| `NEXT_PUBLIC_APP_URL` | Base URL của ứng dụng | `http://localhost:3000` |
-| `API_KEY` | (Nếu có) API Key cho dịch vụ ngoài | `...` |
+| `NEXT_PUBLIC_APP_URL` | URL production | `https://prymalab.com` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Bắt buộc |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key | Bắt buộc |
+| `SUPABASE_SERVICE_ROLE_KEY` | Quyền server cho CRM | Bắt buộc để bật admin |
+| `PRYMALAB_ADMIN_PASSWORD` | Mật khẩu quản trị | Secret trên Vercel |
+| `PRYMALAB_ADMIN_SESSION_SECRET` | Khóa ký phiên HttpOnly | Secret trên Vercel |
+| `STRIPE_SECRET_KEY` | Stripe server key | Chỉ cần khi bật Stripe |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook secret | Chỉ cần khi bật Stripe |
 
 ## 📄 Giấy phép (License)
 

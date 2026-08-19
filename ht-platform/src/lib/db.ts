@@ -1,6 +1,16 @@
 import { supabase } from './supabase';
 import { getAdminSupabase } from './supabase-admin';
 
+function normalizeBrandCopy(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  return value
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Transformation(?: 30 Days)?/giu, 'Pryma Reset 30')
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Elite Care(?: 90 Days)?/giu, 'Pryma Signature 90')
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Starter/giu, 'Pryma Start')
+    .replace(/[\p{L}]\s*&\s*[\p{L}]\s+Platform/giu, 'PrymaLab')
+    .replace(/[\p{L}]\s*&\s*[\p{L}]/giu, 'PrymaLab');
+}
+
 export interface Lead {
   id: string;
   createdAt: string;
@@ -119,7 +129,7 @@ export const DEFAULT_SITE_PACKAGES: SitePackage[] = [
     period: '/90 ngày',
     theme: 'blue',
     features: [
-      { text: 'Mọi quyền lợi của gói Transformation', included: true },
+      { text: 'Mọi quyền lợi của Pryma Reset 30', included: true },
       { text: 'Phân tích xét nghiệm máu định kỳ', included: true },
       { text: '6 buổi tư vấn chuyên gia cao cấp', included: true },
       { text: 'Ưu tiên hỗ trợ kỹ thuật và y tế', included: true },
@@ -168,14 +178,17 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     const packages = packagesResult.data?.length
       ? packagesResult.data.map((item) => ({
           id: item.id,
-          name: item.name,
-          desc: item.description,
+          name: normalizeBrandCopy(item.name),
+          desc: normalizeBrandCopy(item.description),
           price: item.price,
           period: item.period,
           subprice: item.subprice,
           badge: item.badge,
           theme: item.theme,
-          features: item.features || [],
+          features: (item.features || []).map((feature: PackageFeature) => ({
+            ...feature,
+            text: normalizeBrandCopy(feature.text),
+          })),
         }))
       : DEFAULT_SITE_PACKAGES;
 
@@ -220,14 +233,17 @@ export async function getDb(): Promise<DatabaseSchema> {
     if (packagesData && packagesData.length > 0) {
       packages = packagesData.map(p => ({
         id: p.id,
-        name: p.name,
-        desc: p.description,
+        name: normalizeBrandCopy(p.name),
+        desc: normalizeBrandCopy(p.description),
         price: p.price,
         period: p.period,
         subprice: p.subprice,
         badge: p.badge,
         theme: p.theme,
-        features: p.features || []
+        features: (p.features || []).map((feature: PackageFeature) => ({
+          ...feature,
+          text: normalizeBrandCopy(feature.text),
+        }))
       }));
     }
 
@@ -422,7 +438,10 @@ export async function getTestimonials() {
   try {
     const { data, error } = await supabase.from('testimonials').select('*').eq('is_active', true).order('sort_order');
     if (error) throw error;
-    return data || [];
+    return (data || []).map((item) => ({
+      ...item,
+      quote: normalizeBrandCopy(item.quote),
+    }));
   } catch (error) {
     console.error('Error getting testimonials', error);
     return [];
@@ -433,7 +452,12 @@ export async function getBlogPosts() {
   try {
     const { data, error } = await supabase.from('blog_posts').select('*').eq('is_published', true).order('id', { ascending: false });
     if (error) throw error;
-    return data || [];
+    return (data || []).map((item) => ({
+      ...item,
+      title: normalizeBrandCopy(item.title),
+      excerpt: normalizeBrandCopy(item.excerpt),
+      content: normalizeBrandCopy(item.content),
+    }));
   } catch (error) {
     console.error('Error getting blog posts', error);
     return [];
@@ -444,7 +468,11 @@ export async function getFaqs() {
   try {
     const { data, error } = await supabase.from('faqs').select('*').eq('is_active', true).order('sort_order');
     if (error) throw error;
-    return data || [];
+    return (data || []).map((item) => ({
+      ...item,
+      question: normalizeBrandCopy(item.question),
+      answer: normalizeBrandCopy(item.answer),
+    }));
   } catch (error) {
     console.error('Error getting faqs', error);
     return [];
@@ -455,7 +483,10 @@ export async function getTeamMembers() {
   try {
     const { data, error } = await supabase.from('team_members').select('*').eq('is_active', true).order('sort_order');
     if (error) throw error;
-    return data || [];
+    return (data || []).map((item) => ({
+      ...item,
+      bio: normalizeBrandCopy(item.bio),
+    }));
   } catch (error) {
     console.error('Error getting team members', error);
     return [];

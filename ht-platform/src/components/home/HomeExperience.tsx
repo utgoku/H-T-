@@ -32,11 +32,10 @@ interface HomeExperienceProps {
 
 function brandCopy(value: string): string {
   return value
-    .replace(/H&T Transformation(?: 30 Days)?/g, 'Pryma Reset 30')
-    .replace(/H&T Elite Care(?: 90 Days)?/g, 'Pryma Signature 90')
-    .replace(/H&T Starter/g, 'Pryma Start')
-    .replace(/H&T Platform/g, 'PrymaLab')
-    .replace(/H&T/g, 'PrymaLab');
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Transformation(?: 30 Days)?/giu, 'Pryma Reset 30')
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Elite Care(?: 90 Days)?/giu, 'Pryma Signature 90')
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Starter/giu, 'Pryma Start')
+    .replace(/(?:[\p{L}]+\s*&\s*[\p{L}]+\s+)?Platform/giu, 'PrymaLab');
 }
 
 const journeySteps = [

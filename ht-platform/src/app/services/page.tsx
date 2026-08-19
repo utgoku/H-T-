@@ -8,6 +8,9 @@ import FaqAccordion from './FaqAccordion';
 export const metadata = {
   title: 'Chương trình đồng hành',
   description: 'Các chương trình dinh dưỡng và cải thiện giấc ngủ cá nhân hóa từ PrymaLab.',
+  alternates: {
+    canonical: '/services',
+  },
 };
 
 export default async function ServicesPage() {

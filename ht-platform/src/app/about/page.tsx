@@ -9,6 +9,9 @@ import { getTeamMembers } from '@/lib/db';
 export const metadata = {
   title: 'Về chúng tôi',
   description: 'Khám phá câu chuyện và sứ mệnh của PrymaLab trong việc nâng cao sức khỏe người Việt qua dinh dưỡng và giấc ngủ.',
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 export default async function AboutPage() {

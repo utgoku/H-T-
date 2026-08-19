@@ -35,9 +35,6 @@ export const metadata: Metadata = {
   publisher: 'PrymaLab',
   applicationName: 'PrymaLab',
   category: 'health',
-  alternates: {
-    canonical: '/',
-  },
   openGraph: {
     title: 'PrymaLab | Ăn đúng nhịp. Ngủ sâu hơn.',
     description: 'Một lộ trình cá nhân kết nối dinh dưỡng, giấc ngủ và năng lượng — để bạn biết hôm nay nên bắt đầu từ đâu.',

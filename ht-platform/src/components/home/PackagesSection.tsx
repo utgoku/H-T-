@@ -1,147 +1,26 @@
-'use client';
-
-import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { ArrowRight, Check, Minus } from 'lucide-react';
+import type { SitePackage } from '@/lib/db';
+import { DEFAULT_SITE_PACKAGES } from '@/lib/db';
 
-const defaultPackages = [
-  {
-    id: 'starter',
-    name: 'Pryma Start',
-    price: '99,000 VNĐ',
-    period: '/ tháng',
-    features: [
-      { name: 'Đánh giá nhịp ăn và giấc ngủ', included: true },
-      { name: 'Gợi ý thực đơn mẫu 7 ngày', included: true },
-      { name: 'Nhật ký giấc ngủ cơ bản', included: true },
-      { name: 'Theo dõi năng lượng mỗi ngày', included: true },
-      { name: 'Tinh chỉnh cùng chuyên gia', included: false },
-    ],
-  },
-  {
-    id: 'transformation',
-    name: 'Pryma Reset 30',
-    price: '1,490,000 VNĐ',
-    period: '/ 30 ngày',
-    badge: 'Được chọn nhiều nhất',
-    features: [
-      { name: 'Đánh giá toàn diện chuyên sâu', included: true },
-      { name: 'Thực đơn cá nhân hóa 30 ngày', included: true },
-      { name: 'Lộ trình cải thiện giấc ngủ', included: true },
-      { name: 'Theo dõi tiến độ hàng tuần', included: true },
-      { name: '2 buổi tư vấn chuyên gia 1-1', included: true },
-      { name: 'Hỗ trợ qua Zalo/Chat', included: true },
-    ],
-  },
-  {
-    id: 'elite',
-    name: 'Pryma Signature 90',
-    price: '3,990,000 VNĐ',
-    period: '/ 90 ngày',
-    features: [
-      { name: 'Toàn bộ quyền lợi Pryma Reset 30', included: true },
-      { name: 'Thực đơn cá nhân hóa 90 ngày', included: true },
-      { name: 'Phân tích nhịp ngủ chuyên sâu', included: true },
-      { name: '6 buổi tư vấn chuyên gia 1-1', included: true },
-      { name: 'Theo dõi và tinh chỉnh liên tục', included: true },
-      { name: 'Ưu tiên hỗ trợ xuyên suốt', included: true },
-    ],
-  }
-];
-
-export default function PackagesSection({ packages: dbPackages }: { packages?: any[] }) {
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const displayPackages = dbPackages && dbPackages.length > 0 ? dbPackages : defaultPackages;
-
-  return (
-    <section className="bg-white py-20 md:py-28 relative overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl font-bold text-[#1A1A2E] mb-4">
-              Chọn Gói Phù Hợp Với Bạn
-            </h2>
-            <p className="text-lg text-[#64748B]">
-              Ba mức đồng hành rõ ràng, kết nối dinh dưỡng, giấc ngủ và nhịp sống thực tế của bạn.
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mt-12 max-w-6xl mx-auto">
-          {displayPackages.map((pkg, idx) => {
-            const isFeatured = idx === selectedIndex;
-
-            return (
-              <motion.div
-                key={pkg.id || idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                onClick={() => setSelectedIndex(idx)}
-                className={`
-                  cursor-pointer bg-white rounded-2xl p-7 border transition-all duration-300 flex flex-col
-                  ${isFeatured 
-                    ? 'border-[#0D9488] border-2 shadow-lg lg:scale-[1.03] relative z-10' 
-                    : 'border-[#E2E8F0] shadow-sm hover:shadow-lg'
-                  }
-                `}
-              >
-                {isFeatured && pkg.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#0D9488] to-[#2563EB] text-white text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap">
-                    {pkg.badge}
-                  </div>
-                )}
-
-                <div className="mb-6 mt-2">
-                  <h3 className="text-xl font-bold text-[#1A1A2E] mb-3">{pkg.name}</h3>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-3xl font-bold text-[#1A1A2E]">{pkg.price}</span>
-                    <span className="text-[#64748B] text-sm font-medium">{pkg.period}</span>
-                  </div>
-                </div>
-
-                <div className="flex-grow space-y-3 mb-8">
-                  {pkg.features.map((feature: any, fIdx: number) => (
-                    <div key={fIdx} className="flex items-start gap-3">
-                      {feature.included ? (
-                        <svg className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                        </svg>
-                      ) : (
-                        <svg className="w-5 h-5 text-gray-300 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      )}
-                      <span className="text-sm text-[#374151]">
-                        {feature.name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <Link 
-                  href={`/checkout?package=${pkg.id}`}
-                  className={`
-                    w-full block text-center transition-colors
-                    ${isFeatured 
-                      ? 'bg-[#0D9488] text-white font-semibold rounded-xl py-3 hover:bg-[#0F766E]' 
-                      : 'border border-[#0D9488] text-[#0D9488] hover:bg-[#F0FDF9] font-semibold rounded-xl py-3'
-                    }
-                  `}
-                >
-                  Chọn lộ trình
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
+export default function PackagesSection({ packages }: { packages?: SitePackage[] }) {
+  const displayPackages = packages?.length ? packages : DEFAULT_SITE_PACKAGES;
+  return <section className="bg-[#edf2ec] px-5 py-24 sm:px-8 lg:py-28">
+    <div className="mx-auto max-w-[88rem]">
+      <div className="grid items-end gap-6 lg:grid-cols-[1fr_0.7fr]"><div><p className="section-kicker">Ba mức đồng hành</p><h2 className="mt-5 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.04] tracking-[-0.04em] sm:text-5xl">Chọn độ sâu phù hợp với nhịp sống hiện tại.</h2></div><p className="max-w-xl text-sm leading-7 text-[#657a7e] lg:justify-self-end">Mỗi chương trình đều ghi rõ thời lượng, nội dung và mức đầu tư. PrymaLab không hứa kết quả y khoa hay con số thay đổi giống nhau cho mọi người.</p></div>
+      <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        {displayPackages.map((pkg, index) => {
+          const featured = pkg.id === 'transformation' || index === 1;
+          return <article key={pkg.id} className={`relative flex flex-col overflow-hidden rounded-[2rem] border p-7 sm:p-8 ${featured ? 'border-[#153339] bg-[#153339] text-white shadow-[0_35px_80px_-50px_rgba(18,56,62,0.95)]' : 'border-[#d8e2dd] bg-white text-[#153339]'}`}>
+            {pkg.badge && <span className={`w-fit rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider ${featured ? 'bg-[#d9f46f] text-[#153339]' : 'bg-[#e6f5ef] text-[#0b7f72]'}`}>{pkg.badge}</span>}
+            <h3 className="mt-6 text-2xl font-semibold">{pkg.name}</h3><p className={`mt-3 min-h-12 text-sm leading-6 ${featured ? 'text-white/58' : 'text-[#687d81]'}`}>{pkg.desc}</p>
+            <div className="mt-7 flex items-end gap-2"><strong className="text-3xl tracking-[-0.03em]">{pkg.price}</strong><span className={`pb-1 text-xs ${featured ? 'text-white/45' : 'text-[#829397]'}`}>{pkg.period}</span></div>{pkg.subprice && <p className={`mt-2 text-xs font-semibold ${featured ? 'text-[#8ed7cb]' : 'text-[#0b7f72]'}`}>{pkg.subprice}</p>}
+            <div className={`my-7 h-px ${featured ? 'bg-white/10' : 'bg-[#e1e8e4]'}`} />
+            <ul className="flex-grow space-y-3">{pkg.features.map((feature) => <li key={feature.text} className={`flex gap-3 text-sm leading-6 ${feature.included ? featured ? 'text-white/72' : 'text-[#526a6f]' : featured ? 'text-white/28' : 'text-[#9aabaa]'}`}><span className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${feature.included ? featured ? 'bg-[#d9f46f] text-[#153339]' : 'bg-[#e4f5ef] text-[#0b7f72]' : 'bg-[#e6ebe8] text-[#8c9c9e]'}`}>{feature.included ? <Check className="h-2.5 w-2.5" strokeWidth={3} /> : <Minus className="h-2.5 w-2.5" />}</span>{feature.text}</li>)}</ul>
+            <Link href={`/checkout?package=${pkg.id}`} className={`mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition hover:-translate-y-0.5 ${featured ? 'bg-[#d9f46f] text-[#153339]' : 'bg-[#153339] text-white'}`}>Chọn chương trình <ArrowRight className="h-4 w-4" /></Link>
+          </article>;
+        })}
       </div>
-    </section>
-  );
+    </div>
+  </section>;
 }

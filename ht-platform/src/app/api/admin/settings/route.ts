@@ -9,7 +9,11 @@ export async function PUT(request: Request) {
 
   try {
     const data = await request.json();
-    const settings = await updateSettings(data);
+    const allowed = ['phone', 'email', 'address', 'workingHours', 'bankName', 'bankBin', 'bankAccountNumber', 'bankAccountName', 'bankBranch'];
+    const sanitized = Object.fromEntries(allowed
+      .filter((key) => typeof data?.[key] === 'string')
+      .map((key) => [key, data[key].trim().slice(0, 240)]));
+    const settings = await updateSettings(sanitized);
     return NextResponse.json({ success: true, settings });
   } catch (error) {
     console.error('Failed to update settings:', error);

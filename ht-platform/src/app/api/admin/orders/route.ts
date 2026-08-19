@@ -1,24 +1,21 @@
 import { NextResponse } from 'next/server';
-import { addOrder } from '@/lib/db';
+import { updateOrder } from '@/lib/db';
+import { hasAdminSession } from '@/lib/admin-session';
 
-export async function POST(request: Request) {
+export async function PATCH(request: Request) {
+  if (!(await hasAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const data = await request.json();
-    
-    if (!data.packageId || !data.customerName || !data.customerPhone) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (typeof data.id !== 'string' || typeof data.status !== 'string') {
+      return NextResponse.json({ error: 'Dữ liệu cập nhật không hợp lệ.' }, { status: 400 });
     }
-
-    const order = await addOrder({
-      packageId: data.packageId,
-      packageName: data.packageName || data.packageId,
-      customerName: data.customerName,
-      customerPhone: data.customerPhone
-    });
-
-    return NextResponse.json({ success: true, order }, { status: 201 });
+    await updateOrder(data.id, data.status, typeof data.adminNote === 'string' ? data.adminNote : '');
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Failed to submit order:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Failed to update order:', error);
+    return NextResponse.json({ error: 'Không thể cập nhật đơn.' }, { status: 500 });
   }
 }

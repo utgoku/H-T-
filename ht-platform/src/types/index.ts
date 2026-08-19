@@ -40,8 +40,7 @@ export enum OutboxEventStatus {
 }
 
 export enum PaymentGateway {
-  STRIPE = 'STRIPE',
-  VNPAY = 'VNPAY',
+  BANK_TRANSFER = 'BANK_TRANSFER',
   VIETQR = 'VIETQR'
 }
 

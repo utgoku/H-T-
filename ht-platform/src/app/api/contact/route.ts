@@ -1,53 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { AppError, ErrorCode, createApiErrorResponse } from '@/lib/errors';
-import { isValidEmail } from '@/lib/utils';
-import { ContactFormData, ApiResponse } from '@/types';
+import { NextResponse } from 'next/server';
+import { addContact } from '@/lib/db';
+import { allowRequest, requestIp } from '@/lib/rate-limit';
 
-// Simple in-memory rate limiting for demo
-const rateLimits = new Map<string, number>();
+function clean(value: unknown, max: number) {
+  return typeof value === 'string' ? value.trim().slice(0, max) : '';
+}
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
+  if (!allowRequest(`public-contact:${requestIp(request)}`, 5, 10 * 60_000)) {
+    return NextResponse.json({ error: 'Bạn đã gửi nhiều yêu cầu. Vui lòng thử lại sau ít phút.' }, { status: 429 });
+  }
   try {
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const now = Date.now();
-    const lastSubmission = rateLimits.get(ip);
-
-    if (lastSubmission && now - lastSubmission < 60000) {
-      throw new AppError('Quá nhiều yêu cầu, vui lòng thử lại sau 1 phút', ErrorCode.ERR_RATE_LIMITED, 429);
+    const body = await request.json();
+    if (body.website) return NextResponse.json({ success: true }, { status: 201 });
+    const name = clean(body.name, 100);
+    const email = clean(body.email, 160).toLowerCase();
+    const phone = clean(body.phone, 24);
+    const subject = clean(body.subject, 120);
+    const message = clean(body.message, 2000);
+    if (name.length < 2 || !/^\S+@\S+\.\S+$/.test(email) || message.length < 10) {
+      return NextResponse.json({ error: 'Vui lòng kiểm tra họ tên, email và nội dung.' }, { status: 400 });
     }
-
-    const body = await req.json() as ContactFormData;
-    const { name, email, phone, subject, message } = body;
-
-    if (!name || !email || !message) {
-      throw new AppError('Vui lòng điền đầy đủ tên, email và tin nhắn', ErrorCode.ERR_VALIDATION_FAILED, 400);
-    }
-
-    if (!isValidEmail(email)) {
-      throw new AppError('Định dạng email không hợp lệ', ErrorCode.ERR_VALIDATION_FAILED, 400);
-    }
-
-    rateLimits.set(ip, now);
-
-    // Simulate sending email
-    console.log(`[Email Service] Gửi tin nhắn từ ${name} (${email}): ${subject}`);
-    console.log(`[Email Service] Nội dung: ${message}`);
-
-    const response: ApiResponse<string> = {
-      success: true,
-      data: 'Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất có thể.',
-    };
-
-    return NextResponse.json(response);
+    await addContact({ name, email, phone, subject: subject || 'Liên hệ từ website', message });
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
-    if (error instanceof AppError) {
-      return createApiErrorResponse(error);
-    }
-    const unhandledError = new AppError(
-      'Lỗi hệ thống khi gửi tin nhắn liên hệ',
-      ErrorCode.ERR_INTERNAL_SERVER,
-      500
-    );
-    return createApiErrorResponse(unhandledError);
+    console.error('Public contact submission failed:', error);
+    return NextResponse.json({ error: 'Chưa thể gửi yêu cầu lúc này.' }, { status: 500 });
   }
 }

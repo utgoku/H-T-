@@ -1,126 +1,36 @@
-import React from 'react';
-import { Navigation } from '@/components/ui/Navigation';
-import { Footer } from '@/components/ui/Footer';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTeamMembers } from '@/lib/db';
+import { ArrowRight, Eye, HeartHandshake, Layers3, Scale, ShieldCheck, Sparkles } from 'lucide-react';
+import { Footer } from '@/components/ui/Footer';
+import { Navigation } from '@/components/ui/Navigation';
+import { getPublicHomeData } from '@/lib/db';
 
-export const metadata = {
-  title: 'Về chúng tôi',
-  description: 'Khám phá câu chuyện và sứ mệnh của PrymaLab trong việc nâng cao sức khỏe người Việt qua dinh dưỡng và giấc ngủ.',
-  alternates: {
-    canonical: '/about',
-  },
+export const metadata: Metadata = {
+  title: 'Về PrymaLab',
+  description: 'Câu chuyện, nguyên tắc và phạm vi hoạt động của PrymaLab trong lĩnh vực dinh dưỡng và giấc ngủ.',
+  alternates: { canonical: '/about' },
 };
 
+const principles = [
+  { title: 'Nhìn cả hệ thống', copy: 'Bữa ăn, giấc ngủ, năng lượng và lịch sống ảnh hưởng lẫn nhau. Một thay đổi tốt cần tôn trọng toàn bộ bối cảnh.', icon: Layers3 },
+  { title: 'Ít nhưng làm được', copy: 'Ưu tiên hành động nhỏ có thể lặp lại thay vì một kế hoạch đẹp trên giấy nhưng quá nặng để duy trì.', icon: Scale },
+  { title: 'Minh bạch giới hạn', copy: 'Không thổi phồng kết quả, không dùng danh xưng chuyên môn chưa xác minh và không biến định hướng lối sống thành chẩn đoán.', icon: ShieldCheck },
+  { title: 'Tôn trọng dữ liệu', copy: 'Chỉ thu thập thông tin cần cho trải nghiệm, quản lý quyền truy cập và cho người dùng kênh yêu cầu chỉnh sửa hoặc xóa.', icon: Eye },
+];
+
 export default async function AboutPage() {
-  const dbTeam = await getTeamMembers();
-  
-  const team = dbTeam.map((t: any) => ({
-    ...t,
-    color: t.avatar_color
-  }));
+  const { settings } = await getPublicHomeData();
+  return <div className="min-h-screen bg-[#f5f7f3] text-[#153339]">
+    <Navigation />
+    <main>
+      <section className="relative isolate overflow-hidden px-5 pb-24 pt-36 sm:px-8 lg:pb-32 lg:pt-44"><div className="hero-grid absolute inset-0 -z-20 opacity-60" /><div className="absolute -left-44 top-10 -z-10 h-[34rem] w-[34rem] rounded-full bg-[#d8f0e8] blur-[115px]" /><div className="mx-auto max-w-[88rem]"><p className="section-kicker">Câu chuyện PrymaLab</p><h1 className="mt-6 max-w-6xl font-[family-name:var(--font-display)] text-5xl font-semibold leading-[0.99] tracking-[-0.045em] sm:text-6xl lg:text-8xl">Sức khỏe không sống trong một bảng tính. Nó sống trong lịch thật của bạn.</h1><div className="mt-10 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start"><div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.16em] text-[#0b7f72]"><Sparkles className="h-4 w-4" /> Nutrition · Sleep · Rhythm</div><div className="space-y-5 text-base leading-8 text-[#5f767a]"><p>PrymaLab bắt đầu từ một khoảng trống dễ thấy: lời khuyên dinh dưỡng thường tách khỏi chất lượng giấc ngủ, còn dữ liệu giấc ngủ lại ít khi được biến thành hành động đơn giản cho ngày hôm sau.</p><p>Chúng tôi xây PrymaLab như một “phòng thí nghiệm nhịp sống” — nơi dữ liệu vừa đủ được chuyển thành lựa chọn thực tế, theo dõi bằng phản hồi của chính người dùng và tinh chỉnh theo tuần.</p></div></div></div></section>
 
-  return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Navigation />
-      
-      <main className="flex-grow pt-20">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-teal-700 to-blue-800 text-white py-24 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-6">Về PrymaLab</h1>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90 leading-relaxed">
-            Hành trình kết hợp khoa học dinh dưỡng và khoa học giấc ngủ để mang lại cuộc sống khỏe mạnh, cân bằng hơn cho người Việt.
-          </p>
-        </section>
+      <section className="bg-[#112f35] px-5 py-24 text-white sm:px-8 lg:py-32"><div className="mx-auto max-w-[88rem]"><div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]"><div><p className="section-kicker section-kicker-dark">Nguyên tắc vận hành</p><h2 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl">Chỉnh chu không chỉ là giao diện. Đó là cách chúng tôi giữ lời.</h2></div><div className="grid gap-3 sm:grid-cols-2">{principles.map((principle) => <article key={principle.title} className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7"><principle.icon className="h-6 w-6 text-[#8ed7cb]" /><h3 className="mt-7 text-xl font-semibold">{principle.title}</h3><p className="mt-3 text-sm leading-7 text-white/55">{principle.copy}</p></article>)}</div></div></div></section>
 
-        {/* Story Section */}
-        <section className="py-20 px-4 max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-playfair font-bold text-gray-900 mb-6">Câu chuyện của chúng tôi</h2>
-              <p className="text-gray-600 mb-4 leading-relaxed">
-                PrymaLab ra đời từ một quan sát đơn giản: sức khỏe không chỉ đến từ những gì bạn ăn, mà còn từ cách cơ thể phục hồi qua từng giấc ngủ.
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                Nhiều người đang gặp vấn đề về giấc ngủ và dinh dưỡng nhưng thiếu một giải pháp tích hợp. PrymaLab kết nối kiến thức thực hành, dữ liệu thói quen và sự đồng hành cá nhân hóa để tạo ra thay đổi bền vững.
-              </p>
-            </div>
-            <div className="bg-teal-50 p-8 rounded-3xl relative">
-              <div className="absolute top-0 left-0 w-full h-full bg-blue-100 rounded-3xl transform rotate-3 -z-10"></div>
-              <h3 className="text-2xl font-playfair font-bold text-teal-900 mb-4">Sứ mệnh</h3>
-              <p className="text-teal-800 text-lg italic leading-relaxed">
-                "Trao quyền cho mỗi cá nhân làm chủ sức khỏe của mình thông qua sự kết hợp đột phá giữa khoa học dinh dưỡng và giấc ngủ."
-              </p>
-            </div>
-          </div>
-        </section>
+      <section className="px-5 py-24 sm:px-8 lg:py-32"><div className="mx-auto grid max-w-[88rem] gap-10 lg:grid-cols-[1fr_1fr] lg:items-center"><div className="rounded-[2.25rem] bg-[#d9f46f] p-8 sm:p-12"><HeartHandshake className="h-8 w-8 text-[#153339]" /><p className="mt-8 text-xs font-extrabold uppercase tracking-[0.18em] text-[#4f6742]">Cam kết về bằng chứng</p><h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-[-0.04em]">Không dựng niềm tin bằng con số hay lời chứng thực chưa kiểm chứng.</h2><p className="mt-5 text-sm leading-7 text-[#4e6550]">Hồ sơ chuyên môn, case study và kết quả khách hàng chỉ nên xuất hiện khi có dữ liệu thật, sự đồng ý phù hợp và khả năng kiểm chứng. Trong giai đoạn hiện tại, PrymaLab ưu tiên mô tả rõ phương pháp, phạm vi và quy trình.</p></div><div className="lg:pl-10"><p className="section-kicker">Lộ trình phát triển</p><h2 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Xây giá trị trước khi xây cộng đồng.</h2><div className="mt-8 space-y-6">{[['01', 'Chứng minh trải nghiệm cốt lõi', 'Bài đánh giá hữu ích, chương trình rõ ràng, thanh toán và onboarding trơn tru.'], ['02', 'Đo chất lượng thật', 'Theo dõi tỷ lệ hoàn thành, phản hồi và thay đổi thói quen thay vì dùng số liệu trang trí.'], ['03', 'Mở rộng có kiểm soát', 'Chỉ phát triển cộng đồng hoặc đội ngũ khi đã có quy trình hỗ trợ, kiểm duyệt và bảo vệ dữ liệu.']].map(([number, title, copy]) => <div key={number} className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-[#dbe4df] pb-6"><span className="text-xs font-extrabold text-[#0b7f72]">{number}</span><div><h3 className="font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-[#657a7e]">{copy}</p></div></div>)}</div></div></div></section>
 
-        {/* Values Section */}
-        <section className="py-20 bg-gray-50 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-playfair font-bold text-center text-gray-900 mb-12">Giá Trị Cốt Lõi</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { title: 'Khoa học', desc: 'Mọi phương pháp, thực đơn và lời khuyên đều dựa trên bằng chứng khoa học Y khoa hiện đại.', icon: '🔬' },
-                { title: 'Cá nhân hóa', desc: 'Mỗi cơ thể là duy nhất. Lộ trình của bạn được thiết kế riêng biệt để phù hợp hoàn hảo với lối sống.', icon: '🎯' },
-                { title: 'Đồng hành', desc: 'Không chỉ đưa ra giải pháp, chúng tôi sát cánh cùng bạn từng bước trên hành trình thay đổi.', icon: '🤝' }
-              ].map((val, i) => (
-                <Card key={i} className="p-8 text-center hover:shadow-xl transition-shadow border-t-4 border-t-teal-500">
-                  <div className="text-4xl mb-4">{val.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{val.title}</h3>
-                  <p className="text-gray-600">{val.desc}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-16 bg-teal-900 text-white px-4">
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { num: '1000+', label: 'Khách hàng' },
-              { num: '30+', label: 'Chuyên gia' },
-              { num: '95%', label: 'Hài lòng' },
-              { num: '5000+', label: 'Thực đơn đã tạo' }
-            ].map((stat, i) => (
-              <div key={i} className="p-4">
-                <div className="text-4xl md:text-5xl font-bold text-teal-300 mb-2">{stat.num}</div>
-                <div className="text-teal-100 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section className="py-20 px-4 max-w-6xl mx-auto">
-          <h2 className="text-3xl font-playfair font-bold text-center text-gray-900 mb-12">Đội Ngũ Chuyên Gia</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {team.map((member: any, i: number) => (
-              <div key={member.id || i} className="text-center group">
-                <div className={`w-32 h-32 mx-auto rounded-full ${member.color} shadow-lg mb-4 transform group-hover:-translate-y-2 transition-transform`}></div>
-                <h3 className="text-lg font-bold text-gray-900">{member.name}</h3>
-                <p className="text-teal-600 text-sm">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-20 bg-gray-50 text-center px-4">
-          <h2 className="text-3xl font-playfair font-bold text-gray-900 mb-6">Sẵn sàng thay đổi lối sống?</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">Bắt đầu bằng việc hiểu nhịp sống hiện tại và chọn một thay đổi phù hợp với chính bạn.</p>
-          <Link href="/quiz">
-            <Button size="lg" className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-full shadow-lg">
-              Đánh giá sức khỏe ngay
-            </Button>
-          </Link>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
-  );
+      <section className="px-5 pb-8 sm:px-8"><div className="mx-auto flex max-w-[88rem] flex-col gap-7 rounded-[2.5rem] bg-white p-8 shadow-[0_35px_80px_-60px_rgba(18,56,62,0.45)] sm:p-12 lg:flex-row lg:items-end lg:justify-between"><div><p className="section-kicker">Cùng bắt đầu đúng</p><h2 className="mt-5 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.04] tracking-[-0.04em]">Nếu PrymaLab không phù hợp, chúng tôi cũng sẽ nói rõ.</h2></div><Link href="/contact" className="inline-flex min-h-13 shrink-0 items-center justify-center gap-2 rounded-full bg-[#153339] px-7 text-sm font-bold text-white">Trao đổi với PrymaLab <ArrowRight className="h-4 w-4" /></Link></div></section>
+    </main>
+    <Footer settings={settings} />
+  </div>;
 }

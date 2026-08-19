@@ -1,75 +1,54 @@
-import React from 'react';
-import { Navigation } from '@/components/ui/Navigation';
-import { Footer } from '@/components/ui/Footer';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight, BarChart3, CalendarCheck2, ClipboardCheck, Moon, Salad, ShieldCheck } from 'lucide-react';
 import PackagesSection from '@/components/home/PackagesSection';
-import { getFaqs } from '@/lib/db';
-import FaqAccordion from './FaqAccordion';
+import { Footer } from '@/components/ui/Footer';
+import { Navigation } from '@/components/ui/Navigation';
+import { getPublicHomeData } from '@/lib/db';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Chương trình đồng hành',
-  description: 'Các chương trình dinh dưỡng và cải thiện giấc ngủ cá nhân hóa từ PrymaLab.',
-  alternates: {
-    canonical: '/services',
-  },
+  description: 'Các chương trình PrymaLab kết nối dinh dưỡng, giấc ngủ và theo dõi thói quen theo thời lượng 7, 30 hoặc 90 ngày.',
+  alternates: { canonical: '/services' },
 };
 
+const steps = [
+  { number: '01', title: 'Chụp nhịp hiện tại', copy: 'Ghi nhận lịch ăn, ngủ, năng lượng, mục tiêu và những giới hạn thật trong tuần của bạn.', icon: ClipboardCheck },
+  { number: '02', title: 'Chọn một ưu tiên', copy: 'Không thay mọi thứ cùng lúc. PrymaLab chọn điểm tác động lớn nhất và chuyển thành hành động nhỏ.', icon: CalendarCheck2 },
+  { number: '03', title: 'Theo dõi phản hồi', copy: 'Dữ liệu theo ngày giúp nhìn xu hướng thay vì đánh giá thành công chỉ bằng cảm giác nhất thời.', icon: BarChart3 },
+  { number: '04', title: 'Tinh chỉnh theo tuần', copy: 'Giữ điều đang hiệu quả, bỏ phần gây quá tải và điều chỉnh cho phù hợp lịch sống mới.', icon: ShieldCheck },
+];
+
+const faqs = [
+  ['Tôi chưa chắc nên chọn gói nào?', 'Hãy bắt đầu bằng bài đánh giá miễn phí hoặc gửi lời nhắn. PrymaLab sẽ đề xuất mức đồng hành phù hợp và bạn vẫn có thể quyết định không mua.'],
+  ['PrymaLab có cam kết giảm cân hay chữa mất ngủ không?', 'Không. Kết quả phụ thuộc nhiều yếu tố cá nhân. Dịch vụ tập trung vào giáo dục, cấu trúc hành vi và theo dõi lối sống; không chẩn đoán hoặc điều trị bệnh.'],
+  ['Sau khi chuyển khoản, điều gì xảy ra?', 'PrymaLab đối soát mã đơn, liên hệ xác nhận và gửi hướng dẫn bắt đầu theo chương trình đã chọn. Trạng thái đơn được quản lý trong hệ thống CRM.'],
+  ['Tôi có bệnh nền hoặc triệu chứng kéo dài thì sao?', 'Bạn nên trao đổi với bác sĩ hoặc cơ sở y tế trước. PrymaLab có thể hỗ trợ tổ chức thói quen sinh hoạt trong phạm vi phù hợp, không thay thế chỉ định y khoa.'],
+];
+
 export default async function ServicesPage() {
-  const dbFaqs = await getFaqs();
-  
-  const faqs = dbFaqs.map((f: any) => ({
-    q: f.question,
-    a: f.answer
-  }));
+  const { packages, settings } = await getPublicHomeData();
+  return <div className="min-h-screen bg-[#f5f7f3] text-[#153339]">
+    <Navigation />
+    <main>
+      <section className="relative overflow-hidden px-5 pb-24 pt-36 sm:px-8 lg:pb-28 lg:pt-44">
+        <div className="hero-grid absolute inset-0 opacity-65" /><div className="absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full bg-[#d8e6ff] blur-[110px]" />
+        <div className="relative mx-auto grid max-w-[88rem] items-end gap-10 lg:grid-cols-[1fr_0.7fr]">
+          <div><p className="section-kicker">Chương trình Pryma</p><h1 className="mt-6 max-w-5xl font-[family-name:var(--font-display)] text-5xl font-semibold leading-[0.99] tracking-[-0.045em] sm:text-6xl lg:text-7xl">Đủ cấu trúc để tạo thay đổi. Đủ linh hoạt để sống cùng.</h1></div>
+          <div className="lg:pb-2"><p className="max-w-xl text-base leading-8 text-[#60767a]">PrymaLab không bán một “thực đơn hoàn hảo”. Chúng tôi xây một hệ thống giúp bạn hiểu mối liên hệ giữa bữa ăn, giấc ngủ và năng lượng rồi điều chỉnh theo dữ liệu thật.</p><Link href="/quiz" className="mt-7 inline-flex min-h-13 items-center gap-2 rounded-full bg-[#153339] px-6 text-sm font-bold text-white">Đánh giá miễn phí <ArrowRight className="h-4 w-4" /></Link></div>
+        </div>
+      </section>
 
-  return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Navigation />
-      
-      <main className="flex-grow pt-20">
-        <section className="bg-blue-50 py-20 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-6">Dịch Vụ Của Chúng Tôi</h1>
-          <p className="text-lg max-w-2xl mx-auto text-gray-600">
-            Giải pháp toàn diện kết hợp dinh dưỡng chuẩn khoa học và tối ưu hóa giấc ngủ, thiết kế riêng cho cơ thể bạn.
-          </p>
-        </section>
+      <section className="bg-[#112f35] px-5 py-24 text-white sm:px-8 lg:py-28"><div className="mx-auto max-w-[88rem]"><div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]"><div><p className="section-kicker section-kicker-dark">Một vòng lặp thực hành</p><h2 className="mt-5 max-w-lg font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.06] tracking-[-0.04em] sm:text-5xl">Không ép cơ thể theo một khuôn cố định.</h2><div className="mt-8 flex gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.07] text-[#8ed7cb]"><Salad className="h-5 w-5" /></span><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.07] text-[#9cb7ff]"><Moon className="h-5 w-5" /></span></div></div><div className="grid gap-3 sm:grid-cols-2">{steps.map((step) => <article key={step.number} className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 sm:p-7"><div className="flex items-center justify-between"><span className="text-xs font-extrabold tracking-[0.18em] text-[#8ed7cb]">{step.number}</span><step.icon className="h-5 w-5 text-white/35" /></div><h3 className="mt-7 text-xl font-semibold">{step.title}</h3><p className="mt-3 text-sm leading-7 text-white/55">{step.copy}</p></article>)}</div></div></div></section>
 
-        {/* Workflow Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl font-playfair font-bold text-center text-gray-900 mb-16">Quy trình hoạt động</h2>
-            <div className="grid md:grid-cols-4 gap-8 relative">
-              <div className="hidden md:block absolute top-8 left-[10%] right-[10%] h-0.5 bg-gray-200 -z-10"></div>
-              {[
-                { step: 1, title: 'Đánh giá sức khỏe', desc: 'Thực hiện bài quiz chi tiết để chúng tôi hiểu rõ thể trạng của bạn.' },
-                { step: 2, title: 'Tư vấn chuyên gia', desc: 'Trao đổi 1:1 với chuyên gia để xác định mục tiêu cụ thể.' },
-                { step: 3, title: 'Nhận thực đơn cá nhân hóa', desc: 'Thực đơn và lịch sinh hoạt được thiết kế riêng.' },
-                { step: 4, title: 'Theo dõi & đồng hành', desc: 'Cập nhật tiến độ mỗi tuần và tinh chỉnh lộ trình.' },
-              ].map((s) => (
-                <div key={s.step} className="text-center">
-                  <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg shadow-teal-200">
-                    {s.step}
-                  </div>
-                  <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
-                  <p className="text-sm text-gray-600">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+      <section id="pham-vi" className="scroll-mt-28 px-5 py-24 sm:px-8 lg:py-28"><div className="mx-auto max-w-[88rem]"><div className="grid gap-8 rounded-[2.25rem] border border-[#dbe4df] bg-white p-7 sm:p-10 lg:grid-cols-3 lg:p-12"><div><p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">Phạm vi rõ ràng</p><h2 className="mt-4 text-3xl font-semibold">Bạn đang mua điều gì?</h2></div><div><h3 className="text-sm font-extrabold text-[#153339]">PrymaLab cung cấp</h3><ul className="mt-4 space-y-3 text-sm leading-6 text-[#60767a]"><li>• Cấu trúc đánh giá và theo dõi thói quen.</li><li>• Khung hành động về bữa ăn và giờ ngủ.</li><li>• Buổi trao đổi và tinh chỉnh theo gói.</li></ul></div><div><h3 className="text-sm font-extrabold text-[#153339]">PrymaLab không cung cấp</h3><ul className="mt-4 space-y-3 text-sm leading-6 text-[#60767a]"><li>• Chẩn đoán hoặc điều trị bệnh.</li><li>• Kê đơn thuốc hay thay đổi chỉ định bác sĩ.</li><li>• Cam kết một kết quả giống nhau cho mọi người.</li></ul></div></div></div></section>
 
-        {/* Packages Section (Reused) */}
-        <section className="py-20 bg-gray-50">
-          <PackagesSection />
-        </section>
+      <PackagesSection packages={packages} />
 
-        {/* FAQ Section */}
-        <section className="py-20 px-4 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-playfair font-bold text-center text-gray-900 mb-12">Câu Hỏi Thường Gặp</h2>
-          <FaqAccordion faqs={faqs} />
-        </section>
-      </main>
+      <section className="px-5 py-24 sm:px-8 lg:py-28"><div className="mx-auto max-w-4xl"><div className="text-center"><p className="section-kicker">Câu hỏi trước khi bắt đầu</p><h2 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Minh bạch trước, cam kết sau.</h2></div><div className="mt-10 divide-y divide-[#dbe4df] border-y border-[#dbe4df]">{faqs.map(([question, answer]) => <details key={question} className="group"><summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-base font-bold"><span>{question}</span><span className="text-2xl font-light text-[#0b7f72] transition group-open:rotate-45">+</span></summary><p className="max-w-3xl pb-7 text-sm leading-7 text-[#657a7e]">{answer}</p></details>)}</div></div></section>
 
-      <Footer />
-    </div>
-  );
+      <section className="px-5 pb-8 sm:px-8"><div className="mx-auto flex max-w-[88rem] flex-col gap-7 rounded-[2.5rem] bg-[#d9f46f] p-8 sm:p-12 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#48613e]">Chưa cần chọn gói ngay</p><h2 className="mt-4 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.04] tracking-[-0.04em]">Bắt đầu bằng việc hiểu đúng điểm xuất phát.</h2></div><Link href="/quiz" className="inline-flex min-h-13 shrink-0 items-center justify-center gap-2 rounded-full bg-[#153339] px-7 text-sm font-bold text-white">Làm bài đánh giá <ArrowRight className="h-4 w-4" /></Link></div></section>
+    </main>
+    <Footer settings={settings} />
+  </div>;
 }

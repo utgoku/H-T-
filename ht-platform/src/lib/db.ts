@@ -1,3 +1,5 @@
+import 'server-only';
+import { randomBytes, randomUUID } from 'crypto';
 import { supabase } from './supabase';
 import { getAdminSupabase } from './supabase-admin';
 
@@ -22,6 +24,8 @@ export interface Lead {
   sleepScore: number;
   sleepCategory: string;
   goals: string;
+  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'archived';
+  adminNote: string;
 }
 
 export interface ContactMessage {
@@ -32,7 +36,11 @@ export interface ContactMessage {
   phone: string;
   subject: string;
   message: string;
+  status: 'new' | 'contacted' | 'resolved' | 'archived';
+  adminNote: string;
 }
+
+export type OrderStatus = 'awaiting_payment' | 'payment_review' | 'paid' | 'onboarding' | 'active' | 'completed' | 'cancelled';
 
 export interface Order {
   id: string;
@@ -41,6 +49,16 @@ export interface Order {
   packageName: string;
   customerName: string;
   customerPhone: string;
+  customerEmail: string;
+  orderCode: string;
+  amount: number;
+  status: OrderStatus;
+  paymentMethod: 'bank_transfer';
+  transferContent: string;
+  customerNote: string;
+  adminNote: string;
+  paidAt: string | null;
+  updatedAt: string;
 }
 
 export interface SiteSettings {
@@ -51,6 +69,11 @@ export interface SiteSettings {
   heroCustomers: string;
   heroSatisfaction: string;
   heroExperts: string;
+  bankName: string;
+  bankBin: string;
+  bankAccountNumber: string;
+  bankAccountName: string;
+  bankBranch: string;
   [key: string]: string; // Allows dynamic mapping of rows
 }
 
@@ -86,53 +109,61 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   workingHours: '08:30 - 17:00 (Thứ 2 - Thứ 6)',
   heroCustomers: '1000',
   heroSatisfaction: '95',
-  heroExperts: '30'
+  heroExperts: '30',
+  bankName: 'Vietcombank',
+  bankBin: '970436',
+  bankAccountNumber: '',
+  bankAccountName: '',
+  bankBranch: '',
 };
 
 export const DEFAULT_SITE_PACKAGES: SitePackage[] = [
   {
     id: 'starter',
     name: 'Pryma Start',
-    desc: 'Hiểu nhịp hiện tại và thiết lập nền tảng đầu tiên.',
+    desc: 'Bản khởi động 7 ngày để hiểu nhịp ăn, ngủ và chọn đúng ưu tiên.',
     price: '99,000 VNĐ',
-    period: '/tháng',
+    period: '/7 ngày',
     theme: 'teal',
     features: [
-      { text: 'Tính toán TDEE cơ bản', included: true },
-      { text: 'Gợi ý thực đơn mẫu', included: true },
-      { text: 'Nhật ký giấc ngủ (7 ngày)', included: true },
-      { text: 'Chuyên gia tư vấn 1-1', included: false },
+      { text: 'Bản đọc nhịp sống cá nhân', included: true },
+      { text: 'Khung bữa ăn thực hành 7 ngày', included: true },
+      { text: 'Routine thư giãn trước ngủ', included: true },
+      { text: 'Mẫu theo dõi năng lượng mỗi ngày', included: true },
     ]
   },
   {
     id: 'transformation',
     name: 'Pryma Reset 30',
-    desc: 'Tái thiết nhịp ăn, ngủ và năng lượng trong 30 ngày.',
+    desc: 'Thiết lập lại nhịp ăn, ngủ và năng lượng trong 30 ngày có người đồng hành.',
     price: '1,490,000 VNĐ',
     period: '/30 ngày',
     subprice: 'Chỉ ~49,000 VNĐ/ngày',
     badge: 'Được lựa chọn nhiều nhất',
     theme: 'teal',
     features: [
-      { text: 'Thực đơn cá nhân hóa mỗi ngày', included: true },
-      { text: 'Phác đồ giấc ngủ chuyên sâu', included: true },
-      { text: 'Theo dõi và tinh chỉnh hàng tuần', included: true },
-      { text: '2 buổi tư vấn 1-1 với chuyên gia', included: true },
-      { text: 'Hỗ trợ qua chat 24/7', included: true },
+      { text: 'Đánh giá đầu vào có cấu trúc', included: true },
+      { text: 'Khung bữa ăn cá nhân hóa 30 ngày', included: true },
+      { text: 'Routine giấc ngủ theo lịch sống', included: true },
+      { text: '2 buổi trao đổi 1-1', included: true },
+      { text: 'Check-in và tinh chỉnh hàng tuần', included: true },
+      { text: 'Hỗ trợ trong giờ làm việc', included: true },
     ]
   },
   {
     id: 'elite',
     name: 'Pryma Signature 90',
-    desc: 'Đồng hành chuyên sâu 90 ngày với lộ trình được tinh chỉnh liên tục.',
+    desc: 'Đồng hành 90 ngày để biến thay đổi ngắn hạn thành hệ thống có thể duy trì.',
     price: '3,990,000 VNĐ',
     period: '/90 ngày',
     theme: 'blue',
     features: [
-      { text: 'Mọi quyền lợi của Pryma Reset 30', included: true },
-      { text: 'Phân tích xét nghiệm máu định kỳ', included: true },
-      { text: '6 buổi tư vấn chuyên gia cao cấp', included: true },
-      { text: 'Ưu tiên hỗ trợ kỹ thuật và y tế', included: true },
+      { text: 'Toàn bộ Pryma Reset 30', included: true },
+      { text: '3 chu kỳ mục tiêu 30 ngày', included: true },
+      { text: '6 buổi trao đổi 1-1', included: true },
+      { text: 'Báo cáo xu hướng theo tuần', included: true },
+      { text: 'Tinh chỉnh ưu tiên xuyên suốt', included: true },
+      { text: 'Phản hồi ưu tiên trong ngày làm việc', included: true },
     ]
   }
 ];
@@ -259,7 +290,9 @@ export async function getDb(): Promise<DatabaseSchema> {
         tdee: l.tdee,
         sleepScore: l.sleep_score,
         sleepCategory: l.sleep_category,
-        goals: l.goals
+        goals: l.goals,
+        status: l.status || 'new',
+        adminNote: l.admin_note || '',
       }));
     }
 
@@ -272,7 +305,9 @@ export async function getDb(): Promise<DatabaseSchema> {
         email: c.email,
         phone: c.phone,
         subject: c.subject,
-        message: c.message
+        message: c.message,
+        status: c.status || 'new',
+        adminNote: c.admin_note || '',
       }));
     }
 
@@ -284,7 +319,17 @@ export async function getDb(): Promise<DatabaseSchema> {
         packageId: o.package_id,
         packageName: o.package_name,
         customerName: o.customer_name,
-        customerPhone: o.customer_phone
+        customerPhone: o.customer_phone,
+        customerEmail: o.customer_email || '',
+        orderCode: o.order_code || `PL-OLD-${o.id.slice(0, 8).toUpperCase()}`,
+        amount: Number(o.amount || 0),
+        status: (o.status || 'awaiting_payment') as OrderStatus,
+        paymentMethod: 'bank_transfer',
+        transferContent: o.transfer_content || '',
+        customerNote: o.customer_note || '',
+        adminNote: o.admin_note || '',
+        paidAt: o.paid_at || null,
+        updatedAt: o.updated_at || o.created_at,
       }));
     }
 
@@ -301,9 +346,10 @@ export async function getDb(): Promise<DatabaseSchema> {
   }
 }
 
-export async function addLead(lead: Omit<Lead, 'id' | 'createdAt'>): Promise<Lead> {
+export async function addLead(lead: Omit<Lead, 'id' | 'createdAt' | 'status' | 'adminNote'>): Promise<Lead> {
   try {
-    const { data, error } = await supabase.from('leads').insert([{
+    const adminSupabase = getAdminSupabase();
+    const { data, error } = await adminSupabase.from('leads').insert([{
       name: lead.name,
       email_or_phone: lead.emailOrPhone,
       bmi: lead.bmi,
@@ -311,7 +357,8 @@ export async function addLead(lead: Omit<Lead, 'id' | 'createdAt'>): Promise<Lea
       tdee: lead.tdee,
       sleep_score: lead.sleepScore,
       sleep_category: lead.sleepCategory,
-      goals: lead.goals
+      goals: lead.goals,
+      status: 'new',
     }]).select().single();
 
     if (error) throw error;
@@ -326,7 +373,9 @@ export async function addLead(lead: Omit<Lead, 'id' | 'createdAt'>): Promise<Lea
       tdee: data.tdee,
       sleepScore: data.sleep_score,
       sleepCategory: data.sleep_category,
-      goals: data.goals
+      goals: data.goals,
+      status: data.status || 'new',
+      adminNote: data.admin_note || '',
     };
   } catch (error) {
     console.error('Error adding lead', error);
@@ -334,14 +383,16 @@ export async function addLead(lead: Omit<Lead, 'id' | 'createdAt'>): Promise<Lea
   }
 }
 
-export async function addContact(contact: Omit<ContactMessage, 'id' | 'createdAt'>): Promise<ContactMessage> {
+export async function addContact(contact: Omit<ContactMessage, 'id' | 'createdAt' | 'status' | 'adminNote'>): Promise<ContactMessage> {
   try {
-    const { data, error } = await supabase.from('contacts').insert([{
+    const adminSupabase = getAdminSupabase();
+    const { data, error } = await adminSupabase.from('contacts').insert([{
       name: contact.name,
       email: contact.email,
       phone: contact.phone,
       subject: contact.subject,
-      message: contact.message
+      message: contact.message,
+      status: 'new',
     }]).select().single();
 
     if (error) throw error;
@@ -353,7 +404,9 @@ export async function addContact(contact: Omit<ContactMessage, 'id' | 'createdAt
       email: data.email,
       phone: data.phone,
       subject: data.subject,
-      message: data.message
+      message: data.message,
+      status: data.status || 'new',
+      adminNote: data.admin_note || '',
     };
   } catch (error) {
     console.error('Error adding contact', error);
@@ -361,29 +414,126 @@ export async function addContact(contact: Omit<ContactMessage, 'id' | 'createdAt
   }
 }
 
-export async function addOrder(order: Omit<Order, 'id' | 'createdAt'>): Promise<Order> {
-  try {
-    const { data, error } = await supabase.from('orders').insert([{
-      package_id: order.packageId,
-      package_name: order.packageName,
-      customer_name: order.customerName,
-      customer_phone: order.customerPhone
-    }]).select().single();
+export interface CreateOrderInput {
+  packageId: string;
+  packageName: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  customerNote?: string;
+  amount: number;
+}
 
-    if (error) throw error;
+function createOrderCode() {
+  const now = new Date();
+  const day = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
+  return `PL${day}-${randomBytes(3).toString('hex').toUpperCase()}`;
+}
 
-    return {
-      id: data.id,
-      createdAt: data.created_at,
-      packageId: data.package_id,
-      packageName: data.package_name,
-      customerName: data.customer_name,
-      customerPhone: data.customer_phone
-    };
-  } catch (error) {
-    console.error('Error adding order', error);
-    throw error;
+export async function addOrder(order: CreateOrderInput): Promise<Order> {
+  const adminSupabase = getAdminSupabase();
+  const id = randomUUID();
+  const orderCode = createOrderCode();
+  const transferContent = `PRYMALAB ${orderCode}`;
+  const createdAt = new Date().toISOString();
+
+  const { data, error } = await adminSupabase.from('orders').insert([{
+    id,
+    created_at: createdAt,
+    package_id: order.packageId,
+    package_name: order.packageName,
+    customer_name: order.customerName,
+    customer_phone: order.customerPhone,
+    customer_email: order.customerEmail,
+    customer_note: order.customerNote || '',
+    order_code: orderCode,
+    amount: order.amount,
+    payment_method: 'bank_transfer',
+    transfer_content: transferContent,
+    status: 'awaiting_payment',
+    updated_at: createdAt,
+  }]).select().single();
+
+  if (error) throw error;
+
+  return {
+    id: data.id,
+    createdAt: data.created_at,
+    packageId: data.package_id,
+    packageName: data.package_name,
+    customerName: data.customer_name,
+    customerPhone: data.customer_phone,
+    customerEmail: data.customer_email,
+    orderCode: data.order_code,
+    amount: Number(data.amount),
+    status: data.status as OrderStatus,
+    paymentMethod: 'bank_transfer',
+    transferContent: data.transfer_content,
+    customerNote: data.customer_note || '',
+    adminNote: data.admin_note || '',
+    paidAt: data.paid_at || null,
+    updatedAt: data.updated_at,
+  };
+}
+
+const LEAD_STATUSES: Lead['status'][] = ['new', 'contacted', 'qualified', 'converted', 'archived'];
+const CONTACT_STATUSES: ContactMessage['status'][] = ['new', 'contacted', 'resolved', 'archived'];
+const ORDER_STATUSES: OrderStatus[] = ['awaiting_payment', 'payment_review', 'paid', 'onboarding', 'active', 'completed', 'cancelled'];
+
+export async function updateLead(id: string, status: Lead['status'], adminNote = '') {
+  if (!LEAD_STATUSES.includes(status)) throw new Error('Invalid lead status.');
+  const adminSupabase = getAdminSupabase();
+  const { error } = await adminSupabase.from('leads').update({
+    status,
+    admin_note: adminNote.slice(0, 1000),
+    updated_at: new Date().toISOString(),
+  }).eq('id', id);
+  if (error) throw error;
+}
+
+export async function updateContact(id: string, status: ContactMessage['status'], adminNote = '') {
+  if (!CONTACT_STATUSES.includes(status)) throw new Error('Invalid contact status.');
+  const adminSupabase = getAdminSupabase();
+  const { error } = await adminSupabase.from('contacts').update({
+    status,
+    admin_note: adminNote.slice(0, 1000),
+    updated_at: new Date().toISOString(),
+  }).eq('id', id);
+  if (error) throw error;
+}
+
+export async function updateOrder(id: string, status: OrderStatus, adminNote = '') {
+  if (!ORDER_STATUSES.includes(status)) throw new Error('Invalid order status.');
+  const adminSupabase = getAdminSupabase();
+  const updates: Record<string, string | null> = {
+    status,
+    admin_note: adminNote.slice(0, 1000),
+    updated_at: new Date().toISOString(),
+  };
+  if (status === 'paid') updates.paid_at = new Date().toISOString();
+  const { error } = await adminSupabase.from('orders').update(updates).eq('id', id);
+  if (error) throw error;
+}
+
+export async function markOrderPaymentSubmitted(orderCode: string, phone: string) {
+  const adminSupabase = getAdminSupabase();
+  const normalizedPhone = phone.replace(/\D/g, '');
+  const { data, error } = await adminSupabase
+    .from('orders')
+    .select('id, customer_phone, status')
+    .eq('order_code', orderCode)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data || String(data.customer_phone).replace(/\D/g, '') !== normalizedPhone) return false;
+  if (data.status === 'awaiting_payment') {
+    const { error: updateError } = await adminSupabase.from('orders').update({
+      status: 'payment_review',
+      updated_at: new Date().toISOString(),
+    }).eq('id', data.id);
+    if (updateError) throw updateError;
   }
+  return true;
 }
 
 export async function updateSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {
@@ -412,13 +562,17 @@ export async function updatePackages(packages: SitePackage[]): Promise<SitePacka
     if (packages.length > 0) {
       const inserts = packages.map((p, index) => ({
         id: p.id,
-        name: p.name,
-        description: p.desc,
-        price: p.price,
-        period: p.period,
-        subprice: p.subprice,
-        badge: p.badge,
+        name: String(p.name || '').slice(0, 100),
+        description: String(p.desc || '').slice(0, 400),
+        price: String(p.price || '').slice(0, 40),
+        price_numeric: Number(String(p.price || '').replace(/\D/g, '')) || 0,
+        currency: 'VND',
+        period: String(p.period || '').slice(0, 40),
+        duration_days: p.id === 'starter' ? 7 : p.id === 'transformation' ? 30 : 90,
+        subprice: String(p.subprice || '').slice(0, 80),
+        badge: String(p.badge || '').slice(0, 80),
         theme: p.theme,
+        is_popular: p.id === 'transformation',
         features: p.features,
         sort_order: index
       }));

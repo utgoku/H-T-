@@ -9,6 +9,9 @@ export async function PUT(request: Request) {
 
   try {
     const data = await request.json();
+    if (!Array.isArray(data) || data.length !== 3) {
+      return NextResponse.json({ error: 'Danh sách chương trình không hợp lệ.' }, { status: 400 });
+    }
     const packages = await updatePackages(data);
     return NextResponse.json({ success: true, packages });
   } catch (error) {

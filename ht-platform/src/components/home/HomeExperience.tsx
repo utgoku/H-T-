@@ -59,8 +59,8 @@ const journeySteps = [
   },
   {
     number: '04',
-    title: 'Tinh chỉnh cùng chuyên gia',
-    description: 'Khi cần, bạn có thể trao đổi 1-1 để lộ trình bám sát phản hồi thật của cơ thể.',
+    title: 'Tinh chỉnh trong buổi 1-1',
+    description: 'Theo quyền lợi từng gói, bạn có thể trao đổi để lộ trình bám sát phản hồi thật của cơ thể.',
     icon: MessageCircle,
   },
 ];
@@ -193,7 +193,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
           <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-xs font-bold uppercase tracking-[0.12em] text-[#778b8f]">
             <span className="flex items-center gap-2"><Utensils className="h-4 w-4 text-[#0b8a78]" aria-hidden="true" /> Thực đơn cá nhân</span>
             <span className="flex items-center gap-2"><Moon className="h-4 w-4 text-[#315fca]" aria-hidden="true" /> Nhật ký giấc ngủ</span>
-            <span className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[#bd7d24]" aria-hidden="true" /> Chuyên gia đồng hành</span>
+            <span className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[#bd7d24]" aria-hidden="true" /> Buổi tinh chỉnh 1-1</span>
           </div>
         </div>
       </section>
@@ -292,7 +292,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
             <div>
               <p className="section-kicker">Portal cá nhân</p>
               <h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-5xl">Mỗi ngày mở lên là biết việc quan trọng tiếp theo.</h2>
-              <p className="mt-6 max-w-xl text-base leading-7 text-[#657a7e]">Một màn hình gọn cho kế hoạch bữa ăn, nhịp ngủ, tiến độ tuần và trao đổi với chuyên gia — đủ sâu để hữu ích, đủ nhẹ để dùng mỗi ngày.</p>
+              <p className="mt-6 max-w-xl text-base leading-7 text-[#657a7e]">Một màn hình gọn cho kế hoạch bữa ăn, nhịp ngủ, tiến độ tuần và ghi chú tinh chỉnh — đủ sâu để hữu ích, đủ nhẹ để dùng mỗi ngày.</p>
               <div className="mt-8 space-y-4">
                 {[
                   ['Kế hoạch theo ngày', 'Mục tiêu được chia thành hành động nhỏ và rõ ràng.'],

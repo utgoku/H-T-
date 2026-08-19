@@ -23,10 +23,10 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     currency: 'VND',
     durationDays: 7,
     features: [
-      'Đánh giá chỉ số cơ thể BMI cơ bản',
-      'Đánh giá chất lượng giấc ngủ sơ bộ',
-      'Lên thực đơn gợi ý trong 7 ngày',
-      'Hỗ trợ qua email'
+      'Bản đọc nhịp sống cá nhân',
+      'Khung bữa ăn thực hành 7 ngày',
+      'Routine thư giãn trước ngủ',
+      'Mẫu theo dõi năng lượng mỗi ngày'
     ],
   },
   {
@@ -39,12 +39,12 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     badge: 'Được lựa chọn nhiều nhất',
     isPopular: true,
     features: [
-      'Đánh giá toàn diện chuyên sâu',
-      'Thực đơn cá nhân hóa 30 ngày',
-      'Lộ trình cải thiện giấc ngủ khoa học',
-      'Tư vấn trực tiếp 1-1 với chuyên gia (2 buổi)',
-      'Hỗ trợ qua Zalo/Chat 24/7',
-      'Cập nhật tiến độ hàng tuần'
+      'Đánh giá đầu vào có cấu trúc',
+      'Khung bữa ăn cá nhân hóa 30 ngày',
+      'Routine giấc ngủ theo lịch sống',
+      '2 buổi trao đổi 1-1',
+      'Check-in và tinh chỉnh hàng tuần',
+      'Hỗ trợ trong giờ làm việc'
     ],
   },
   {
@@ -55,13 +55,12 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     currency: 'VND',
     durationDays: 90,
     features: [
-      'Tất cả quyền lợi của Pryma Reset 30',
-      'Thực đơn cá nhân hóa 90 ngày',
-      'Lộ trình thay đổi vóc dáng & sinh học toàn diện',
-      'Tư vấn trực tiếp 1-1 với chuyên gia (6 buổi)',
-      'Phân tích biểu đồ giấc ngủ chuyên sâu',
-      'Quản lý hồ sơ sức khỏe trọn đời',
-      'Cam kết hoàn tiền nếu không hiệu quả'
+      'Toàn bộ quyền lợi Pryma Reset 30',
+      '3 chu kỳ mục tiêu 30 ngày',
+      '6 buổi trao đổi 1-1',
+      'Báo cáo xu hướng theo tuần',
+      'Tinh chỉnh ưu tiên xuyên suốt',
+      'Phản hồi ưu tiên trong ngày làm việc'
     ],
   }
 ];

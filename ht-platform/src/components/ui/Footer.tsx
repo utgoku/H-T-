@@ -22,6 +22,14 @@ const footerGroups = [
       { label: 'Không gian cá nhân', href: '/dashboard' },
     ],
   },
+  {
+    title: 'Pháp lý',
+    links: [
+      { label: 'Chính sách bảo mật', href: '/privacy' },
+      { label: 'Điều khoản dịch vụ', href: '/terms' },
+      { label: 'Phạm vi sức khỏe', href: '/services#pham-vi' },
+    ],
+  },
 ];
 
 export function Footer({ settings }: { settings?: SiteSettings }) {
@@ -32,7 +40,7 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
   return (
     <footer className="mt-6 bg-[#102f35] px-5 pb-8 pt-16 text-white sm:px-8 lg:pt-20">
       <div className="mx-auto max-w-[88rem]">
-        <div className="grid gap-14 border-b border-white/10 pb-14 lg:grid-cols-[1.15fr_0.85fr_0.85fr_1.1fr]">
+        <div className="grid gap-14 border-b border-white/10 pb-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_1.05fr]">
           <div>
             <BrandMark inverse />
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/55">Dinh dưỡng, giấc ngủ và nhịp sống — được kết nối thành một lộ trình cá nhân rõ ràng, tinh tế và dễ duy trì.</p>

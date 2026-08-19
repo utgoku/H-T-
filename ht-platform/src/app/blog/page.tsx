@@ -31,7 +31,7 @@ export default async function BlogPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-4">Blog Sức Khỏe</h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">Kiến thức thực hành từ đội ngũ chuyên gia đồng hành cùng PrymaLab.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">Kiến thức thực hành do ban biên tập PrymaLab tổng hợp và rà soát theo phạm vi giáo dục lối sống.</p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 mb-12">

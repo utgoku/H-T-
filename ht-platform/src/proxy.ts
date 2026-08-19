@@ -18,8 +18,8 @@ export function proxy(request: NextRequest) {
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' blob: data: https:;
     font-src 'self' data: https://fonts.gstatic.com;
-    connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://vitals.vercel-insights.com;
-    frame-src 'self' https://www.youtube.com https://js.stripe.com;
+    connect-src 'self' https://*.supabase.co wss://*.supabase.co https://vitals.vercel-insights.com;
+    frame-src 'self' https://www.youtube.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';

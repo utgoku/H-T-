@@ -112,11 +112,11 @@ export default function QuizResult({ scores }: QuizResultProps) {
 
       <div className="text-center bg-gradient-to-r from-teal-600 to-blue-600 p-8 rounded-2xl text-white shadow-lg">
         <h3 className="text-2xl font-playfair font-bold mb-4">Bắt Đầu Hành Trình Của Bạn</h3>
-        <p className="mb-6 opacity-90 max-w-2xl mx-auto">Đăng ký chương trình để nhận thực đơn cá nhân hóa, lộ trình tập luyện và sự đồng hành 1:1 từ các chuyên gia dinh dưỡng và giấc ngủ của PrymaLab.</p>
+        <p className="mb-6 opacity-90 max-w-2xl mx-auto">Đăng ký chương trình để biến kết quả này thành khung bữa ăn, routine giấc ngủ và các buổi tinh chỉnh 1:1 theo quyền lợi đã công bố.</p>
         <Button size="lg" className="bg-white text-teal-700 hover:bg-gray-100 px-8 py-6 text-lg rounded-full font-semibold shadow-xl transition-transform hover:scale-105">
           Khám phá gói dịch vụ
         </Button>
-        <p className="mt-4 text-sm opacity-75">Bạn có thể lưu lại kết quả này hoặc chia sẻ với chuyên gia của chúng tôi.</p>
+        <p className="mt-4 text-sm opacity-75">Bạn có thể lưu lại kết quả này hoặc dùng làm điểm khởi đầu khi trao đổi với PrymaLab.</p>
       </div>
     </div>
   );

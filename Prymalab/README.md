@@ -50,7 +50,7 @@ PrymaLab is a specialized platform offering solutions to improve sleep quality a
 1. **Clone repository:**
    ```bash
    git clone <repository-url>
-   cd ht-platform
+   cd Prymalab
    ```
 
 2. **Cài đặt thư viện (Install dependencies):**
@@ -82,7 +82,7 @@ PrymaLab is a specialized platform offering solutions to improve sleep quality a
 ## 📁 Cấu trúc dự án (Project Structure)
 
 ```
-ht-platform/
+Prymalab/
 ├── public/             # Tài nguyên tĩnh (images, icons, fonts)
 ├── src/
 │   ├── app/            # Next.js App Router (pages, layouts, api)

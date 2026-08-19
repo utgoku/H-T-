@@ -28,13 +28,14 @@ export const metadata: Metadata = {
     template: '%s | PrymaLab',
     default: 'PrymaLab | Dinh dưỡng & giấc ngủ theo nhịp sống',
   },
-  description: 'PrymaLab kết nối dinh dưỡng, giấc ngủ và dữ liệu thói quen để tạo lộ trình sức khỏe cá nhân hóa, rõ ràng và dễ duy trì mỗi ngày.',
-  keywords: ['dinh dưỡng cá nhân hóa', 'cải thiện giấc ngủ', 'nhật ký giấc ngủ', 'thực đơn cá nhân', 'wellness', 'PrymaLab'],
-  authors: [{ name: 'PrymaLab' }],
+  description: 'PrymaLab kết nối dinh dưỡng, chất lượng giấc ngủ và dữ liệu thói quen thành lộ trình cá nhân hóa rõ ràng, thực tế và dễ duy trì.',
+  keywords: ['PrymaLab', 'dinh dưỡng và giấc ngủ', 'cải thiện chất lượng giấc ngủ', 'dinh dưỡng cá nhân hóa', 'nhịp sống lành mạnh', 'TDEE'],
+  authors: [{ name: 'PrymaLab', url: 'https://prymalab.com/about' }],
   creator: 'PrymaLab',
   publisher: 'PrymaLab',
   applicationName: 'PrymaLab',
   category: 'health',
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
     title: 'PrymaLab | Ăn đúng nhịp. Ngủ sâu hơn.',
     description: 'Một lộ trình cá nhân kết nối dinh dưỡng, giấc ngủ và năng lượng — để bạn biết hôm nay nên bắt đầu từ đâu.',
@@ -60,6 +61,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
 };
 

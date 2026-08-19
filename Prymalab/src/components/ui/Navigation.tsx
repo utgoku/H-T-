@@ -8,7 +8,7 @@ import { BrandMark } from './BrandMark';
 
 const navLinks = [
   { name: 'Trang chủ', href: '/' },
-  { name: 'Phương pháp', href: '/#phuong-phap' },
+  { name: 'Phương pháp', href: '/phuong-phap' },
   { name: 'Chương trình', href: '/services' },
   { name: 'Kiến thức', href: '/blog' },
   { name: 'Về PrymaLab', href: '/about' },
@@ -41,7 +41,7 @@ export function Navigation() {
 
           <div className="hidden items-center gap-7 lg:flex">
             {navLinks.map((link) => {
-              const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href.split('#')[0]) && link.href !== '/#phuong-phap';
+              const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.name}

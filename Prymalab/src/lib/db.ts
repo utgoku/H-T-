@@ -587,7 +587,7 @@ export async function updatePackages(packages: SitePackage[]): Promise<SitePacka
         subprice: String(p.subprice || '').slice(0, 80),
         badge: String(p.badge || '').slice(0, 80),
         theme: p.theme,
-        is_popular: p.id === 'transformation',
+        is_popular: false,
         features: p.features,
         sort_order: index
       }));

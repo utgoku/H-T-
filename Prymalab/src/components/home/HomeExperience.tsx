@@ -119,7 +119,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
                 Khám phá nhịp sống của bạn <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
-                href="#phuong-phap"
+                href="/phuong-phap"
                 className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#cfdad6] bg-white/70 px-7 text-sm font-bold text-[#27474c] transition hover:border-[#8dbeb2] hover:bg-white"
               >
                 Xem cách PrymaLab hoạt động <ChevronRight className="h-4 w-4" aria-hidden="true" />

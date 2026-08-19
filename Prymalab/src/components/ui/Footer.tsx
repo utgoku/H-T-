@@ -7,7 +7,7 @@ const footerGroups = [
   {
     title: 'Khám phá',
     links: [
-      { label: 'Phương pháp Pryma', href: '/#phuong-phap' },
+      { label: 'Phương pháp Pryma', href: '/phuong-phap' },
       { label: 'Chương trình', href: '/services' },
       { label: 'Bài đánh giá', href: '/quiz' },
       { label: 'Kiến thức', href: '/blog' },

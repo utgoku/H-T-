@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { getBlogPosts } from '@/lib/db';
 
 export const metadata = {
-  title: 'Blog Sức Khỏe | H&T Platform',
-  description: 'Kiến thức khoa học về dinh dưỡng, giấc ngủ và lối sống lành mạnh từ các chuyên gia H&T.',
+  title: 'Kiến thức dinh dưỡng & giấc ngủ | PrymaLab',
+  description: 'Kiến thức thực hành về dinh dưỡng, giấc ngủ và lối sống lành mạnh từ PrymaLab.',
 };
 
 export default async function BlogPage() {
@@ -28,7 +28,7 @@ export default async function BlogPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-4">Blog Sức Khỏe</h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">Kiến thức chuyên sâu từ đội ngũ y bác sĩ và chuyên gia của H&T.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">Kiến thức thực hành từ đội ngũ chuyên gia đồng hành cùng PrymaLab.</p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 mb-12">

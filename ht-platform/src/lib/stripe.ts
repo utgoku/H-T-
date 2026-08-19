@@ -35,7 +35,7 @@ export const getStripeInstance = () => {
     stripeInstance = new Stripe(secretKey, {
       apiVersion: '2023-10-16',
       appInfo: {
-        name: 'H&T Platform',
+        name: 'PrymaLab',
         version: '1.0.0',
       },
     });
@@ -65,7 +65,7 @@ export const createCheckoutSession = async (packageSlug: string, customerEmail: 
     // Mock package if constants are missing
     const pkg = SERVICE_PACKAGES?.find((p: any) => p.slug === packageSlug) || {
       slug: packageSlug,
-      name: 'Gói Dịch Vụ H&T',
+      name: 'Gói Dịch Vụ PrymaLab',
       price: 500000
     };
 

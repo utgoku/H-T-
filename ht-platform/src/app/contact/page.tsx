@@ -59,7 +59,7 @@ export default function ContactPage() {
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-4">Liên Hệ Với Chúng Tôi</h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Đội ngũ chuyên gia H&T luôn sẵn sàng lắng nghe và hỗ trợ bạn trên hành trình chăm sóc sức khỏe.
+              Đội ngũ PrymaLab luôn sẵn sàng lắng nghe và hỗ trợ bạn trên hành trình chăm sóc sức khỏe.
             </p>
           </div>
 

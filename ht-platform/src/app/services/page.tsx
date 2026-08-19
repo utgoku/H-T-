@@ -6,8 +6,8 @@ import { getFaqs } from '@/lib/db';
 import FaqAccordion from './FaqAccordion';
 
 export const metadata = {
-  title: 'Dịch Vụ | H&T Platform',
-  description: 'Các gói dịch vụ tư vấn dinh dưỡng và cải thiện giấc ngủ cá nhân hóa từ H&T.',
+  title: 'Chương trình đồng hành | PrymaLab',
+  description: 'Các chương trình dinh dưỡng và cải thiện giấc ngủ cá nhân hóa từ PrymaLab.',
 };
 
 export default async function ServicesPage() {

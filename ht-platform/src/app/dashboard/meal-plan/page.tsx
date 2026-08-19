@@ -65,7 +65,7 @@ const DEMO_MEALS: MockMealSection[] = [
     icon: <Cookie className="w-5 h-5 text-green-600" />,
     bgClass: 'bg-green-50',
     items: [
-      { id: 's1', name: 'Granola bar H&T', calories: 180, macros: { protein: 6, carbs: 22, fat: 8 }, isHTSuggest: true },
+      { id: 's1', name: 'Granola bar Pryma', calories: 180, macros: { protein: 6, carbs: 22, fat: 8 }, isHTSuggest: true },
       { id: 's2', name: 'Sữa chua Hy Lạp', calories: 120, macros: { protein: 12, carbs: 6, fat: 4 } },
     ],
   },
@@ -301,7 +301,7 @@ export default function MealPlanPage() {
                               </span>
                               {item.isHTSuggest && (
                                 <Badge variant="primary" className="bg-teal-50 text-teal-700 border-teal-200 text-[10px] px-1.5 py-0 leading-tight">
-                                  H&T Gợi ý
+                                  Pryma Gợi ý
                                 </Badge>
                               )}
                             </div>
@@ -328,7 +328,7 @@ export default function MealPlanPage() {
               <CalendarOff className="w-10 h-10 text-gray-400" />
             </div>
             <h3 className="text-lg font-bold text-gray-700 mb-2">Chưa có thực đơn</h3>
-            <p className="text-gray-500 max-w-sm">Thực đơn cho tuần này sẽ được chuyên gia H&T cập nhật vào đầu tuần nhé.</p>
+            <p className="text-gray-500 max-w-sm">Thực đơn cho tuần này sẽ được chuyên gia PrymaLab cập nhật vào đầu tuần nhé.</p>
           </Card>
         )}
       </div>

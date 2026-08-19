@@ -1,11 +1,19 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { Button } from './Button';
+import { BrandMark } from './BrandMark';
 import { UserMenu } from './UserMenu';
+
+const navLinks = [
+  { name: 'Trang chủ', href: '/' },
+  { name: 'Phương pháp', href: '/#phuong-phap' },
+  { name: 'Chương trình', href: '/services' },
+  { name: 'Kiến thức', href: '/blog' },
+  { name: 'Về PrymaLab', href: '/about' },
+];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,110 +21,102 @@ export function Navigation() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 18);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Trang chủ', href: '/' },
-    { name: 'Giới thiệu', href: '/about' },
-    { name: 'Dịch vụ', href: '/services' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Liên hệ', href: '/contact' },
-  ];
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg border-b border-[#E2E8F0] shadow-sm py-3' : 'bg-transparent border-transparent py-5'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <Image src="/logo_cropped.jpg" alt="H&T Logo" width={240} height={96} className={`${isScrolled ? 'h-16' : 'h-20'} w-auto rounded-md object-contain transition-all duration-300`} />
-            </Link>
+      <nav className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'border-b border-[#dfe6e2]/90 bg-[#f7f9f5]/88 py-3 shadow-[0_10px_35px_-25px_rgba(21,51,57,0.4)] backdrop-blur-xl' : 'border-b border-transparent bg-transparent py-5'}`}>
+        <div className="mx-auto flex max-w-[88rem] items-center justify-between px-5 sm:px-8 lg:px-10">
+          <BrandMark />
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`relative text-sm font-medium transition-colors ${isActive ? 'text-[#0D9488]' : 'text-[#64748B] hover:text-[#0D9488]'} group`}
-                  >
-                    {link.name}
-                    <span className={`absolute left-0 bottom-[-4px] w-full h-[2px] bg-[#0D9488] rounded-full transition-transform duration-300 origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-                  </Link>
-                );
-              })}
-              <Link href="/quiz" className="bg-[#0D9488] text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-[#0F766E] transition-all">
-                Làm bài đánh giá
-              </Link>
-              <UserMenu />
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 rounded-lg text-[#374151] hover:bg-[#F0FDF9] transition-colors focus:outline-none"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+          <div className="hidden items-center gap-7 lg:flex">
+            {navLinks.map((link) => {
+              const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href.split('#')[0]) && link.href !== '/#phuong-phap';
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`relative py-2 text-[13px] font-semibold transition-colors ${isActive ? 'text-[#0b7f72]' : 'text-[#526a6f] hover:text-[#0b7f72]'}`}
+                >
+                  {link.name}
+                  <span className={`absolute inset-x-0 -bottom-1 mx-auto h-0.5 rounded-full bg-[#0b8a78] transition-all ${isActive ? 'w-5' : 'w-0'}`} />
+                </Link>
+              );
+            })}
           </div>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <UserMenu />
+            <Link href="/quiz" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#153339] px-5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0b7f72]">
+              Đánh giá miễn phí
+            </Link>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Mở menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#cedbd6] bg-white/75 text-[#153339] backdrop-blur lg:hidden"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu className="h-5 w-5" aria-hidden="true" />
+          </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex justify-end">
-          <div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          <div className="relative w-64 h-full bg-white border-l border-[#E2E8F0] shadow-2xl flex flex-col transform transition-transform animate-in slide-in-from-right duration-300">
-            <div className="p-5 border-b border-[#E2E8F0] flex justify-between items-center bg-white">
-              <Image src="/logo_cropped.jpg" alt="H&T Logo" width={160} height={64} className="h-10 w-auto rounded-md object-contain" />
-              <button
-                className="p-2 rounded-full text-[#64748B] hover:text-[#0D9488] hover:bg-[#F0FDF9] transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-2 px-3">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${isActive ? 'bg-[#F0FDF9] text-[#0D9488]' : 'text-[#374151] hover:bg-[#F0FDF9] hover:text-[#0D9488]'}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-            </div>
-            <div className="p-4 border-t border-[#E2E8F0] space-y-4">
-              <Link href="/quiz" onClick={() => setIsMobileMenuOpen(false)} className="block text-center bg-[#0D9488] text-white font-semibold px-5 py-3 rounded-full text-sm hover:bg-[#0F766E] transition-all">
-                Làm bài đánh giá
+      <div className={`fixed inset-0 z-[60] transition lg:hidden ${isMobileMenuOpen ? 'pointer-events-auto visible' : 'pointer-events-none invisible'}`}>
+        <button
+          type="button"
+          aria-label="Đóng menu"
+          className={`absolute inset-0 bg-[#102f35]/45 backdrop-blur-sm transition-opacity ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+        <aside
+          id="mobile-navigation"
+          className={`absolute right-0 top-0 flex h-full w-[min(88vw,25rem)] flex-col bg-[#f7f9f5] p-6 shadow-2xl transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div className="flex items-center justify-between">
+            <BrandMark />
+            <button type="button" aria-label="Đóng menu" className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d4dfda] text-[#153339]" onClick={() => setIsMobileMenuOpen(false)}>
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="mt-12 flex flex-col">
+            {navLinks.map((link, index) => (
+              <Link key={link.name} href={link.href} className="flex items-center justify-between border-b border-[#dde5e0] py-5 text-lg font-semibold text-[#27474c]" onClick={() => setIsMobileMenuOpen(false)}>
+                {link.name}<span className="text-xs font-bold text-[#9aabaa]">0{index + 1}</span>
               </Link>
-              <div className="flex justify-center">
-                <UserMenu />
-              </div>
+            ))}
+          </div>
+
+          <div className="mt-auto space-y-4 pt-8">
+            <Link href="/quiz" className="flex min-h-13 items-center justify-center rounded-full bg-[#153339] px-6 text-sm font-bold text-white" onClick={() => setIsMobileMenuOpen(false)}>
+              Khám phá nhịp sống của bạn
+            </Link>
+            <div className="flex items-center justify-between rounded-2xl border border-[#dbe4df] bg-white p-4">
+              <span className="text-xs font-semibold text-[#697e82]">Tài khoản PrymaLab</span>
+              <UserMenu />
             </div>
           </div>
-        </div>
-      )}
+        </aside>
+      </div>
     </>
   );
 }

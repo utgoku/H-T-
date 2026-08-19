@@ -1,6 +1,6 @@
 import { NavigationItem, ServicePackage } from '@/types';
 
-export const APP_NAME = 'H&T Platform';
+export const APP_NAME = 'PrymaLab';
 export const APP_DESCRIPTION = 'Nền tảng chăm sóc sức khỏe và giấc ngủ toàn diện, mang đến giải pháp cá nhân hóa cho từng khách hàng.';
 
 export const BRAND_COLORS = {
@@ -17,7 +17,7 @@ export const BRAND_COLORS = {
 export const SERVICE_PACKAGES: ServicePackage[] = [
   {
     id: 'pkg_starter',
-    name: 'H&T Starter',
+    name: 'Pryma Start',
     slug: 'starter',
     price: 99000,
     currency: 'VND',
@@ -31,7 +31,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
   },
   {
     id: 'pkg_transformation_30',
-    name: 'H&T Transformation 30 Days',
+    name: 'Pryma Reset 30',
     slug: 'transformation-30-days',
     price: 1490000,
     currency: 'VND',
@@ -49,7 +49,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
   },
   {
     id: 'pkg_elite_90',
-    name: 'H&T Elite Care 90 Days',
+    name: 'Pryma Signature 90',
     slug: 'elite-care-90-days',
     price: 3990000,
     currency: 'VND',

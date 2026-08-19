@@ -4,8 +4,8 @@ import { Footer } from '@/components/ui/Footer';
 import QuizEngine from '@/components/quiz/QuizEngine';
 
 export const metadata = {
-  title: 'Đánh giá sức khỏe | H&T Platform',
-  description: 'Thực hiện bài kiểm tra sức khỏe và giấc ngủ để nhận được đánh giá chi tiết và lộ trình cá nhân hóa từ H&T.',
+  title: 'Đánh giá nhịp sống | PrymaLab',
+  description: 'Thực hiện bài đánh giá dinh dưỡng và giấc ngủ để nhận điểm khởi đầu cùng gợi ý cá nhân hóa từ PrymaLab.',
 };
 
 export default function QuizPage() {

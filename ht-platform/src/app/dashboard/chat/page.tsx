@@ -73,7 +73,7 @@ const DEMO_CONVERSATIONS: Conversation[] = [
   },
   {
     id: '3',
-    name: 'H&T Support',
+    name: 'PrymaLab Support',
     role: 'Hỗ trợ khách hàng',
     avatarColor: 'bg-emerald-500',
     isOnline: true,
@@ -97,7 +97,7 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
     { id: 'm3', senderId: '2', text: 'Hãy thử phương pháp 4-7-8 nhé', timestamp: '08:30' },
   ],
   '3': [
-    { id: 'm1', senderId: '3', text: 'Chào bạn, H&T Platform có thể giúp gì cho bạn?', timestamp: '14:00' },
+    { id: 'm1', senderId: '3', text: 'Chào bạn, PrymaLab có thể giúp gì cho bạn?', timestamp: '14:00' },
     { id: 'm2', senderId: '3', text: 'Cảm ơn bạn đã liên hệ!', timestamp: '14:05' },
   ]
 };
@@ -306,7 +306,7 @@ export default function ChatPage() {
             <div className="w-24 h-24 mb-6 rounded-full bg-white shadow-sm flex items-center justify-center text-4xl border border-gray-100">
               👋
             </div>
-            <h3 className="text-xl font-serif font-bold text-gray-700 mb-2">Chào mừng đến với H&T Chat</h3>
+            <h3 className="text-xl font-serif font-bold text-gray-700 mb-2">Chào mừng đến với PrymaLab Chat</h3>
             <p className="text-center text-sm">Chọn một cuộc trò chuyện từ danh sách bên trái để bắt đầu nhắn tin với chuyên gia của bạn.</p>
           </div>
         )}

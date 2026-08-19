@@ -1,40 +1,62 @@
-import React from 'react';
 import type { Metadata } from 'next';
-import HeroSection from '@/components/home/HeroSection';
-import StatementSection from '@/components/home/StatementSection';
-import FeaturesSection from '@/components/home/FeaturesSection';
-import PackagesSection from '@/components/home/PackagesSection';
-import TestimonialsSection from '@/components/home/TestimonialsSection';
-import CTASection from '@/components/home/CTASection';
+import HomeExperience, { faqs } from '@/components/home/HomeExperience';
+import { getPublicHomeData } from '@/lib/db';
 
 export const metadata: Metadata = {
-  title: 'H&T Platform - Sức Khỏe Toàn Diện | Dinh Dưỡng & Giấc Ngủ',
-  description: 'Nền tảng chăm sóc sức khỏe cá nhân hóa kết hợp khoa học dinh dưỡng và giấc ngủ, đồng hành cùng chuyên gia hàng đầu giúp bạn thay đổi cuộc sống.',
+  title: 'Dinh dưỡng & giấc ngủ theo nhịp sống',
+  description: 'PrymaLab kết nối dinh dưỡng, giấc ngủ và dữ liệu thói quen để tạo lộ trình sức khỏe cá nhân hóa, rõ ràng và dễ duy trì mỗi ngày.',
+  alternates: {
+    canonical: '/',
+  },
 };
 
-import { Navigation } from '@/components/ui/Navigation';
-import { Footer } from '@/components/ui/Footer';
-import { getDb, getTestimonials } from '@/lib/db';
-
-import { FloatingLeaves } from '@/components/ui/FloatingLeaves';
-
 export default async function HomePage() {
-  const db = await getDb();
-  const testimonials = await getTestimonials();
+  const { packages, settings } = await getPublicHomeData();
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'HealthAndBeautyBusiness',
+        '@id': 'https://prymalab.com/#organization',
+        name: 'PrymaLab',
+        url: 'https://prymalab.com',
+        description: 'Nền tảng đồng hành dinh dưỡng và chất lượng giấc ngủ theo nhịp sống cá nhân.',
+        telephone: settings.phone,
+        email: settings.email,
+        address: settings.address,
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://prymalab.com/#website',
+        url: 'https://prymalab.com',
+        name: 'PrymaLab',
+        inLanguage: 'vi-VN',
+        publisher: { '@id': 'https://prymalab.com/#organization' },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      },
+    ],
+  };
 
   return (
-    <main className="min-h-screen bg-white relative">
-      <FloatingLeaves />
-      <Navigation />
-      
-      <HeroSection settings={db.settings} />
-      <StatementSection />
-      <FeaturesSection />
-      <PackagesSection packages={db.packages} />
-      <TestimonialsSection testimonials={testimonials} />
-      <CTASection />
-      
-      <Footer settings={db.settings} />
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+        }}
+      />
+      <HomeExperience packages={packages} settings={settings} />
+    </>
   );
 }

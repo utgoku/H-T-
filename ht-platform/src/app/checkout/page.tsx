@@ -1,94 +1,111 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, Suspense, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { ArrowLeft, ArrowRight, Check, CheckCircle2, LockKeyhole, MessageCircle, ShieldCheck } from 'lucide-react';
 import { Navigation } from '@/components/ui/Navigation';
 import { Footer } from '@/components/ui/Footer';
-import { OrderSummaryCard } from '@/components/checkout/OrderSummaryCard';
-import { PaymentForm } from '@/components/checkout/PaymentForm';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { SERVICE_PACKAGES } from '@/lib/constants';
-import { CheckCircle2, ShieldCheck, ArrowRight, Home } from 'lucide-react';
-import Link from 'next/link';
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const packageSlug = searchParams.get('package');
-  
-  const [isProcessing, setIsProcessing] = useState(false);
+  const requestedSlug = searchParams.get('package') || 'transformation';
+  const selectedPackage = useMemo(
+    () => {
+      const aliases: Record<string, string> = {
+        transformation: 'transformation-30-days',
+        elite: 'elite-care-90-days',
+      };
+      const normalizedSlug = aliases[requestedSlug] || requestedSlug;
+      return SERVICE_PACKAGES.find((item) => item.slug === normalizedSlug || item.id === normalizedSlug) || SERVICE_PACKAGES[0];
+    },
+    [requestedSlug],
+  );
+  const [form, setForm] = useState({ name: '', phone: '', email: '', note: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (!packageSlug) {
-      router.push('/services');
+  const formatPrice = (value: number) => new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    maximumFractionDigits: 0,
+  }).format(value);
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      const orderResponse = await fetch('/api/admin/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          packageId: selectedPackage.slug,
+          packageName: selectedPackage.name,
+          customerName: form.name,
+          customerPhone: form.phone,
+        }),
+      });
+
+      if (!orderResponse.ok) throw new Error('Không thể ghi nhận yêu cầu lúc này.');
+
+      await fetch('/api/admin/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: `Đăng ký ${selectedPackage.name}`,
+          message: form.note || `Khách hàng muốn được tư vấn và xác nhận thanh toán cho gói ${selectedPackage.name}.`,
+        }),
+      });
+
+      setIsSuccess(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+      setError('Hệ thống chưa ghi nhận được yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp PrymaLab.');
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [packageSlug, router]);
-
-  // Prevent rendering if redirecting
-  if (!packageSlug) return <div className="min-h-screen" />;
-
-  const pkg = SERVICE_PACKAGES.find((p) => p.slug === packageSlug) || SERVICE_PACKAGES[0];
-
-  const handleSuccess = (txId: string) => {
-    setTransactionId(txId);
-    setIsSuccess(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-50 selection:bg-teal-100 selection:text-teal-900">
+      <div className="min-h-screen bg-[#f4f7f2] text-[#153339]">
         <Navigation />
-        <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
-          {/* Confetti / Particle Animation (CSS) */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden flex justify-center">
-             <div className="w-[10px] h-[10px] absolute bg-teal-400 rounded-full top-[20%] left-[30%] animate-[bounce_2s_ease-in-out_infinite]" />
-             <div className="w-[8px] h-[8px] absolute bg-blue-400 rounded-full top-[40%] right-[30%] animate-[bounce_3s_ease-in-out_infinite]" />
-             <div className="w-[12px] h-[12px] absolute bg-teal-600 rounded-sm top-[60%] left-[40%] animate-[spin_4s_linear_infinite]" />
-             <div className="w-[6px] h-[6px] absolute bg-amber-400 rounded-full top-[30%] right-[40%] animate-[ping_2s_ease-in-out_infinite]" />
-          </div>
-
-          <Card className="max-w-md w-full p-8 md:p-10 text-center relative z-10 bg-white/95 backdrop-blur-sm border-teal-100 shadow-xl shadow-teal-900/5 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="w-20 h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-[spin_0.5s_ease-out]">
-              <CheckCircle2 className="w-10 h-10 text-teal-600" />
-            </div>
-            
-            <h1 className="text-3xl font-bold font-serif text-slate-900 mb-2">Thanh toán thành công!</h1>
-            <p className="text-slate-500 mb-8">Cảm ơn bạn đã lựa chọn H&T Platform.</p>
-            
-            <div className="bg-slate-50 rounded-xl p-5 text-left mb-8 space-y-4 border border-slate-100">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-500">Mã giao dịch</span>
-                <span className="font-mono font-medium text-slate-900 bg-slate-200/50 px-2 py-0.5 rounded">{transactionId}</span>
+        <main className="mx-auto flex min-h-[88vh] max-w-3xl items-center px-5 pb-16 pt-32 sm:px-8">
+          <section className="w-full rounded-[2.25rem] border border-[#dce5e0] bg-white p-7 text-center shadow-[0_30px_80px_-48px_rgba(18,56,62,0.5)] sm:p-12">
+            <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#e7f7f1] text-[#0b8a78]">
+              <CheckCircle2 className="h-10 w-10" aria-hidden="true" />
+            </span>
+            <p className="mt-7 text-xs font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">Yêu cầu đã được ghi nhận</p>
+            <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl">PrymaLab sẽ liên hệ để xác nhận lộ trình.</h1>
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-[#667b7f]">
+              Đây chưa phải là giao dịch thanh toán. Đội ngũ sẽ xác nhận nhu cầu, quyền lợi và phương thức thanh toán phù hợp trước khi kích hoạt chương trình.
+            </p>
+            <div className="mx-auto mt-8 max-w-md rounded-2xl bg-[#f3f6f1] p-5 text-left">
+              <div className="flex items-center justify-between gap-5 text-sm">
+                <span className="text-[#718589]">Lộ trình</span>
+                <span className="font-bold">{selectedPackage.name}</span>
               </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-500">Gói dịch vụ</span>
-                <span className="font-medium text-slate-900">{pkg.name}</span>
-              </div>
-              <div className="flex justify-between items-center text-sm border-t border-slate-200 pt-3">
-                <span className="text-slate-500">Tổng tiền</span>
-                <span className="font-bold text-lg text-teal-700">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(pkg.price)}
-                </span>
+              <div className="mt-3 flex items-center justify-between gap-5 border-t border-[#dce5e0] pt-3 text-sm">
+                <span className="text-[#718589]">Mức đầu tư</span>
+                <span className="font-bold text-[#0b7f72]">{formatPrice(selectedPackage.price)}</span>
               </div>
             </div>
-
-            <div className="space-y-3">
-              <Link href="/dashboard" passHref>
-                <Button className="w-full bg-teal-600 hover:bg-teal-700 text-white gap-2 h-12 text-base">
-                  Truy cập Dashboard <ArrowRight className="w-4 h-4" />
-                </Button>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link href="/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#cddad5] px-6 text-sm font-bold text-[#27474c]">
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Về trang chủ
               </Link>
-              <Link href="/" passHref>
-                <Button variant="ghost" className="w-full gap-2 text-slate-600 h-12">
-                  <Home className="w-4 h-4" /> Quay về trang chủ
-                </Button>
+              <Link href="/quiz" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#153339] px-6 text-sm font-bold text-white">
+                Xem lại đánh giá <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-          </Card>
+          </section>
         </main>
         <Footer />
       </div>
@@ -96,44 +113,69 @@ function CheckoutContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen bg-[#f4f7f2] text-[#153339]">
       <Navigation />
-      
-      <main className="flex-grow max-w-6xl mx-auto w-full px-4 py-12 md:py-16">
-        <div className="mb-10 text-center md:text-left">
-          <h1 className="text-3xl md:text-4xl font-bold font-serif text-slate-900 mb-3">Thanh toán an toàn</h1>
-          <p className="text-slate-600 text-lg">Hoàn tất thủ tục thanh toán để bắt đầu hành trình sức khỏe của bạn.</p>
+      <main className="mx-auto max-w-[82rem] px-5 pb-24 pt-32 sm:px-8 lg:pt-40">
+        <div className="mb-10 max-w-3xl">
+          <p className="section-kicker">Xác nhận lộ trình</p>
+          <h1 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-6xl">Bắt đầu bằng một cuộc trao đổi rõ ràng.</h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[#657a7e]">Để lại thông tin, PrymaLab sẽ xác nhận nhu cầu và hướng dẫn thanh toán phù hợp. Bạn chưa bị tính phí ở bước này.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-5 order-2 lg:order-1 space-y-6">
-            <OrderSummaryCard packageSlug={packageSlug} />
-            
-            <div className="flex items-start gap-4 p-5 bg-teal-50/50 text-teal-900 rounded-xl border border-teal-100">
-              <ShieldCheck className="w-6 h-6 text-teal-600 shrink-0 mt-0.5" />
-              <div>
-                <h4 className="font-semibold text-sm mb-1">Hoàn tiền trong 7 ngày</h4>
-                <p className="text-sm text-teal-800/80 leading-relaxed">
-                  Cam kết hoàn lại 100% chi phí nếu bạn không hài lòng với chất lượng dịch vụ của chúng tôi.
-                </p>
-              </div>
+        <div className="grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <aside className="rounded-[2rem] bg-[#153339] p-7 text-white shadow-[0_35px_80px_-50px_rgba(18,56,62,0.95)] sm:p-9">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#8ed7cb]">Bạn đang chọn</p>
+            <h2 className="mt-4 text-3xl font-semibold">{selectedPackage.name}</h2>
+            <p className="mt-2 text-sm leading-6 text-white/58">{selectedPackage.durationDays} ngày đồng hành theo nhịp sống cá nhân.</p>
+            <p className="mt-7 text-3xl font-bold">{formatPrice(selectedPackage.price)}</p>
+            <div className="my-7 h-px bg-white/10" />
+            <ul className="space-y-3">
+              {selectedPackage.features.slice(0, 5).map((feature) => (
+                <li key={feature} className="flex gap-3 text-sm leading-6 text-white/75">
+                  <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#d9f46f] text-[#153339]"><Check className="h-2.5 w-2.5" strokeWidth={3} /></span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 grid gap-3 border-t border-white/10 pt-6 text-xs text-white/60">
+              <span className="flex items-center gap-2"><LockKeyhole className="h-4 w-4 text-[#8ed7cb]" /> Không thu tiền ở bước này</span>
+              <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#d9f46f]" /> Xác nhận quyền lợi trước thanh toán</span>
+              <span className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[#9cb7ff]" /> Có người thật hỗ trợ</span>
             </div>
-          </div>
+          </aside>
 
-          <div className="lg:col-span-7 order-1 lg:order-2">
-            <Card className="p-6 md:p-10 border-slate-200 shadow-lg shadow-slate-200/40 bg-white">
-              <h2 className="text-2xl font-bold font-serif text-slate-900 mb-8 border-b border-slate-100 pb-4">Thông tin thanh toán</h2>
-              <PaymentForm 
-                onSuccess={handleSuccess} 
-                amount={pkg.price} 
-                isProcessing={isProcessing}
-                setIsProcessing={setIsProcessing}
-              />
-            </Card>
-          </div>
+          <section className="rounded-[2rem] border border-[#dce5e0] bg-white p-6 shadow-[0_30px_80px_-55px_rgba(18,56,62,0.45)] sm:p-9 lg:p-10">
+            <div className="mb-8">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#0b7f72]">Thông tin liên hệ</p>
+              <h2 className="mt-3 text-2xl font-semibold">PrymaLab nên liên hệ với bạn thế nào?</h2>
+            </div>
+            {error && <div className="mb-6 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm leading-6 text-red-700">{error}</div>}
+            <form onSubmit={submit} className="space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="text-sm font-bold text-[#36545a]">Họ và tên
+                  <input required value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} className="mt-2 min-h-12 w-full rounded-xl border border-[#d4dfda] bg-[#fbfcfa] px-4 font-normal outline-none transition focus:border-[#0b8a78] focus:bg-white" placeholder="Nguyễn Minh Anh" />
+                </label>
+                <label className="text-sm font-bold text-[#36545a]">Số điện thoại
+                  <input required inputMode="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} className="mt-2 min-h-12 w-full rounded-xl border border-[#d4dfda] bg-[#fbfcfa] px-4 font-normal outline-none transition focus:border-[#0b8a78] focus:bg-white" placeholder="09xx xxx xxx" />
+                </label>
+              </div>
+              <label className="block text-sm font-bold text-[#36545a]">Email
+                <input required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} className="mt-2 min-h-12 w-full rounded-xl border border-[#d4dfda] bg-[#fbfcfa] px-4 font-normal outline-none transition focus:border-[#0b8a78] focus:bg-white" placeholder="ban@email.com" />
+              </label>
+              <label className="block text-sm font-bold text-[#36545a]">Điều bạn muốn PrymaLab hiểu thêm
+                <textarea value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} className="mt-2 min-h-32 w-full resize-y rounded-xl border border-[#d4dfda] bg-[#fbfcfa] px-4 py-3 font-normal leading-6 outline-none transition focus:border-[#0b8a78] focus:bg-white" placeholder="Mục tiêu, lịch sinh hoạt hoặc điều bạn đang gặp khó khăn..." />
+              </label>
+              <label className="flex gap-3 rounded-2xl bg-[#f3f6f1] p-4 text-xs leading-5 text-[#667b7f]">
+                <input required type="checkbox" className="mt-0.5 h-4 w-4 accent-[#0b8a78]" />
+                Tôi đồng ý để PrymaLab liên hệ về lộ trình đã chọn và xử lý thông tin theo chính sách bảo mật.
+              </label>
+              <button disabled={isSubmitting} className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#153339] px-7 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0b7f72] disabled:cursor-not-allowed disabled:opacity-60">
+                {isSubmitting ? 'Đang ghi nhận...' : 'Gửi yêu cầu tư vấn'} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </form>
+          </section>
         </div>
       </main>
-      
       <Footer />
     </div>
   );
@@ -141,7 +183,7 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#f4f7f2]" />}>
       <CheckoutContent />
     </Suspense>
   );

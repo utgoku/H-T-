@@ -21,9 +21,10 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    document.title = 'Đăng ký | H&T Platform';
+    document.title = 'Đăng ký | PrymaLab';
   }, []);
 
   const calculatePasswordStrength = (pass: string) => {
@@ -58,7 +59,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      await register(email, password, fullName);
+      const result = await register(email, password, fullName);
       
       // Submit order to Admin DB if applicable
       try {
@@ -79,7 +80,12 @@ export default function RegisterPage() {
         console.error('Failed to save order to admin db', err);
       }
 
-      router.push('/dashboard');
+      if (result.requiresEmailConfirmation) {
+        setSuccessMessage('Tài khoản đã được tạo. Vui lòng mở email và bấm liên kết xác nhận trước khi đăng nhập.');
+        setIsLoading(false);
+      } else {
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       setError(err.message || 'Có lỗi xảy ra khi đăng ký');
       setIsLoading(false);
@@ -105,6 +111,12 @@ export default function RegisterPage() {
           {error && (
             <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium animate-in fade-in slide-in-from-top-1">
               {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium leading-6 text-emerald-800">
+              {successMessage}
             </div>
           )}
 

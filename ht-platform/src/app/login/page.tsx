@@ -43,7 +43,7 @@ export default function LoginPage() {
 
           <div className="relative z-10 text-center mb-8">
             <h1 className="text-3xl font-display font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#0D9488] to-[#2563EB]">
-              H&T Platform
+              PrymaLab
             </h1>
             <p className="text-gray-500 mt-2 font-medium">Chào mừng bạn quay trở lại</p>
           </div>
@@ -120,10 +120,8 @@ export default function LoginPage() {
             </p>
           </div>
           
-          <div className="mt-6 text-center border-t border-gray-100 pt-4 relative z-10">
-            <p className="text-xs text-gray-400">
-              Demo: admin@htplatform.vn / password
-            </p>
+          <div className="relative z-10 mt-6 border-t border-gray-100 pt-4 text-center">
+            <p className="text-xs leading-5 text-gray-400">Tài khoản được bảo vệ bằng xác thực Supabase và kết nối mã hóa.</p>
           </div>
         </div>
       </main>

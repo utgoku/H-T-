@@ -15,14 +15,14 @@ const defaultTestimonials = [
     id: 2,
     name: 'Hoàng Nam',
     role: 'Kỹ sư phần mềm',
-    quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của H&T thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.',
+    quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Lộ trình giấc ngủ của PrymaLab giúp tôi biết cách hạ nhịp và duy trì giờ ngủ đều hơn.',
     color: 'bg-blue-100 text-blue-700'
   },
   {
     id: 3,
     name: 'Thu Hà',
     role: 'Giáo viên',
-    quote: 'Tôi rất thích cách các chuyên gia H&T cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!',
+    quote: 'Tôi rất thích cách PrymaLab cá nhân hóa thực đơn. Tôi vẫn giữ được món mình thích và hiểu rõ hơn cách cân bằng bữa ăn.',
     color: 'bg-purple-100 text-purple-700'
   },
   {
@@ -53,7 +53,7 @@ export default function TestimonialsSection({ testimonials: propTestimonials }: 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl font-bold text-[#1A1A2E]">
-            Khách Hàng Nói Gì Về H&T
+            Khách hàng nói gì về PrymaLab
           </h2>
           <div className="w-16 h-[2px] bg-[#0D9488] mx-auto mt-4"></div>
         </div>

@@ -1,7 +1,8 @@
 import React from 'react';
 
 export const metadata = {
-  title: 'Admin Dashboard | H&T Platform',
+  title: 'Admin Dashboard | PrymaLab',
+  robots: { index: false, follow: false },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

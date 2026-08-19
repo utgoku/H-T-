@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/Input';
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isAdminConfigured, setIsAdminConfigured] = useState(true);
+  const [loginError, setLoginError] = useState('');
   const [password, setPassword] = useState('');
   const [db, setDb] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'leads' | 'contacts' | 'orders' | 'settings' | 'packages'>('leads');
@@ -15,11 +18,23 @@ export default function AdminDashboard() {
   const [packagesForm, setPackagesForm] = useState<any>(null);
 
   useEffect(() => {
-    const auth = localStorage.getItem('admin_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-      fetchData();
-    }
+    fetch('/api/admin/session')
+      .then((response) => response.json())
+      .then(async (session) => {
+        setIsAdminConfigured(Boolean(session.configured));
+        setIsAuthenticated(Boolean(session.authenticated));
+        if (session.authenticated) {
+          const response = await fetch('/api/admin/db');
+          if (response.ok) {
+            const data = await response.json();
+            setDb(data);
+            setSettingsForm(data.settings);
+            setPackagesForm(data.packages);
+          }
+        }
+      })
+      .catch(() => setLoginError('Không thể kiểm tra phiên quản trị.'))
+      .finally(() => setIsCheckingSession(false));
   }, []);
 
   const fetchData = async () => {
@@ -36,19 +51,26 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') { // Simple hardcoded password for MVP
-      localStorage.setItem('admin_auth', 'true');
+    setLoginError('');
+    const response = await fetch('/api/admin/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    if (response.ok) {
       setIsAuthenticated(true);
+      setPassword('');
       fetchData();
     } else {
-      alert('Sai mật khẩu');
+      const data = await response.json().catch(() => ({}));
+      setLoginError(data.error || 'Không thể đăng nhập.');
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_auth');
+  const handleLogout = async () => {
+    await fetch('/api/admin/session', { method: 'DELETE' });
     setIsAuthenticated(false);
     setDb(null);
   };
@@ -95,14 +117,21 @@ export default function AdminDashboard() {
     setIsSaving(false);
   };
 
+  if (isCheckingSession) {
+    return <div className="flex min-h-screen items-center justify-center bg-[#f4f7f2] text-sm font-semibold text-[#5f7478]">Đang kiểm tra phiên quản trị...</div>;
+  }
+
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="p-8 max-w-sm w-full bg-white shadow-xl">
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f7f2] p-4">
+        <Card className="w-full max-w-sm rounded-[2rem] border border-[#dbe4df] bg-white p-8 shadow-[0_35px_80px_-52px_rgba(18,56,62,0.6)]">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
-            <p className="text-gray-500 text-sm mt-1">Vui lòng đăng nhập để tiếp tục</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">PrymaLab CRM</p>
+            <h1 className="mt-3 text-2xl font-bold text-[#153339]">Trung tâm quản trị</h1>
+            <p className="mt-2 text-sm leading-6 text-[#718589]">Phiên đăng nhập được bảo vệ bằng cookie HttpOnly trên máy chủ.</p>
           </div>
+          {!isAdminConfigured && <div className="mb-5 rounded-xl border border-amber-100 bg-amber-50 p-4 text-xs leading-5 text-amber-800">Admin đang được khóa an toàn. Cần cấu hình biến môi trường quản trị trên Vercel để kích hoạt.</div>}
+          {loginError && <div className="mb-5 rounded-xl border border-red-100 bg-red-50 p-4 text-xs leading-5 text-red-700">{loginError}</div>}
           <form onSubmit={handleLogin} className="space-y-4">
             <Input 
               type="password" 
@@ -111,7 +140,7 @@ export default function AdminDashboard() {
               onChange={(e) => setPassword(e.target.value)} 
               required
             />
-            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white">Đăng nhập</Button>
+            <Button type="submit" disabled={!isAdminConfigured} className="w-full bg-[#153339] text-white hover:bg-[#0b7f72]">Đăng nhập an toàn</Button>
           </form>
         </Card>
       </div>
@@ -123,7 +152,7 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-full md:w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm">
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900">H&T Admin</h2>
+          <h2 className="text-xl font-bold text-gray-900">PrymaLab Admin</h2>
         </div>
         <nav className="flex-1 p-4 space-y-2">
           <button 

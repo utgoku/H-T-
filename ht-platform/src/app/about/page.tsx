@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { getTeamMembers } from '@/lib/db';
 
 export const metadata = {
-  title: 'Về Chúng Tôi | H&T Platform',
-  description: 'Khám phá câu chuyện và sứ mệnh của H&T Platform trong việc nâng cao sức khỏe người Việt qua dinh dưỡng và giấc ngủ.',
+  title: 'Về PrymaLab',
+  description: 'Khám phá câu chuyện và sứ mệnh của PrymaLab trong việc nâng cao sức khỏe người Việt qua dinh dưỡng và giấc ngủ.',
 };
 
 export default async function AboutPage() {
@@ -26,7 +26,7 @@ export default async function AboutPage() {
       <main className="flex-grow pt-20">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-teal-700 to-blue-800 text-white py-24 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-6">Về H&T Platform</h1>
+          <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-6">Về PrymaLab</h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90 leading-relaxed">
             Hành trình kết hợp khoa học dinh dưỡng và khoa học giấc ngủ để mang lại cuộc sống khỏe mạnh, cân bằng hơn cho người Việt.
           </p>
@@ -38,10 +38,10 @@ export default async function AboutPage() {
             <div>
               <h2 className="text-3xl font-playfair font-bold text-gray-900 mb-6">Câu chuyện của chúng tôi</h2>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                Được thành lập bởi những chuyên gia đam mê về sức khỏe toàn diện, H&T ra đời từ sự thấu hiểu rằng sức khỏe không chỉ đến từ những gì bạn ăn, mà còn từ cách cơ thể bạn phục hồi qua từng giấc ngủ.
+                PrymaLab ra đời từ một quan sát đơn giản: sức khỏe không chỉ đến từ những gì bạn ăn, mà còn từ cách cơ thể phục hồi qua từng giấc ngủ.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Chúng tôi nhận thấy nhiều người Việt Nam đang gặp vấn đề về giấc ngủ và dinh dưỡng nhưng thiếu đi một giải pháp tích hợp. H&T Platform là câu trả lời - một nền tảng cung cấp kiến thức chuẩn khoa học và sự đồng hành cá nhân hóa để tạo ra thay đổi bền vững.
+                Nhiều người đang gặp vấn đề về giấc ngủ và dinh dưỡng nhưng thiếu một giải pháp tích hợp. PrymaLab kết nối kiến thức thực hành, dữ liệu thói quen và sự đồng hành cá nhân hóa để tạo ra thay đổi bền vững.
               </p>
             </div>
             <div className="bg-teal-50 p-8 rounded-3xl relative">
@@ -108,7 +108,7 @@ export default async function AboutPage() {
         {/* CTA */}
         <section className="py-20 bg-gray-50 text-center px-4">
           <h2 className="text-3xl font-playfair font-bold text-gray-900 mb-6">Sẵn sàng thay đổi lối sống?</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">Tham gia cùng hàng ngàn người đã cải thiện sức khỏe và giấc ngủ cùng H&T Platform.</p>
+          <p className="text-gray-600 mb-8 max-w-xl mx-auto">Bắt đầu bằng việc hiểu nhịp sống hiện tại và chọn một thay đổi phù hợp với chính bạn.</p>
           <Link href="/quiz">
             <Button size="lg" className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-full shadow-lg">
               Đánh giá sức khỏe ngay

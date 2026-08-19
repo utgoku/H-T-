@@ -1,37 +1,21 @@
 import { NextResponse } from 'next/server';
-// import { createCheckoutSession } from '@/lib/stripe';
+import { createCheckoutSession } from '@/lib/stripe';
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { packageSlug, customerEmail } = body;
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ success: false, error: 'Stripe chưa được cấu hình.' }, { status: 503 });
+  }
 
+  try {
+    const { packageSlug, customerEmail } = await request.json();
     if (!packageSlug || !customerEmail) {
-      return NextResponse.json(
-        { success: false, error: 'Missing packageSlug or customerEmail' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Thiếu gói dịch vụ hoặc email.' }, { status: 400 });
     }
 
-    // REAL STRIPE INTEGRATION
-    // Once stripe is installed, uncomment the following line:
-    // const sessionUrl = await createCheckoutSession(packageSlug, customerEmail);
-    
-    // MOCK IMPLEMENTATION for current testing
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const mockSessionUrl = `${baseUrl}/checkout?status=success&session_id=mock_session_123`;
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        sessionUrl: mockSessionUrl,
-      },
-    });
-  } catch (error: any) {
+    const sessionUrl = await createCheckoutSession(packageSlug, customerEmail);
+    return NextResponse.json({ success: true, data: { sessionUrl } });
+  } catch (error) {
     console.error('Checkout Session Error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message || 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Không thể tạo phiên thanh toán.' }, { status: 500 });
   }
 }

@@ -41,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center h-16 px-6 border-b border-gray-200">
             <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
               <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                H&T
+                PrymaLab
               </div>
               <span className="text-xl font-bold text-gray-900 font-serif">Platform</span>
             </Link>

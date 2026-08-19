@@ -60,7 +60,7 @@ async function seedData() {
   await insertData('packages', [
     {
       id: 'starter',
-      name: 'H&T Starter',
+      name: 'Pryma Start',
       description: 'Trải nghiệm nền tảng, thiết lập thói quen.',
       price: '99,000 VNĐ',
       price_numeric: 99000,
@@ -79,7 +79,7 @@ async function seedData() {
     },
     {
       id: 'transformation',
-      name: 'H&T Transformation',
+      name: 'Pryma Reset 30',
       description: 'Thay đổi toàn diện vóc dáng và sinh học trong 30 ngày.',
       price: '1,490,000 VNĐ',
       price_numeric: 1490000,
@@ -101,7 +101,7 @@ async function seedData() {
     },
     {
       id: 'elite',
-      name: 'H&T Elite Care',
+      name: 'Pryma Signature 90',
       description: 'Chăm sóc cao cấp 90 ngày. Đồng hành trọn vẹn.',
       price: '3,990,000 VNĐ',
       price_numeric: 3990000,
@@ -123,8 +123,8 @@ async function seedData() {
   // 3. Testimonials
   await insertData('testimonials', [
     { name: 'Minh Anh', role: 'Nhân viên văn phòng', quote: 'Chỉ sau 30 ngày tham gia gói Transformation, tôi đã giảm được 3kg mỡ thừa. Nhưng quan trọng nhất là tôi không còn cảm thấy uể oải mỗi chiều. Năng lượng tràn trề và thực đơn rất dễ theo.', avatar_color: 'bg-teal-100 text-teal-700', sort_order: 1 },
-    { name: 'Hoàng Nam', role: 'Kỹ sư phần mềm', quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của H&T thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', avatar_color: 'bg-blue-100 text-blue-700', sort_order: 2 },
-    { name: 'Thu Hà', role: 'Giáo viên', quote: 'Tôi rất thích cách các chuyên gia H&T cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', avatar_color: 'bg-purple-100 text-purple-700', sort_order: 3 },
+    { name: 'Hoàng Nam', role: 'Kỹ sư phần mềm', quote: 'Trước đây tôi hay bị mất ngủ do stress công việc. Phác đồ giấc ngủ của PrymaLab thực sự là cứu cánh. Tôi đã biết cách ngắt kết nối và hiện tại ngủ sâu giấc hơn bao giờ hết.', avatar_color: 'bg-blue-100 text-blue-700', sort_order: 2 },
+    { name: 'Thu Hà', role: 'Giáo viên', quote: 'Tôi rất thích cách các chuyên gia PrymaLab cá nhân hóa thực đơn. Tôi không phải nhịn ăn những món mình thích mà vẫn kiểm soát được cân nặng. Rất khoa học!', avatar_color: 'bg-purple-100 text-purple-700', sort_order: 3 },
     { name: 'Đức Trí', role: 'Doanh nhân', quote: 'Gói Elite Care mang lại giá trị vượt xa số tiền bỏ ra. Các cuộc gọi với chuyên gia hàng tuần giúp tôi duy trì động lực và kịp thời điều chỉnh sức khỏe giữa lịch trình bận rộn.', avatar_color: 'bg-orange-100 text-orange-700', sort_order: 4 },
   ]);
 
@@ -140,7 +140,7 @@ async function seedData() {
 
   // 5. FAQs
   await insertData('faqs', [
-    { question: 'Gói dịch vụ bao gồm những gì?', answer: 'Mỗi gói dịch vụ đều bao gồm một đánh giá sức khỏe toàn diện, thực đơn cá nhân hóa thiết kế riêng, và quyền truy cập vào cộng đồng H&T. Các gói cao cấp hơn có thêm đặc quyền theo dõi 1:1 với chuyên gia.', sort_order: 1 },
+    { question: 'Gói dịch vụ bao gồm những gì?', answer: 'Mỗi gói dịch vụ đều bao gồm một đánh giá sức khỏe toàn diện, thực đơn cá nhân hóa thiết kế riêng, và quyền truy cập vào cộng đồng PrymaLab. Các gói cao cấp hơn có thêm đặc quyền theo dõi 1:1 với chuyên gia.', sort_order: 1 },
     { question: 'Làm sao để liên hệ chuyên gia?', answer: 'Sau khi đăng ký, bạn sẽ được kết nối với chuyên gia qua nền tảng nhắn tin tích hợp của chúng tôi. Với gói Premium, bạn có thể gọi video trực tiếp hàng tuần.', sort_order: 2 },
     { question: 'Tôi có thể hủy gói không?', answer: 'Có, bạn có thể hủy gia hạn bất kỳ lúc nào qua bảng điều khiển cá nhân. Chúng tôi cũng có chính sách hoàn tiền trong 7 ngày đầu nếu bạn không hài lòng.', sort_order: 3 },
     { question: 'Thực đơn có phù hợp với người ăn chay?', answer: 'Hoàn toàn phù hợp. Trước khi lên thực đơn, chúng tôi sẽ khảo sát chi tiết về sở thích, dị ứng và chế độ ăn đặc biệt của bạn (ăn chay, keto, không gluten, v.v.).', sort_order: 4 },

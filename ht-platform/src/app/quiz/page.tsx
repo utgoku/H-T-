@@ -4,7 +4,7 @@ import { Footer } from '@/components/ui/Footer';
 import QuizEngine from '@/components/quiz/QuizEngine';
 
 export const metadata = {
-  title: 'Đánh giá nhịp sống | PrymaLab',
+  title: 'Đánh giá nhịp sống',
   description: 'Thực hiện bài đánh giá dinh dưỡng và giấc ngủ để nhận điểm khởi đầu cùng gợi ý cá nhân hóa từ PrymaLab.',
 };
 

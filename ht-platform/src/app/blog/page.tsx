@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { getBlogPosts } from '@/lib/db';
 
 export const metadata = {
-  title: 'Kiến thức dinh dưỡng & giấc ngủ | PrymaLab',
+  title: 'Kiến thức dinh dưỡng & giấc ngủ',
   description: 'Kiến thức thực hành về dinh dưỡng, giấc ngủ và lối sống lành mạnh từ PrymaLab.',
 };
 

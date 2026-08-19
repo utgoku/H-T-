@@ -6,7 +6,7 @@ import { getFaqs } from '@/lib/db';
 import FaqAccordion from './FaqAccordion';
 
 export const metadata = {
-  title: 'Chương trình đồng hành | PrymaLab',
+  title: 'Chương trình đồng hành',
   description: 'Các chương trình dinh dưỡng và cải thiện giấc ngủ cá nhân hóa từ PrymaLab.',
 };
 

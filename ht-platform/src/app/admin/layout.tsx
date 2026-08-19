@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const metadata = {
-  title: 'Admin Dashboard | PrymaLab',
+  title: 'Admin Dashboard',
   robots: { index: false, follow: false },
 };
 

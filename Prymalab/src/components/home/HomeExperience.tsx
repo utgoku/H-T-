@@ -98,7 +98,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#bcded5] bg-white/75 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#0b7f72] shadow-sm backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Dinh dưỡng × Giấc ngủ × Nhịp sống
+              PrymaLab Việt Nam · Dinh dưỡng × Giấc ngủ
             </div>
 
             <h1 className="hero-heading mt-7 font-[family-name:var(--font-display)] text-[clamp(3.15rem,6.45vw,6.35rem)] font-medium tracking-[-0.028em] text-[#16383d]">
@@ -108,7 +108,7 @@ export default function HomeExperience({ packages, settings }: HomeExperiencePro
             </h1>
 
             <p className="mt-8 max-w-2xl text-base leading-7 text-[#587075] sm:text-lg sm:leading-8">
-              PrymaLab biến dữ liệu về bữa ăn, giấc ngủ và năng lượng thành một lộ trình cá nhân hóa dễ thực hiện — để bạn biết hôm nay nên bắt đầu từ đâu.
+              PrymaLab Việt Nam là nền tảng kết nối dữ liệu về bữa ăn, giấc ngủ và năng lượng thành một lộ trình cá nhân hóa dễ thực hiện — để bạn biết hôm nay nên bắt đầu từ đâu.
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">

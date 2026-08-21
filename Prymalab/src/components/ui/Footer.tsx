@@ -27,6 +27,7 @@ const footerGroups = [
     links: [
       { label: 'Chính sách bảo mật', href: '/privacy' },
       { label: 'Điều khoản dịch vụ', href: '/terms' },
+      { label: 'Chính sách biên tập', href: '/chinh-sach-bien-tap' },
       { label: 'Phạm vi sức khỏe', href: '/services#pham-vi' },
     ],
   },
@@ -43,7 +44,7 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
         <div className="grid gap-14 border-b border-white/10 pb-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_1.05fr]">
           <div>
             <BrandMark inverse />
-            <p className="mt-6 max-w-sm text-sm leading-7 text-white/55">Dinh dưỡng, giấc ngủ và nhịp sống — được kết nối thành một lộ trình cá nhân rõ ràng, tinh tế và dễ duy trì.</p>
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/55">PrymaLab Việt Nam kết nối dinh dưỡng, giấc ngủ và nhịp sống thành một lộ trình cá nhân rõ ràng, tinh tế và dễ duy trì.</p>
             <p className="mt-6 max-w-sm text-xs leading-6 text-white/35">Nội dung trên PrymaLab mang tính giáo dục và định hướng lối sống, không thay thế chẩn đoán hay điều trị y khoa.</p>
           </div>
 
@@ -70,7 +71,7 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
         </div>
 
         <div className="flex flex-col gap-4 pt-7 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/30 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} PrymaLab. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} PrymaLab Việt Nam · prymalab.com</p>
           <p>Designed for better days & deeper nights.</p>
         </div>
       </div>

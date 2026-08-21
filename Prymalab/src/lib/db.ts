@@ -103,70 +103,21 @@ export interface DatabaseSchema {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  phone: '0948 348 444',
-  email: 'Ahunglua7@gmail.com',
-  address: 'Nguyễn Tất Thành - Đà Nẵng',
-  workingHours: '08:30 - 17:00 (Thứ 2 - Thứ 6)',
-  heroCustomers: '1000',
-  heroSatisfaction: '95',
-  heroExperts: '30',
-  bankName: 'Vietcombank',
-  bankBin: '970436',
+  phone: '',
+  email: '',
+  address: '',
+  workingHours: '',
+  heroCustomers: '0',
+  heroSatisfaction: '0',
+  heroExperts: '0',
+  bankName: '',
+  bankBin: '',
   bankAccountNumber: '',
   bankAccountName: '',
   bankBranch: '',
 };
 
-export const DEFAULT_SITE_PACKAGES: SitePackage[] = [
-  {
-    id: 'starter',
-    name: 'Pryma Start',
-    desc: 'Bản khởi động 7 ngày để hiểu nhịp ăn, ngủ và chọn đúng ưu tiên.',
-    price: '99,000 VNĐ',
-    period: '/7 ngày',
-    theme: 'teal',
-    features: [
-      { text: 'Bản đọc nhịp sống cá nhân', included: true },
-      { text: 'Khung bữa ăn thực hành 7 ngày', included: true },
-      { text: 'Routine thư giãn trước ngủ', included: true },
-      { text: 'Mẫu theo dõi năng lượng mỗi ngày', included: true },
-    ]
-  },
-  {
-    id: 'transformation',
-    name: 'Pryma Reset 30',
-    desc: 'Thiết lập lại nhịp ăn, ngủ và năng lượng trong 30 ngày có người đồng hành.',
-    price: '1,490,000 VNĐ',
-    period: '/30 ngày',
-    subprice: 'Chỉ ~49,000 VNĐ/ngày',
-    badge: 'Lộ trình trọng tâm',
-    theme: 'teal',
-    features: [
-      { text: 'Đánh giá đầu vào có cấu trúc', included: true },
-      { text: 'Khung bữa ăn cá nhân hóa 30 ngày', included: true },
-      { text: 'Routine giấc ngủ theo lịch sống', included: true },
-      { text: '2 buổi trao đổi 1-1', included: true },
-      { text: 'Check-in và tinh chỉnh hàng tuần', included: true },
-      { text: 'Hỗ trợ trong giờ làm việc', included: true },
-    ]
-  },
-  {
-    id: 'elite',
-    name: 'Pryma Signature 90',
-    desc: 'Đồng hành 90 ngày để biến thay đổi ngắn hạn thành hệ thống có thể duy trì.',
-    price: '3,990,000 VNĐ',
-    period: '/90 ngày',
-    theme: 'blue',
-    features: [
-      { text: 'Toàn bộ Pryma Reset 30', included: true },
-      { text: '3 chu kỳ mục tiêu 30 ngày', included: true },
-      { text: '6 buổi trao đổi 1-1', included: true },
-      { text: 'Báo cáo xu hướng theo tuần', included: true },
-      { text: 'Tinh chỉnh ưu tiên xuyên suốt', included: true },
-      { text: 'Phản hồi ưu tiên trong ngày làm việc', included: true },
-    ]
-  }
-];
+export const DEFAULT_SITE_PACKAGES: SitePackage[] = [];
 
 export interface PublicHomeData {
   settings: SiteSettings;

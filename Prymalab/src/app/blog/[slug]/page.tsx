@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock3, ExternalLink } from 'lucide-react';
@@ -6,6 +7,7 @@ import { Footer } from '@/components/ui/Footer';
 import { Navigation } from '@/components/ui/Navigation';
 import { getKnowledgeArticle, knowledgeArticles } from '@/lib/editorial';
 import { getPublicHomeData } from '@/lib/db';
+import { SITE_NAME, SITE_URL } from '@/lib/seo';
 
 type ArticlePageProps = { params: Promise<{ slug: string }> };
 
@@ -31,9 +33,9 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
       authors: ['PrymaLab'],
-      images: [],
+      images: [{ url: article.image, alt: article.imageAlt }],
     },
-    twitter: { card: 'summary', title: article.title, description: article.description, images: [] },
+    twitter: { card: 'summary_large_image', title: article.title, description: article.description, images: [article.image] },
   };
 }
 
@@ -43,22 +45,33 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!article) notFound();
 
   const { settings } = await getPublicHomeData();
-  const articleUrl = 'https://prymalab.com/blog/' + article.slug;
-  const related = knowledgeArticles.filter((item) => item.slug !== article.slug).slice(0, 2);
+  const articleUrl = `${SITE_URL}/blog/${article.slug}`;
+  const related = knowledgeArticles
+    .filter((item) => item.slug !== article.slug)
+    .sort((a, b) => Number(b.category === article.category) - Number(a.category === article.category))
+    .slice(0, 3);
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Article',
+        '@type': 'BlogPosting',
         '@id': articleUrl + '#article',
         headline: article.title,
         description: article.description,
         datePublished: article.publishedAt,
         dateModified: article.updatedAt,
         inLanguage: 'vi-VN',
+        articleSection: article.category,
+        image: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}${article.image}`,
+          contentUrl: `${SITE_URL}${article.image}`,
+          caption: article.imageAlt,
+        },
+        isAccessibleForFree: true,
         mainEntityOfPage: { '@id': articleUrl + '#webpage' },
-        author: { '@type': 'Organization', name: 'Ban biên tập PrymaLab', url: 'https://prymalab.com/about' },
-        publisher: { '@id': 'https://prymalab.com/#organization' },
+        author: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/about` },
+        publisher: { '@id': `${SITE_URL}/#organization` },
         citation: article.sources.map((source) => source.url),
       },
       {
@@ -67,15 +80,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         url: articleUrl,
         name: article.title,
         description: article.description,
-        isPartOf: { '@id': 'https://prymalab.com/#website' },
+        isPartOf: { '@id': `${SITE_URL}/#website` },
         breadcrumb: { '@id': articleUrl + '#breadcrumb' },
       },
       {
         '@type': 'BreadcrumbList',
         '@id': articleUrl + '#breadcrumb',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: 'https://prymalab.com' },
-          { '@type': 'ListItem', position: 2, name: 'Kiến thức', item: 'https://prymalab.com/blog' },
+          { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE_URL}/` },
+          { '@type': 'ListItem', position: 2, name: 'Kiến thức', item: `${SITE_URL}/blog` },
           { '@type': 'ListItem', position: 3, name: article.title, item: articleUrl },
         ],
       },
@@ -94,11 +107,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <p className="mt-10 text-xs font-extrabold uppercase tracking-[0.18em] text-[#d9f46f]">{article.category}</p>
               <h1 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-6xl">{article.title}</h1>
               <p className="mt-7 max-w-3xl text-base leading-8 text-white/70 sm:text-lg">{article.description}</p>
-              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-white/55"><span>Ban biên tập PrymaLab</span><span>•</span><time dateTime={article.updatedAt}>Cập nhật {article.displayDate}</time><span>•</span><span className="inline-flex items-center gap-2"><Clock3 className="h-4 w-4" />{article.readTime}</span></div>
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-white/55"><Link href="/chinh-sach-bien-tap" className="underline decoration-white/30 underline-offset-4 transition hover:text-white">Ban biên tập PrymaLab Việt Nam</Link><span>•</span><time dateTime={article.updatedAt}>Cập nhật {article.displayDate}</time><span>•</span><span className="inline-flex items-center gap-2"><Clock3 className="h-4 w-4" />{article.readTime}</span></div>
             </div>
           </header>
 
-          <div className="mx-auto grid max-w-[78rem] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:py-24">
+          <div className="relative z-10 mx-auto -mt-10 max-w-[78rem] px-5 sm:px-8">
+            <figure className="relative h-[18rem] overflow-hidden rounded-[2rem] border-4 border-[#f5f7f3] bg-[#dfe8e3] shadow-[0_28px_70px_-45px_rgba(21,51,57,0.72)] sm:h-[28rem]">
+              <Image src={article.image} alt={article.imageAlt} fill priority sizes="(max-width: 1280px) 92vw, 1180px" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#102f35]/40 via-transparent to-transparent" aria-hidden="true" />
+              <figcaption className="absolute bottom-5 left-5 right-5 text-xs font-semibold leading-5 text-white/78">{article.imageAlt}</figcaption>
+            </figure>
+          </div>
+
+          <div className="mx-auto grid max-w-[78rem] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:py-20">
             <div className="min-w-0">
               <section className="rounded-[2rem] border border-[#cfe0d9] bg-white p-6 shadow-[0_20px_55px_-42px_rgba(21,51,57,0.45)] sm:p-8">
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">Trả lời ngắn</p>
@@ -120,7 +141,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#0b7f72]">Minh bạch nguồn</p>
                 <h2 className="mt-4 text-2xl font-semibold">Nguồn tham khảo</h2>
                 <ol className="mt-5 space-y-4">{article.sources.map((source, index) => <li key={source.url} className="text-sm leading-7"><a href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-start gap-2 font-semibold text-[#174d54] underline decoration-[#9bcac0] underline-offset-4"><span>{index + 1}. {source.label} — {source.publisher}</span><ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0" /></a></li>)}</ol>
-                <p className="mt-7 rounded-2xl bg-[#eef2ef] p-5 text-xs leading-6 text-[#687b7e]">Nội dung mang tính giáo dục lối sống, không thay thế chẩn đoán, điều trị hoặc tư vấn cá nhân từ nhân viên y tế.</p>
+                <p className="mt-7 rounded-2xl bg-[#eef2ef] p-5 text-xs leading-6 text-[#687b7e]">Nội dung mang tính giáo dục lối sống, không thay thế chẩn đoán, điều trị hoặc tư vấn cá nhân từ nhân viên y tế. <Link href="/chinh-sach-bien-tap" className="font-bold text-[#0b7f72] underline underline-offset-4">Xem chính sách biên tập và sửa lỗi.</Link></p>
               </section>
             </div>
             <aside className="lg:sticky lg:top-28 lg:self-start">

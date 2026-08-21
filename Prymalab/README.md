@@ -103,6 +103,7 @@ Prymalab/
 - `npm run build`: Build dự án cho môi trường production
 - `npm start`: Chạy dự án sau khi đã build
 - `npm run lint`: Kiểm tra lỗi code bằng ESLint
+- `npm run seo:indexnow`: Gửi toàn bộ URL trong sitemap production tới IndexNow
 
 ## ☁️ Triển khai (Deployment)
 
@@ -119,13 +120,12 @@ Dự án được tối ưu hóa để triển khai trên [Vercel](https://verce
 | Variable | Description | Default / Example |
 |----------|-------------|-------------------|
 | `NEXT_PUBLIC_APP_URL` | URL production | `https://prymalab.com` |
+| `GOOGLE_SITE_VERIFICATION` | Token xác minh Google Search Console | Lấy từ Search Console |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Bắt buộc |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key | Bắt buộc |
 | `SUPABASE_SERVICE_ROLE_KEY` | Quyền server cho CRM | Bắt buộc để bật admin |
 | `PRYMALAB_ADMIN_PASSWORD` | Mật khẩu quản trị | Secret trên Vercel |
 | `PRYMALAB_ADMIN_SESSION_SECRET` | Khóa ký phiên HttpOnly | Secret trên Vercel |
-| `STRIPE_SECRET_KEY` | Stripe server key | Chỉ cần khi bật Stripe |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook secret | Chỉ cần khi bật Stripe |
 
 ## 📄 Giấy phép (License)
 

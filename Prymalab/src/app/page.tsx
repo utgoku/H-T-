@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import HomeExperience, { faqs } from '@/components/home/HomeExperience';
 import { getPublicHomeData } from '@/lib/db';
+import { SITE_ALTERNATE_NAMES, SITE_NAME, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Dinh dưỡng & giấc ngủ theo nhịp sống',
-  description: 'PrymaLab kết nối dinh dưỡng, giấc ngủ và dữ liệu thói quen để tạo lộ trình sức khỏe cá nhân hóa, rõ ràng và dễ duy trì mỗi ngày.',
+  title: { absolute: `${SITE_NAME} | Dinh dưỡng & giấc ngủ cá nhân hóa` },
+  description: 'PrymaLab Việt Nam kết nối dinh dưỡng, giấc ngủ và dữ liệu thói quen để tạo lộ trình cá nhân hóa rõ ràng, dễ thực hiện và dễ duy trì.',
   alternates: {
     canonical: '/',
   },
@@ -12,42 +13,69 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const { packages, settings } = await getPublicHomeData();
+  const telephone = settings.phone.replace(/\s+/g, '').replace(/^0/, '+84');
 
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://prymalab.com/#organization',
-        name: 'PrymaLab',
-        url: 'https://prymalab.com',
-        description: 'Nền tảng đồng hành dinh dưỡng và chất lượng giấc ngủ theo nhịp sống cá nhân.',
-        logo: { '@type': 'ImageObject', url: 'https://prymalab.com/icon' },
-        telephone: settings.phone,
+        '@id': `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
+        url: `${SITE_URL}/`,
+        description: 'Nền tảng tại Việt Nam về giáo dục dinh dưỡng, chất lượng giấc ngủ và xây dựng thói quen theo nhịp sống cá nhân. Không kinh doanh peptide hoặc hóa chất nghiên cứu.',
+        slogan: 'Ăn đúng nhịp. Ngủ sâu hơn. Sống sáng hơn.',
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/icon`,
+          contentUrl: `${SITE_URL}/icon`,
+          width: 512,
+          height: 512,
+          caption: `Biểu tượng ${SITE_NAME}`,
+        },
+        image: `${SITE_URL}/og.png`,
+        telephone,
         email: settings.email,
-        address: settings.address,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: settings.address,
+          addressLocality: 'Đà Nẵng',
+          addressCountry: 'VN',
+        },
+        areaServed: { '@type': 'Country', name: 'Việt Nam' },
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'customer support',
+          telephone,
+          email: settings.email,
+          availableLanguage: ['vi'],
+          areaServed: 'VN',
+        },
+        knowsAbout: ['Dinh dưỡng cá nhân hóa', 'Chất lượng giấc ngủ', 'Sleep hygiene', 'Nhịp sinh học', 'Thói quen sống lành mạnh'],
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://prymalab.com/#website',
-        url: 'https://prymalab.com',
-        name: 'PrymaLab',
+        '@id': `${SITE_URL}/#website`,
+        url: `${SITE_URL}/`,
+        name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
         inLanguage: 'vi-VN',
-        publisher: { '@id': 'https://prymalab.com/#organization' },
+        publisher: { '@id': `${SITE_URL}/#organization` },
       },
       {
         '@type': 'WebPage',
-        '@id': 'https://prymalab.com/#webpage',
-        url: 'https://prymalab.com',
-        name: 'PrymaLab | Dinh dưỡng & giấc ngủ theo nhịp sống',
-        description: 'PrymaLab kết nối dinh dưỡng, chất lượng giấc ngủ và dữ liệu thói quen thành lộ trình cá nhân hóa.',
+        '@id': `${SITE_URL}/#webpage`,
+        url: `${SITE_URL}/`,
+        name: `${SITE_NAME} | Dinh dưỡng & giấc ngủ cá nhân hóa`,
+        description: 'PrymaLab Việt Nam kết nối dinh dưỡng, chất lượng giấc ngủ và dữ liệu thói quen thành lộ trình cá nhân hóa.',
         inLanguage: 'vi-VN',
-        isPartOf: { '@id': 'https://prymalab.com/#website' },
-        about: { '@id': 'https://prymalab.com/#organization' },
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${SITE_URL}/#organization` },
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://prymalab.com/#faq',
+        '@id': `${SITE_URL}/#faq`,
         mainEntity: faqs.map((faq) => ({
           '@type': 'Question',
           name: faq.question,

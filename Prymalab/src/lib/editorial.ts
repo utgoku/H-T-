@@ -21,6 +21,8 @@ export interface KnowledgeArticle {
   displayDate: string;
   readTime: string;
   accent: string;
+  image: string;
+  imageAlt: string;
   highlights: string[];
   sections: EditorialSection[];
   sources: EditorialSource[];
@@ -38,6 +40,8 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     displayDate: '19/08/2026',
     readTime: '7 phút đọc',
     accent: 'from-[#102f35] via-[#17645f] to-[#78b9aa]',
+    image: '/images/sleep_serene.jpg',
+    imageAlt: 'Không gian phòng ngủ yên tĩnh với ánh sáng dịu vào buổi tối',
     highlights: [
       'Người trưởng thành khỏe mạnh thường được khuyến nghị ngủ từ 7 giờ mỗi đêm.',
       'Đánh giá xu hướng 7–14 ngày thay vì phản ứng với một đêm đơn lẻ.',
@@ -101,6 +105,8 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     displayDate: '19/08/2026',
     readTime: '8 phút đọc',
     accent: 'from-[#17483f] via-[#4f8a6c] to-[#d3bb73]',
+    image: '/images/nutrition_premium.jpg',
+    imageAlt: 'Bữa ăn cân bằng với rau xanh và thực phẩm nguyên bản',
     highlights: [
       'Nhịp ăn ổn định thường hữu ích hơn việc săn tìm một “siêu thực phẩm” gây ngủ.',
       'Bữa quá lớn, caffeine muộn và rượu gần giờ ngủ có thể làm giấc ngủ khó ổn định.',
@@ -165,6 +171,8 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     displayDate: '19/08/2026',
     readTime: '9 phút đọc',
     accent: 'from-[#172f44] via-[#315f78] to-[#7fbab1]',
+    image: '/images/hero_wellness.jpg',
+    imageAlt: 'Bữa ăn cân bằng trong một không gian sống thư thái',
     highlights: [
       'TDEE là ước tính, không phải lượng calo bắt buộc phải ăn.',
       'PrymaLab dùng Mifflin–St Jeor cho BMR và hiển thị một khoảng quanh TDEE.',
@@ -207,6 +215,183 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     sources: [
       { label: 'A new predictive equation for resting energy expenditure', publisher: 'The American Journal of Clinical Nutrition / PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/2305711/' },
       { label: 'Obesity and overweight: BMI definition and limitations', publisher: 'World Health Organization', url: 'https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight' },
+    ],
+  },
+  {
+    slug: 'sleep-hygiene-la-gi',
+    title: 'Sleep hygiene là gì? Checklist vệ sinh giấc ngủ có thể bắt đầu tối nay',
+    description: 'Giải thích sleep hygiene, những thói quen cốt lõi và checklist 7 ngày giúp bạn tạo điều kiện ngủ ổn định hơn mà không biến buổi tối thành một nghi thức nặng nề.',
+    directAnswer: 'Sleep hygiene, hay vệ sinh giấc ngủ, là tập hợp thói quen ban ngày, routine buổi tối và điều kiện phòng ngủ giúp tạo cơ hội cho giấc ngủ đều và phục hồi hơn. Đây là nền tảng hỗ trợ giấc ngủ, không phải phương pháp chẩn đoán hoặc điều trị mọi nguyên nhân gây mất ngủ.',
+    category: 'Giấc ngủ',
+    publishedAt: '2026-08-19',
+    updatedAt: '2026-08-19',
+    displayDate: '19/08/2026',
+    readTime: '8 phút đọc',
+    accent: 'from-[#102b3a] via-[#31536a] to-[#9bb9c8]',
+    image: '/images/sleep_serene.jpg',
+    imageAlt: 'Phòng ngủ gọn gàng, tối và yên tĩnh hỗ trợ vệ sinh giấc ngủ',
+    highlights: [
+      'Sleep hygiene gồm cả lịch ngủ, ánh sáng, caffeine, vận động và môi trường phòng ngủ.',
+      'Giờ thức dậy tương đối ổn định là một điểm neo dễ bắt đầu hơn việc ép bản thân ngủ ngay.',
+      'Hãy thử từng thay đổi trong 7 ngày thay vì áp dụng một checklist hoàn hảo cùng lúc.',
+    ],
+    sections: [
+      {
+        heading: 'Vệ sinh giấc ngủ không có nghĩa là phòng ngủ phải hoàn hảo',
+        paragraphs: [
+          'Khái niệm này mô tả những điều bạn làm và môi trường bạn tạo ra để hỗ trợ nhịp ngủ–thức. Một phòng tối và mát có ích, nhưng lịch thức dậy, thời điểm dùng caffeine, vận động và cách hạ nhịp trước ngủ cũng quan trọng.',
+          'Mục tiêu thực tế là giảm các tín hiệu khiến cơ thể phải tỉnh táo sai thời điểm. Không cần mua nhiều thiết bị hoặc sao chép nguyên routine của người khác.',
+        ],
+      },
+      {
+        heading: 'Checklist 6 điểm cốt lõi',
+        paragraphs: ['Hướng dẫn của NHLBI và CDC cùng nhấn mạnh một số nền tảng có thể áp dụng cho phần lớn người trưởng thành khỏe mạnh.'],
+        bullets: [
+          'Dành đủ cửa sổ thời gian cho giấc ngủ và giữ giờ thức dậy tương đối ổn định.',
+          'Dùng khoảng thời gian trước ngủ cho hoạt động yên tĩnh, ít ánh sáng mạnh và ít quyết định.',
+          'Tránh bữa quá lớn, rượu, nicotine và caffeine gần giờ ngủ.',
+          'Duy trì vận động ban ngày và tiếp xúc ánh sáng tự nhiên khi có thể.',
+          'Giữ phòng ngủ yên, tối, mát và hạn chế thông báo làm gián đoạn.',
+          'Nếu ngủ trưa làm khó ngủ buổi tối, thử rút ngắn hoặc đưa giấc ngủ trưa về sớm hơn.',
+        ],
+      },
+      {
+        heading: 'Cách chọn một thay đổi đúng',
+        paragraphs: [
+          'Đừng bắt đầu bằng cả sáu điểm. Hãy xác định nút thắt dễ thấy nhất: giờ thức thay đổi quá nhiều, caffeine muộn, bữa tối quá sát giờ ngủ hay phòng quá sáng. Chọn một biến và giữ trong một tuần.',
+          'Mỗi sáng ghi ba điều: thời gian ước tính để vào giấc, số lần thức giấc đáng kể và mức tỉnh táo từ 1 đến 5. Xu hướng của chính bạn có giá trị hơn một “routine chuẩn” trên mạng.',
+        ],
+      },
+      {
+        heading: 'Sleep hygiene có chữa mất ngủ không?',
+        paragraphs: [
+          'Không nên xem vệ sinh giấc ngủ như một phương pháp chữa tất cả trường hợp mất ngủ. Khó ngủ có thể liên quan đến nhiều yếu tố tâm lý, y khoa, thuốc, lịch làm việc hoặc rối loạn giấc ngủ. Thói quen tốt tạo nền tảng nhưng đôi khi không đủ.',
+          'Nếu khó ngủ kéo dài, buồn ngủ ban ngày ảnh hưởng công việc hoặc an toàn, ngáy to kèm dấu hiệu ngưng thở, hãy trao đổi với bác sĩ hoặc cơ sở chuyên môn.',
+        ],
+      },
+      {
+        heading: 'Một kế hoạch 7 ngày vừa sức',
+        paragraphs: [
+          'Ngày đầu tiên chỉ ghi nhận. Từ ngày 2 đến ngày 7, giữ một giờ thức mục tiêu trong biên độ khoảng một giờ và chọn thêm đúng một thay đổi hỗ trợ. Cuối tuần, đánh giá hiệu quả lẫn mức độ dễ duy trì trước khi thêm bước tiếp theo.',
+        ],
+      },
+    ],
+    sources: [
+      { label: 'Healthy Sleep Habits', publisher: 'NHLBI, National Institutes of Health', url: 'https://www.nhlbi.nih.gov/health/sleep-deprivation/healthy-sleep-habits' },
+      { label: 'About Sleep: Better Sleep Habits', publisher: 'Centers for Disease Control and Prevention', url: 'https://www.cdc.gov/sleep/about/index.html' },
+    ],
+  },
+  {
+    slug: 'caffeine-anh-huong-giac-ngu-bao-lau',
+    title: 'Caffeine ảnh hưởng giấc ngủ bao lâu? Cách tìm giờ cắt caffeine phù hợp',
+    description: 'Caffeine có thể tác động nhiều giờ sau khi uống. Tìm hiểu bằng chứng về mốc 6–8 giờ và cách thử nghiệm giờ cắt caffeine theo phản hồi thực tế.',
+    directAnswer: 'Caffeine có thể tiếp tục ảnh hưởng giấc ngủ nhiều giờ sau khi dùng; NHLBI lưu ý tác động có thể kéo dài tới khoảng 8 giờ ở một số người. Một nghiên cứu với liều 400 mg ghi nhận giấc ngủ bị ảnh hưởng ngay cả khi caffeine được dùng trước giờ ngủ 6 giờ, nhưng mức tác động thực tế còn phụ thuộc liều, cơ địa và thói quen sử dụng.',
+    category: 'Dinh dưỡng',
+    publishedAt: '2026-08-19',
+    updatedAt: '2026-08-19',
+    displayDate: '19/08/2026',
+    readTime: '8 phút đọc',
+    accent: 'from-[#2f3027] via-[#6f6142] to-[#c9aa71]',
+    image: '/images/nutrition_premium.jpg',
+    imageAlt: 'Bữa ăn và đồ uống trong ngày cần được sắp xếp để không ảnh hưởng giờ ngủ',
+    highlights: [
+      'Không có một giờ cắt caffeine đúng cho tất cả mọi người.',
+      'Mốc 6–8 giờ trước khi ngủ là điểm bắt đầu thận trọng, không phải quy tắc cứng.',
+      'Cần đọc cả liều lượng, nguồn caffeine và phản hồi trong ít nhất một tuần.',
+    ],
+    sections: [
+      {
+        heading: 'Vì sao uống buổi chiều vẫn có thể ảnh hưởng buổi tối?',
+        paragraphs: [
+          'Caffeine làm giảm cảm nhận áp lực ngủ bằng cách cản trở tín hiệu adenosine. Cảm giác tỉnh có thể giảm trước khi toàn bộ tác động lên giấc ngủ biến mất, vì vậy “tôi vẫn ngủ được” không luôn đồng nghĩa cấu trúc giấc ngủ không bị ảnh hưởng.',
+          'Khả năng chuyển hóa caffeine khác nhau giữa từng người và có thể chịu ảnh hưởng bởi liều dùng, tần suất, thuốc, thai kỳ và nhiều yếu tố sinh học khác.',
+        ],
+      },
+      {
+        heading: 'Bằng chứng về mốc 6 giờ nói điều gì?',
+        paragraphs: [
+          'Một thử nghiệm ngẫu nhiên chéo công bố trên Journal of Clinical Sleep Medicine so sánh 400 mg caffeine ở thời điểm 0, 3 và 6 giờ trước giờ ngủ với giả dược. Cả ba thời điểm đều tạo khác biệt đáng kể về rối loạn giấc ngủ trong mẫu nghiên cứu.',
+          'Điều quan trọng là nghiên cứu dùng liều 400 mg, cao hơn nhiều khẩu phần cà phê thông thường. Không nên suy diễn rằng một lượng nhỏ sẽ tạo tác động giống hệt ở mọi người.',
+        ],
+      },
+      {
+        heading: 'Cách đặt giờ cắt caffeine cá nhân',
+        paragraphs: [
+          'Lấy giờ lên giường thường lệ và lùi lại 6–8 giờ để tạo một mốc thử nghiệm. Trong 7 ngày, giữ tổng lượng tương đối ổn định nhưng không dùng sau mốc đó. Theo dõi thời gian vào giấc, số lần thức và mức tỉnh táo buổi sáng.',
+          'Nếu vẫn khó ngủ, đưa mốc sớm hơn hoặc giảm tổng lượng. Nếu không thấy khác biệt và việc giữ mốc gây bất tiện, điều chỉnh từng bước thay vì áp dụng cứng nhắc.',
+        ],
+      },
+      {
+        heading: 'Đừng quên những nguồn caffeine ít được chú ý',
+        paragraphs: ['Caffeine có thể có trong trà, nước tăng lực, cola, chocolate, pre-workout và một số thuốc không kê đơn. Nhãn sản phẩm và khẩu phần thực tế giúp bạn ước tính tốt hơn việc chỉ đếm số cốc.'],
+      },
+      {
+        heading: 'Khi nào nên tìm hỗ trợ?',
+        paragraphs: ['Nếu tim đập nhanh, lo âu rõ, khó ngủ kéo dài hoặc bạn đang mang thai, có bệnh nền hay dùng thuốc, hãy hỏi nhân viên y tế về lượng caffeine phù hợp. Không dùng bài viết này để tự thay đổi thuốc hoặc xử lý triệu chứng cấp tính.'],
+      },
+    ],
+    sources: [
+      { label: 'Healthy Sleep Habits: caffeine can interfere with sleep', publisher: 'NHLBI, National Institutes of Health', url: 'https://www.nhlbi.nih.gov/health/sleep-deprivation/healthy-sleep-habits' },
+      { label: 'Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed', publisher: 'Journal of Clinical Sleep Medicine / PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/24235903/' },
+    ],
+  },
+  {
+    slug: 'nhip-sinh-hoc-la-gi',
+    title: 'Nhịp sinh học là gì? Cách ánh sáng, giờ ngủ và bữa ăn tạo nhịp 24 giờ',
+    description: 'Giải thích nhịp sinh học, đồng hồ sinh học trung tâm và vai trò của ánh sáng, giờ thức dậy, vận động cùng bữa ăn trong nhịp sống hằng ngày.',
+    directAnswer: 'Nhịp sinh học là những thay đổi thể chất, tinh thần và hành vi lặp lại theo chu kỳ khoảng 24 giờ. Ánh sáng và bóng tối là tín hiệu mạnh nhất, trong khi giờ ăn, vận động, căng thẳng và môi trường xã hội cũng góp phần điều chỉnh nhịp của cơ thể.',
+    category: 'Nhịp sống',
+    publishedAt: '2026-08-19',
+    updatedAt: '2026-08-19',
+    displayDate: '19/08/2026',
+    readTime: '9 phút đọc',
+    accent: 'from-[#172f44] via-[#315f78] to-[#a7cbbb]',
+    image: '/images/hero_wellness.jpg',
+    imageAlt: 'Ánh sáng ban ngày, bữa ăn và nghỉ ngơi cùng tạo nên nhịp sống 24 giờ',
+    highlights: [
+      'Nhịp sinh học không chỉ điều khiển ngủ; nó còn liên quan hormone, nhiệt độ, cảm giác đói và tiêu hóa.',
+      'Ánh sáng là tín hiệu môi trường mạnh nhất để đồng bộ đồng hồ trung tâm.',
+      'Giờ thức dậy và ánh sáng đầu ngày là hai điểm neo thực tế cho một lịch sống ổn định hơn.',
+    ],
+    sections: [
+      {
+        heading: 'Đồng hồ sinh học và nhịp sinh học khác nhau thế nào?',
+        paragraphs: [
+          'Đồng hồ sinh học là hệ thống điều phối thời gian bên trong cơ thể; nhịp sinh học là những biến đổi được hệ thống đó tạo ra. Ở người, một vùng não gọi là nhân trên giao thoa thị giác đóng vai trò đồng hồ trung tâm và nhận tín hiệu ánh sáng qua mắt.',
+          'NIGMS cho biết gần như mọi mô và cơ quan đều có nhịp riêng. Đồng hồ trung tâm giúp các nhịp này đi cùng chu kỳ ngày–đêm bên ngoài.',
+        ],
+      },
+      {
+        heading: 'Ánh sáng tác động tới giấc ngủ ra sao?',
+        paragraphs: [
+          'Ánh sáng ban ngày báo cho hệ thống thời gian rằng cơ thể cần tỉnh táo. Khi trời tối, đồng hồ trung tâm hỗ trợ tăng tín hiệu melatonin và chuẩn bị cho trạng thái buồn ngủ. Ánh sáng nhân tạo mạnh vào buổi tối có thể gửi tín hiệu tỉnh táo không đúng lúc.',
+          'Điều này không có nghĩa mọi màn hình đều gây mất ngủ như nhau. Thời điểm, độ sáng, khoảng cách và nội dung kích thích đều góp phần vào phản hồi thực tế.',
+        ],
+      },
+      {
+        heading: 'Ba điểm neo dễ thực hành',
+        paragraphs: ['Một nhịp ổn định không bắt đầu từ việc ép giờ ngủ. Hãy thử neo lịch bằng những tín hiệu dễ kiểm soát hơn.'],
+        bullets: [
+          'Giữ giờ thức dậy trong một biên độ tương đối ổn định giữa các ngày.',
+          'Tiếp xúc ánh sáng ban ngày, đặc biệt vào phần đầu ngày khi điều kiện cho phép.',
+          'Giữ bữa ăn và vận động trong những khung giờ có thể dự đoán thay vì thay đổi cực đoan mỗi ngày.',
+        ],
+      },
+      {
+        heading: 'Làm ca và lệch múi giờ cần cách tiếp cận khác',
+        paragraphs: [
+          'Người làm ca đêm, thường xuyên đi công tác hoặc phải thay lịch liên tục có thể không áp dụng được lời khuyên dành cho lịch ngày thông thường. Khi đó mục tiêu là bảo vệ đủ thời gian ngủ, quản lý ánh sáng và giảm số lần đổi ca khi có thể.',
+          'Nếu lịch làm việc gây buồn ngủ nguy hiểm, khó thích nghi kéo dài hoặc ảnh hưởng sức khỏe, hãy trao đổi với bác sĩ hoặc đơn vị y học giấc ngủ.',
+        ],
+      },
+      {
+        heading: 'Theo dõi nhịp trong 7 ngày',
+        paragraphs: ['Ghi giờ thức dậy, lần tiếp xúc ánh sáng ngoài trời đầu tiên, giờ caffeine cuối, bữa tối và giờ lên giường. Đừng tìm một ngày hoàn hảo; hãy tìm tín hiệu nào thay đổi nhiều nhất và chọn một điểm neo cho tuần kế tiếp.'],
+      },
+    ],
+    sources: [
+      { label: 'Circadian Rhythms', publisher: 'National Institute of General Medical Sciences, NIH', url: 'https://www.nigms.nih.gov/education/fact-sheets/Pages/circadian-rhythms' },
+      { label: 'Your Sleep/Wake Cycle', publisher: 'NHLBI, National Institutes of Health', url: 'https://www.nhlbi.nih.gov/health/sleep/sleep-wake-cycle' },
     ],
   },
 ];

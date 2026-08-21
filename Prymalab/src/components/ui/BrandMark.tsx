@@ -8,7 +8,7 @@ interface BrandMarkProps {
 
 export function BrandMark({ inverse = false, compact = false, className = '' }: BrandMarkProps) {
   return (
-    <Link href="/" aria-label="PrymaLab - Trang chủ" className={`group inline-flex items-center gap-3 ${className}`}>
+    <Link href="/" aria-label="PrymaLab Việt Nam - Trang chủ" className={`group inline-flex items-center gap-3 ${className}`}>
       <span className={`brand-symbol ${inverse ? 'brand-symbol-inverse' : ''}`} aria-hidden="true">
         <svg viewBox="0 0 48 48" role="presentation" className="h-full w-full">
           <path className="brand-monogram-stem" d="M15.5 35.5V13.5" />
@@ -23,7 +23,7 @@ export function BrandMark({ inverse = false, compact = false, className = '' }: 
             PRYMA<span className={inverse ? 'text-[#d9f46f]' : 'text-[#0b8a78]'}>LAB</span>
           </span>
           <span className={`brand-tagline mt-1.5 whitespace-nowrap text-[0.5rem] font-bold uppercase tracking-[0.2em] ${inverse ? 'text-white/55' : 'text-[#647b7f]'}`}>
-            Nutrition · Sleep · Rhythm
+            Việt Nam · Nutrition · Sleep
           </span>
         </span>
       )}

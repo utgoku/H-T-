@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: siteUrl + '/phuong-phap', lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.85 },
     { url: siteUrl + '/blog', lastModified: updatedAt, changeFrequency: 'weekly', priority: 0.85 },
     { url: siteUrl + '/about', lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.7 },
+    { url: siteUrl + '/chinh-sach-bien-tap', lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.65 },
     { url: siteUrl + '/contact', lastModified: updatedAt, changeFrequency: 'monthly', priority: 0.65 },
     { url: siteUrl + '/privacy', lastModified: updatedAt, changeFrequency: 'yearly', priority: 0.3 },
     { url: siteUrl + '/terms', lastModified: updatedAt, changeFrequency: 'yearly', priority: 0.3 },
@@ -21,5 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(article.updatedAt + 'T00:00:00+07:00'),
     changeFrequency: 'monthly' as const,
     priority: 0.75,
+    images: [siteUrl + article.image],
   }))];
 }

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-context';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/seo';
 
 const inter = Inter({
   subsets: ['latin', 'vietnamese'],
@@ -23,24 +24,32 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://prymalab.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    template: '%s | PrymaLab',
-    default: 'PrymaLab | Dinh dưỡng & giấc ngủ theo nhịp sống',
+    template: `%s | ${SITE_NAME}`,
+    default: `${SITE_NAME} | Dinh dưỡng & giấc ngủ cá nhân hóa`,
   },
-  description: 'PrymaLab kết nối dinh dưỡng, chất lượng giấc ngủ và dữ liệu thói quen thành lộ trình cá nhân hóa rõ ràng, thực tế và dễ duy trì.',
-  keywords: ['PrymaLab', 'dinh dưỡng và giấc ngủ', 'cải thiện chất lượng giấc ngủ', 'dinh dưỡng cá nhân hóa', 'nhịp sống lành mạnh', 'TDEE'],
-  authors: [{ name: 'PrymaLab', url: 'https://prymalab.com/about' }],
-  creator: 'PrymaLab',
-  publisher: 'PrymaLab',
-  applicationName: 'PrymaLab',
+  description: SITE_DESCRIPTION,
+  keywords: ['PrymaLab Việt Nam', 'dinh dưỡng và giấc ngủ', 'cải thiện chất lượng giấc ngủ', 'dinh dưỡng cá nhân hóa', 'nhịp sống lành mạnh', 'TDEE'],
+  authors: [{ name: `Ban biên tập ${SITE_NAME}`, url: `${SITE_URL}/chinh-sach-bien-tap` }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  applicationName: SITE_NAME,
   category: 'health',
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
+  alternates: {
+    types: {
+      'application/rss+xml': `${SITE_URL}/rss.xml`,
+    },
+  },
   formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
-    title: 'PrymaLab | Ăn đúng nhịp. Ngủ sâu hơn.',
+    title: `${SITE_NAME} | Ăn đúng nhịp. Ngủ sâu hơn.`,
     description: 'Một lộ trình cá nhân kết nối dinh dưỡng, giấc ngủ và năng lượng — để bạn biết hôm nay nên bắt đầu từ đâu.',
     url: '/',
-    siteName: 'PrymaLab',
+    siteName: SITE_NAME,
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -48,13 +57,13 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1731,
         height: 909,
-        alt: 'PrymaLab — Ăn đúng nhịp. Ngủ sâu hơn.',
+        alt: `${SITE_NAME} — Ăn đúng nhịp. Ngủ sâu hơn.`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PrymaLab | Ăn đúng nhịp. Ngủ sâu hơn.',
+    title: `${SITE_NAME} | Ăn đúng nhịp. Ngủ sâu hơn.`,
     description: 'Một lộ trình cá nhân kết nối dinh dưỡng, giấc ngủ và năng lượng.',
     images: ['/og.png'],
   },

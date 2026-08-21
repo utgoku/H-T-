@@ -1,14 +1,17 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import Image from 'next/image';
 import { Navigation } from '@/components/ui/Navigation';
 import { Footer } from '@/components/ui/Footer';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
 import { knowledgeArticles } from '@/lib/editorial';
+import { SITE_NAME, SITE_URL } from '@/lib/seo';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Kiến thức dinh dưỡng & giấc ngủ',
-  description: 'Kiến thức thực hành có nguồn về dinh dưỡng, chất lượng giấc ngủ và nhịp sống từ PrymaLab.',
+  description: 'Kiến thức thực hành có nguồn về dinh dưỡng, chất lượng giấc ngủ, sleep hygiene và nhịp sinh học từ PrymaLab Việt Nam.',
   alternates: {
     canonical: '/blog',
   },
@@ -25,11 +28,41 @@ export default function BlogPage() {
     date: article.displayDate,
     readTime: article.readTime,
     gradient: article.accent,
+    image: article.image,
+    imageAlt: article.imageAlt,
   }));
+  const blogUrl = `${SITE_URL}/blog`;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': `${blogUrl}#webpage`,
+        url: blogUrl,
+        name: `Kho kiến thức dinh dưỡng và giấc ngủ | ${SITE_NAME}`,
+        description: 'Các bài viết có nguồn về dinh dưỡng, giấc ngủ và nhịp sống dành cho người trưởng thành.',
+        inLanguage: 'vi-VN',
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        mainEntity: { '@id': `${blogUrl}#articles` },
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${blogUrl}#articles`,
+        numberOfItems: knowledgeArticles.length,
+        itemListElement: knowledgeArticles.map((article, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: article.title,
+          url: `${SITE_URL}/blog/${article.slug}`,
+        })),
+      },
+    ],
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f5f7f3]">
       <Navigation />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
       
       <main className="flex-grow pt-36 pb-24 px-4">
         <div className="max-w-6xl mx-auto">
@@ -38,11 +71,11 @@ export default function BlogPage() {
             <p className="text-[#60767a] leading-8 max-w-2xl mx-auto">Mỗi bài viết trả lời thẳng câu hỏi chính, dẫn nguồn có thể kiểm tra và nói rõ giới hạn — để kiến thức trở thành hành động thực tế.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {['Tất cả', 'Dinh dưỡng', 'Giấc ngủ', 'Lối sống', 'Thực đơn'].map((cat, i) => (
+          <div className="flex flex-wrap justify-center gap-2 mb-12" aria-label="Chủ đề kiến thức hiện có">
+            {['Dinh dưỡng', 'Giấc ngủ', 'Nhịp sống'].map((cat) => (
               <span
-                key={i} 
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${i === 0 ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-teal-50 hover:text-teal-700 border border-gray-200'}`}
+                key={cat}
+                className="rounded-full border border-[#d6e1dc] bg-white px-5 py-2 text-sm font-semibold text-[#526a6f]"
               >
                 {cat}
               </span>
@@ -53,9 +86,10 @@ export default function BlogPage() {
             {blogs.map(blog => (
               <Link href={`/blog/${blog.slug || blog.id}`} key={blog.id} className="group flex flex-col h-full">
                 <Card className="flex flex-col h-full overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1">
-                  <div className={`h-48 w-full bg-gradient-to-br ${blog.gradient} flex items-center justify-center p-6 relative`}>
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                    <h3 className="text-white text-2xl font-bold font-playfair text-center drop-shadow-md line-clamp-2 relative z-10">{blog.title}</h3>
+                  <div className={`relative h-52 w-full overflow-hidden bg-gradient-to-br ${blog.gradient}`}>
+                    <Image src={blog.image} alt={blog.imageAlt} fill sizes="(max-width: 768px) 92vw, (max-width: 1200px) 45vw, 30vw" className="object-cover transition duration-700 group-hover:scale-[1.035]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#102f35]/75 via-[#102f35]/10 to-transparent"></div>
+                    <span className="absolute bottom-5 left-5 rounded-full border border-white/20 bg-[#102f35]/70 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white backdrop-blur">{blog.category}</span>
                   </div>
                   <div className="p-6 flex flex-col flex-grow bg-white">
                     <div className="mb-3">
@@ -64,7 +98,7 @@ export default function BlogPage() {
                     <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-600 transition-colors line-clamp-2">{blog.title}</h2>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">{blog.excerpt}</p>
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 text-xs text-gray-500">
-                      <span className="font-medium text-gray-900">{blog.author}</span>
+                      <span className="font-medium text-gray-900">Ban biên tập PrymaLab Việt Nam</span>
                       <div className="flex items-center space-x-2">
                         <span>{blog.date}</span>
                         <span>•</span>
@@ -77,9 +111,10 @@ export default function BlogPage() {
             ))}
           </div>
           
-          <div className="text-center mt-12"><Link href="/phuong-phap" className="inline-flex rounded-full bg-[#153339] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0b7f72]">
-            Xem phương pháp biên tập
+          <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row"><Link href="/chinh-sach-bien-tap" className="inline-flex rounded-full bg-[#153339] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0b7f72]">
+            Xem chính sách biên tập
             </Link>
+            <Link href="/phuong-phap" className="inline-flex rounded-full border border-[#bdd2cc] bg-white px-6 py-3 text-sm font-bold text-[#0b7f72] transition hover:bg-[#eef8f4]">Xem phương pháp tính</Link>
           </div>
         </div>
       </main>

@@ -5,10 +5,11 @@ import PackagesSection from '@/components/home/PackagesSection';
 import { Footer } from '@/components/ui/Footer';
 import { Navigation } from '@/components/ui/Navigation';
 import { getPublicHomeData } from '@/lib/db';
+import { SITE_NAME, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Chương trình đồng hành',
-  description: 'Các chương trình PrymaLab kết nối dinh dưỡng, giấc ngủ và theo dõi thói quen theo thời lượng 7, 30 hoặc 90 ngày.',
+  title: 'Chương trình dinh dưỡng & giấc ngủ cá nhân hóa',
+  description: 'Chương trình PrymaLab Việt Nam kết nối dinh dưỡng, giấc ngủ và theo dõi thói quen trong 7, 30 hoặc 90 ngày, với phạm vi và chi phí rõ ràng.',
   alternates: { canonical: '/services' },
 };
 
@@ -28,8 +29,62 @@ const faqs = [
 
 export default async function ServicesPage() {
   const { packages, settings } = await getPublicHomeData();
+  const pageUrl = `${SITE_URL}/services`;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${pageUrl}#service`,
+        name: 'Chương trình dinh dưỡng và giấc ngủ cá nhân hóa PrymaLab',
+        description: 'Chương trình giáo dục và đồng hành lối sống kết nối bữa ăn, giấc ngủ, năng lượng và theo dõi thói quen cho người trưởng thành.',
+        url: pageUrl,
+        provider: { '@id': `${SITE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'Việt Nam' },
+        audience: { '@type': 'PeopleAudience', suggestedMinAge: 18 },
+        serviceType: 'Đồng hành dinh dưỡng, giấc ngủ và xây dựng thói quen',
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Các mức đồng hành PrymaLab',
+          itemListElement: packages.map((item) => ({
+            '@type': 'Offer',
+            name: item.name,
+            description: item.desc,
+            price: Number(item.price.replace(/\D/g, '')),
+            priceCurrency: 'VND',
+            url: `${pageUrl}#goi-dich-vu`,
+            availability: 'https://schema.org/InStock',
+            itemOffered: {
+              '@type': 'Service',
+              name: item.name,
+              provider: { '@id': `${SITE_URL}/#organization` },
+            },
+          })),
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: faqs.map(([question, answer]) => ({
+          '@type': 'Question',
+          name: question,
+          acceptedAnswer: { '@type': 'Answer', text: answer },
+        })),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: `Chương trình dinh dưỡng và giấc ngủ | ${SITE_NAME}`,
+        inLanguage: 'vi-VN',
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${pageUrl}#service` },
+      },
+    ],
+  };
   return <div className="min-h-screen bg-[#f5f7f3] text-[#153339]">
     <Navigation />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
     <main>
       <section className="relative overflow-hidden px-5 pb-24 pt-36 sm:px-8 lg:pb-28 lg:pt-44">
         <div className="hero-grid absolute inset-0 opacity-65" /><div className="absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full bg-[#d8e6ff] blur-[110px]" />
